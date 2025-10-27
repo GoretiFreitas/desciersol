@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createHash } from 'crypto';
-import { writeFile, unlink } from 'fs/promises';
-import { join } from 'path';
+
+/**
+ * API Route: Upload File to Arweave
+ * 
+ * NOTA: Esta versão calcula o hash mas não faz upload real.
+ * Para produção, integre com:
+ * - Irys SDK (https://irys.xyz)
+ * - Turbo SDK (https://ardrive.io/turbo)
+ * - Ou configure uma Edge Function dedicada
+ */
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,27 +28,25 @@ export async function POST(request: NextRequest) {
     const hash = createHash('sha256').update(buffer).digest('hex');
     const fileHash = `sha256:${hash}`;
 
-    // Save temporarily for backend script
-    const tmpPath = join('/tmp', `upload_${Date.now()}_${file.name}`);
-    await writeFile(tmpPath, buffer);
-
-    // For now, return a placeholder URI
-    // In production, this would use Irys/Turbo to upload to Arweave
+    // TODO: Implementar upload real para Arweave usando Irys/Turbo
+    // Por enquanto, retorna placeholder
     const uri = `https://arweave.net/${hash}`;
-
-    // Clean up temp file
-    await unlink(tmpPath);
 
     return NextResponse.json({
       uri,
       hash: fileHash,
       filename: file.name,
       size: buffer.length,
+      uploaded: false, // Indica que é placeholder
+      message: 'File hash calculated. Real upload not implemented yet.',
     });
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json(
-      { error: 'Failed to upload file' },
+      { 
+        error: 'Failed to process file',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      },
       { status: 500 }
     );
   }

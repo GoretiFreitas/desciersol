@@ -11,7 +11,9 @@ import { ThemeProvider } from 'next-themes';
 import { RPC_ENDPOINT } from '@/lib/constants';
 
 // Import wallet adapter CSS
-import '@solana/wallet-adapter-react-ui/styles.css';
+// Comentado temporariamente devido a conflito com PostCSS na Vercel
+// Os estilos customizados estão em globals.css
+// import '@solana/wallet-adapter-react-ui/styles.css';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const wallets = useMemo(

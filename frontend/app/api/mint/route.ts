@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import { join } from 'path';
 
-const execAsync = promisify(exec);
+/**
+ * API Route: Mint Research NFT
+ * 
+ * NOTA: Esta é uma versão placeholder compatível com Vercel Serverless.
+ * Para produção, implemente a lógica de mint usando:
+ * - Vercel Edge Functions com Web Crypto API
+ * - Ou mova a lógica para um servidor dedicado
+ * - Ou use uma solução como @metaplex-foundation/umi com wallet do backend
+ */
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,61 +33,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Path to backend scripts (parent directory)
-    const scriptsPath = join(process.cwd(), '..', 'scripts', 'assets');
-    const scriptFile = join(scriptsPath, 'mint-auto-upload.ts');
+    // TODO: Implementar mint serverless usando @metaplex-foundation/umi
+    // Por enquanto, retorna erro explicativo
+    
+    return NextResponse.json(
+      {
+        error: 'Mint API not implemented for serverless environment',
+        message: 'Please implement using Vercel Edge Functions or external API',
+        receivedData: {
+          title,
+          authors,
+          uri,
+          hash,
+          hasCollection: !!collection,
+        },
+      },
+      { status: 501 } // Not Implemented
+    );
 
-    // Build command
-    let command = `npx tsx ${scriptFile} --title "${title}" --authors "${authors}" --hash "${hash}" --uri "${uri}"`;
-
-    if (collection) {
-      command += ` --collection ${collection}`;
-    }
-
-    if (description) {
-      command += ` --description "${description}"`;
-    }
-
-    if (tags) {
-      command += ` --tags "${tags}"`;
-    }
-
-    if (doi) {
-      command += ` --doi "${doi}"`;
-    }
-
-    if (license) {
-      command += ` --license "${license}"`;
-    }
-
-    if (version) {
-      command += ` --version "${version}"`;
-    }
-
-    // Execute backend script
-    const { stdout, stderr } = await execAsync(command, {
-      cwd: join(process.cwd(), '..'),
-      timeout: 120000, // 2 minutes timeout
-    });
-
-    // Parse output to extract NFT mint address
-    const mintMatch = stdout.match(/Mint: ([A-Za-z0-9]+)/);
-    const metadataMatch = stdout.match(/Metadata URI.*: (https:\/\/[^\s]+)/);
-
-    if (!mintMatch) {
-      throw new Error('Failed to extract mint address from output');
-    }
-
-    return NextResponse.json({
-      mint: mintMatch[1],
-      metadataUri: metadataMatch ? metadataMatch[1] : undefined,
-      output: stdout,
-    });
   } catch (error) {
     console.error('Mint error:', error);
     return NextResponse.json(
       {
-        error: 'Failed to mint NFT',
+        error: 'Failed to process mint request',
         details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
