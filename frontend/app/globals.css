@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;800;900&display=swap');
+
+@layer base {
+  :root {
+    /* Brand Colors - deScier */
+    --brand-indigo: 48 44 84;       /* #302C54 */
+    --brand-violet: 77 64 149;      /* #4D4095 */
+    --brand-violet-2: 112 77 151;   /* #704D97 */
+    --brand-lilac: 149 142 189;     /* #958EBD */
+    --bg-periwinkle: 226 230 242;   /* #E2E6F2 */
+    --bg-graph: 199 227 237;        /* #C7E3ED */
+    
+    /* Design Tokens */
+    --radius-lg: 14px;
+    --shadow-soft: 0 6px 20px rgba(77, 64, 149, 0.15);
+    
+    /* shadcn/ui tokens (Light mode) */
+    --background: 226 230 242;      /* bg-periwinkle */
+    --foreground: 48 44 84;         /* brand-indigo */
+    --card: 255 255 255;
+    --card-foreground: 48 44 84;
+    --popover: 255 255 255;
+    --popover-foreground: 48 44 84;
+    --primary: 77 64 149;           /* brand-violet */
+    --primary-foreground: 255 255 255;
+    --secondary: 149 142 189;       /* brand-lilac */
+    --secondary-foreground: 48 44 84;
+    --muted: 226 230 242;
+    --muted-foreground: 112 77 151;
+    --accent: 199 227 237;
+    --accent-foreground: 48 44 84;
+    --destructive: 220 38 38;
+    --destructive-foreground: 255 255 255;
+    --border: 199 227 237;
+    --input: 199 227 237;
+    --ring: 77 64 149;
+    
+    --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .dark {
+    /* Dark mode colors */
+    --background: 48 44 84;         /* brand-indigo */
+    --foreground: 226 230 242;      /* light text */
+    --card: 77 64 149;              /* brand-violet */
+    --card-foreground: 255 255 255;
+    --popover: 77 64 149;
+    --popover-foreground: 255 255 255;
+    --primary: 112 77 151;          /* brand-violet-2 */
+    --primary-foreground: 255 255 255;
+    --secondary: 149 142 189;
+    --secondary-foreground: 255 255 255;
+    --muted: 77 64 149;
+    --muted-foreground: 199 227 237;
+    --accent: 112 77 151;
+    --accent-foreground: 255 255 255;
+    --destructive: 239 68 68;
+    --destructive-foreground: 255 255 255;
+    --border: 112 77 151;
+    --input: 112 77 151;
+    --ring: 149 142 189;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* Button Primary - Gradient */
+  .btn-primary {
+    background: linear-gradient(90deg, rgb(var(--brand-violet)) 0%, rgb(var(--brand-violet-2)) 100%);
+    color: rgb(255 255 255);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    @apply font-semibold transition-all hover:shadow-lg hover:scale-105 active:scale-100;
+  }
+  
+  /* Background Grid Pattern */
+  .bg-grid {
+    background-image: 
+      linear-gradient(rgba(199, 227, 237, 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(199, 227, 237, 0.3) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  
+  /* Graph/Network dots */
+  .bg-dots {
+    background-image: radial-gradient(circle, rgba(199, 227, 237, 0.5) 2px, transparent 2px);
+    background-size: 60px 60px;
+  }
+}
+
+/* Wallet Adapter Overrides */
+.wallet-adapter-button {
+  @apply btn-primary !important;
+}
+
+.wallet-adapter-button-trigger {
+  @apply btn-primary !important;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 3s ease-in-out infinite;
+}
+

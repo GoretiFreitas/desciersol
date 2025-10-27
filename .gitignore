@@ -1,0 +1,43 @@
+# Dependências
+node_modules
+.pnp
+.pnp.js
+
+# Arquivos sensíveis - NUNCA commitar!
+.env
+.env.local
+.env.*.local
+keypair.json
+*.key
+*.pem
+
+# Build e cache
+dist
+build
+.next
+out
+.turbo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+coverage
+.nyc_output
+
+# Temporários
+*.tmp
+.cache
