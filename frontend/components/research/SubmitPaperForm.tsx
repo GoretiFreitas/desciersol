@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { FileUpload } from '@/components/ui/file-upload';
 import { Upload, FileText, CheckCircle, Loader2, AlertCircle } from 'lucide-react';
 import { COLLECTION_ADDRESS } from '@/lib/constants';
 
@@ -18,7 +19,11 @@ export default function SubmitPaperForm() {
   const [status, setStatus] = useState<SubmitStatus>('idle');
   const [error, setError] = useState<string>('');
   const [nftAddress, setNftAddress] = useState<string>('');
-  const [file, setFile] = useState<File | null>(null);
+  
+  // Arquivos
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [nftImage, setNftImage] = useState<File | null>(null);
   
   const [formData, setFormData] = useState({
     title: '',
@@ -30,30 +35,28 @@ export default function SubmitPaperForm() {
     version: '1.0.0',
   });
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-      if (selectedFile.type === 'application/pdf') {
-        setFile(selectedFile);
-        setError('');
-      } else {
-        setError('Please upload a PDF file');
-        setFile(null);
-      }
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!publicKey || !file) return;
+    if (!publicKey || !pdfFile) {
+      setError('Por favor conecte sua carteira e selecione um arquivo PDF');
+      return;
+    }
 
     setError('');
     setStatus('uploading');
 
     try {
-      // 1. Upload file to Arweave
+      // 1. Upload arquivos para Arweave
       const uploadFormData = new FormData();
-      uploadFormData.append('file', file);
+      uploadFormData.append('pdf', pdfFile);
+      
+      if (coverImage) {
+        uploadFormData.append('coverImage', coverImage);
+      }
+      
+      if (nftImage) {
+        uploadFormData.append('nftImage', nftImage);
+      }
       
       const uploadResponse = await fetch('/api/upload', {
         method: 'POST',
@@ -61,10 +64,11 @@ export default function SubmitPaperForm() {
       });
 
       if (!uploadResponse.ok) {
-        throw new Error('Failed to upload file');
+        const errorData = await uploadResponse.json();
+        throw new Error(errorData.error || 'Falha no upload');
       }
 
-      const { uri, hash } = await uploadResponse.json();
+      const { pdfUri, pdfHash, coverImageUri, nftImageUri } = await uploadResponse.json();
       
       // 2. Mint NFT
       setStatus('minting');
@@ -80,23 +84,26 @@ export default function SubmitPaperForm() {
           doi: formData.doi,
           license: formData.license,
           version: formData.version,
-          uri,
-          hash,
+          pdfUri,
+          pdfHash,
+          coverImageUri,
+          nftImageUri,
           collection: COLLECTION_ADDRESS.toString(),
           wallet: publicKey.toString(),
         }),
       });
 
       if (!mintResponse.ok) {
-        throw new Error('Failed to mint NFT');
+        const errorData = await mintResponse.json();
+        throw new Error(errorData.error || 'Falha ao mintar NFT');
       }
 
       const { mint } = await mintResponse.json();
       setNftAddress(mint);
       setStatus('success');
     } catch (err) {
-      console.error('Submit error:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.error('Erro no submit:', err);
+      setError(err instanceof Error ? err.message : 'Ocorreu um erro');
       setStatus('error');
     }
   };
@@ -107,33 +114,48 @@ export default function SubmitPaperForm() {
     <div className="max-w-4xl mx-auto space-y-8">
       <Card>
         <CardHeader>
-          <CardTitle className="text-3xl">Submit Your Research Paper</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-3xl text-slate-900 dark:text-white">Submit Your Research Paper</CardTitle>
+          <CardDescription className="text-slate-700 dark:text-slate-200">
             Mint your research as an NFT on Solana. Your work will be permanently stored on Arweave with verifiable authenticity.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* File Upload */}
-            <div className="space-y-2">
-              <Label htmlFor="file">Research Paper (PDF)</Label>
-              <div className="flex items-center gap-4">
-                <Input
-                  id="file"
-                  type="file"
-                  accept=".pdf"
-                  onChange={handleFileChange}
-                  disabled={isLoading}
-                  className="cursor-pointer"
-                />
-                {file && (
-                  <Badge variant="secondary" className="flex items-center gap-1">
-                    <FileText className="h-3 w-3" />
-                    {file.name}
-                  </Badge>
-                )}
-              </div>
-            </div>
+            {/* PDF Upload */}
+            <FileUpload
+              label="Paper de Pesquisa (PDF) *"
+              description="Faça upload do seu paper em formato PDF"
+              accept=".pdf,application/pdf"
+              maxSize={50}
+              onFileSelect={setPdfFile}
+              value={pdfFile}
+              disabled={isLoading}
+              showPreview={false}
+            />
+
+            {/* Cover Image Upload */}
+            <FileUpload
+              label="Imagem de Capa"
+              description="Imagem de capa para exibição do paper (recomendado: 1200x630px)"
+              accept="image/jpeg,image/jpg,image/png,image/webp"
+              maxSize={10}
+              onFileSelect={setCoverImage}
+              value={coverImage}
+              disabled={isLoading}
+              showPreview={true}
+            />
+
+            {/* NFT Image Upload */}
+            <FileUpload
+              label="Imagem do NFT"
+              description="Imagem que será exibida no NFT (recomendado: 512x512px)"
+              accept="image/jpeg,image/jpg,image/png,image/webp"
+              maxSize={10}
+              onFileSelect={setNftImage}
+              value={nftImage}
+              disabled={isLoading}
+              showPreview={true}
+            />
 
             {/* Title */}
             <div className="space-y-2">
@@ -225,16 +247,16 @@ export default function SubmitPaperForm() {
 
             {/* Status Messages */}
             {status === 'uploading' && (
-              <div className="flex items-center gap-2 text-brand-violet">
+              <div className="flex items-center gap-2 text-purple-700 dark:text-purple-300">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Uploading to Arweave...</span>
+                <span>Fazendo upload para Arweave...</span>
               </div>
             )}
             
             {status === 'minting' && (
-              <div className="flex items-center gap-2 text-brand-violet">
+              <div className="flex items-center gap-2 text-purple-700 dark:text-purple-300">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Minting NFT on Solana...</span>
+                <span>Mintando NFT na Solana...</span>
               </div>
             )}
 
@@ -244,10 +266,10 @@ export default function SubmitPaperForm() {
                   <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5" />
                   <div className="flex-1">
                     <h4 className="font-semibold text-green-900 dark:text-green-100">
-                      Paper Minted Successfully!
+                      Paper Mintado com Sucesso!
                     </h4>
                     <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-                      NFT Address: <code className="bg-green-100 dark:bg-green-900/40 px-2 py-1 rounded">{nftAddress}</code>
+                      Endereço do NFT: <code className="bg-green-100 dark:bg-green-900/40 px-2 py-1 rounded">{nftAddress}</code>
                     </p>
                     <a 
                       href={`https://explorer.solana.com/address/${nftAddress}?cluster=devnet`}
@@ -255,7 +277,7 @@ export default function SubmitPaperForm() {
                       rel="noopener noreferrer"
                       className="text-sm text-green-600 dark:text-green-400 hover:underline mt-2 inline-block"
                     >
-                      View on Solana Explorer →
+                      Ver no Solana Explorer →
                     </a>
                   </div>
                 </div>
@@ -267,7 +289,7 @@ export default function SubmitPaperForm() {
                 <div className="flex items-start gap-3">
                   <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400 mt-0.5" />
                   <div>
-                    <h4 className="font-semibold text-red-900 dark:text-red-100">Error</h4>
+                    <h4 className="font-semibold text-red-900 dark:text-red-100">Erro</h4>
                     <p className="text-sm text-red-700 dark:text-red-300 mt-1">{error}</p>
                   </div>
                 </div>
@@ -278,21 +300,27 @@ export default function SubmitPaperForm() {
             <Button
               type="submit"
               size="lg"
-              disabled={isLoading || !file || !publicKey}
+              disabled={isLoading || !pdfFile || !publicKey}
               className="w-full"
             >
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Processing...
+                  Processando...
                 </>
               ) : (
                 <>
                   <Upload className="mr-2 h-4 w-4" />
-                  Mint as NFT
+                  Mintar como NFT
                 </>
               )}
             </Button>
+            
+            {!publicKey && (
+              <p className="text-sm text-center text-muted-foreground">
+                Por favor, conecte sua carteira para continuar
+              </p>
+            )}
           </form>
         </CardContent>
       </Card>

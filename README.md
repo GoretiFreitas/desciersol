@@ -1,426 +1,227 @@
-# Sistema de Ativos de Pesquisa On-Chain (Solana)
+# deScier - Sistema de Ativos de Pesquisa On-Chain
 
-Sistema completo para gerenciar ativos de pesquisa científica na blockchain Solana, incluindo pNFTs, badges de revisor SBT e cofre de recompensas com LST.
+**Plataforma de peer review descentralizada powered by Solana blockchain**
 
-## 🏗️ Arquitetura
+## 🚀 **Funcionalidades Principais**
 
-### Ativos On-Chain
+- ✅ **Upload de PDFs** - Upload de papers de pesquisa para Arweave
+- ✅ **Mint de NFTs** - Transformar papers em NFTs únicos na Solana
+- ✅ **Armazenamento Permanente** - Dados armazenados no Arweave via Irys
+- ✅ **Interface Moderna** - Frontend React/Next.js com Tailwind CSS
+- ✅ **Wallet Integration** - Suporte a Phantom e Solflare
+- ✅ **Acessibilidade** - Conformidade WCAG AA
 
-- **pNFT de Ativo de Pesquisa**: Metaplex Core Assets com metadata no Arweave
-- **Badge de Revisor (SBT)**: SPL Token-2022 com extensão NonTransferable (soulbound)
-- **Cofre de Recompensas**: PDA simples mantendo LSTs (mSOL, jitoSOL)
-
-### Estrutura do Projeto
+## 📁 **Estrutura do Projeto**
 
 ```
-/Users/marceloteix/Documents/Descier/
-├── package.json
-├── tsconfig.json
-├── env.example
-├── scripts/
-│   ├── assets/
-│   │   ├── create-collection.ts      # Criar coleção Core
-│   │   ├── mint-research-asset.ts    # Mint pNFT individual
-│   │   └── update-asset.ts           # Atualizar metadata
-│   ├── badges/
-│   │   ├── create-badge-mint.ts      # Criar token SBT
-│   │   └── issue-badge.ts            # Emitir badge para revisor
-│   ├── treasury/
-│   │   ├── init-vault.ts             # Inicializar PDA do cofre
-│   │   ├── deposit-lst.ts            # Depositar LST no cofre
-│   │   └── pay-reviewer.ts           # Pagar revisor (LST ou swap)
-│   └── utils/
-│       ├── connection.ts             # Cliente RPC Solana
-│       ├── keypair.ts                # Gestão de keypair
-│       └── arweave-placeholder.ts    # Estrutura para upload futuro
-├── lib/
-│   ├── types.ts                        # Tipos TS (metadata, config)
-│   ├── constants.ts                    # Endereços, fees, networks
-│   ├── pda.ts                          # Derivação de PDAs
-│   ├── wallet-adapter.ts               # Integração Solflare/Phantom/Backpack
-│   ├── liquid-staking.ts               # LST (mSOL, jitoSOL, bSOL)
-│   └── ario-storage.ts                 # Ar.io (Arweave) storage
-├── scripts/examples/
-│   ├── wallet-example.ts               # Exemplo de wallet integration
-│   ├── liquid-staking-example.ts       # Exemplo de LST
-│   └── ario-example.ts                 # Exemplo de Ar.io
-├── README.md
-└── INTEGRATION_GUIDE.md                # Guia de integrações
+Descier/
+├── frontend/                 # Aplicação Next.js
+│   ├── app/                 # Páginas e APIs
+│   ├── components/          # Componentes React
+│   ├── lib/                # Utilitários e validação
+│   └── scripts/            # Scripts de teste
+├── lib/                    # Bibliotecas Solana
+├── scripts/                # Scripts de desenvolvimento
+└── keypair.json           # Chave para desenvolvimento
 ```
 
-## 🚀 Setup
+## 🛠️ **Tecnologias**
 
-### 1. Instalar Dependências
+### **Frontend**
+- **Next.js 15** - Framework React
+- **TypeScript** - Tipagem estática
+- **Tailwind CSS** - Estilização
+- **Shadcn/ui** - Componentes UI
+- **Solana Wallet Adapter** - Integração de wallets
+
+### **Blockchain**
+- **Solana** - Blockchain principal
+- **Metaplex** - Padrão NFT
+- **Arweave** - Armazenamento permanente
+- **Irys** - Upload para Arweave
+
+## 🚀 **Quick Start**
+
+### **1. Instalar Dependências**
 
 ```bash
+# Frontend
+cd frontend
+npm install
+
+# Root
+cd ..
 npm install
 ```
 
-### 2. Configurar Ambiente
+### **2. Configurar Variáveis**
 
 ```bash
-cp env.example .env
+# Copiar arquivo de exemplo
+cp env.example .env.local
 
-# Gerar keypair (se necessário)
-npx tsx scripts/utils/generate-keypair.ts
-
-# Testar configuração
-npx tsx scripts/test-setup.ts
+# Editar variáveis necessárias
+nano .env.local
 ```
 
-Edite o arquivo `.env` com suas configurações:
-
-```env
-# Solana Configuration
-RPC_URL=https://api.devnet.solana.com
-NETWORK=devnet
-
-# Wallet Configuration
-KEYPAIR_PATH=./keypair.json
-
-# Metaplex Configuration
-CORE_PROGRAM_ID=CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d
-TOKEN_2022_PROGRAM_ID=TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb
-
-# Treasury Configuration
-TREASURY_SEED=treasury_vault
-DEFAULT_ROYALTY_BASIS_POINTS=500
-
-# LST Mints (Devnet)
-MSOL_MINT=So11111111111111111111111111111111111111112
-JITOSOL_MINT=J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn
-```
-
-### 3. Gerar Keypair (se necessário)
+### **3. Executar Aplicação**
 
 ```bash
-npx tsx scripts/utils/generate-keypair.ts
+# Desenvolvimento
+cd frontend
+npm run dev
+
+# Acessar
+http://localhost:3000
 ```
 
-## 📖 Guias de Uso
+## 🔧 **Configuração**
 
-### Coleção de Ativos
-
-#### Criar Coleção
+### **Variáveis de Ambiente**
 
 ```bash
-npx tsx scripts/assets/create-collection.ts
+# .env.local
+NEXT_PUBLIC_NETWORK=devnet
+NEXT_PUBLIC_RPC_URL=https://api.devnet.solana.com
+NEXT_PUBLIC_COLLECTION_ADDRESS=HJVNDU6GDgg1aCPkndZhrjiuYTqLHYzj4vXjJUgFQdd6
 ```
 
-Opções disponíveis:
-- `--name <nome>`: Nome da coleção (padrão: "Research Assets Collection")
-- `--symbol <símbolo>`: Símbolo da coleção (padrão: "RAC")
-- `--description <descrição>`: Descrição da coleção
-- `--image-uri <uri>`: URI da imagem da coleção
-- `--update-authority <pubkey>`: Autoridade de update
-- `--dry-run`: Apenas simular, não executar
+### **Wallets Suportadas**
 
-#### Mintar Asset de Pesquisa
+- **Phantom** - https://phantom.app/
+- **Solflare** - https://solflare.com/
+
+## 📱 **Como Usar**
+
+### **1. Conectar Wallet**
+
+1. Instalar extensão da wallet
+2. Configurar para Devnet
+3. Obter SOL do faucet: https://faucet.solana.com/
+4. Conectar na aplicação
+
+### **2. Mintar Paper como NFT**
+
+1. Acessar `/research/submit`
+2. Upload do PDF (máx. 50MB)
+3. Upload de imagem de capa (opcional)
+4. Upload de imagem do NFT (opcional)
+5. Preencher metadados
+6. Clicar "Mintar como NFT"
+
+### **3. Debug e Troubleshooting**
+
+1. Acessar `/debug`
+2. Usar "Teste Simples da Wallet"
+3. Verificar status da conexão
+4. Testar APIs
+
+## 🏗️ **Scripts Disponíveis**
+
+### **Desenvolvimento**
 
 ```bash
-npx tsx scripts/assets/mint-research-asset.ts \
-  --title "Protocolo XYZ" \
-  --authors "Alice,Bob" \
-  --hash "abc123..." \
-  --uri "https://arweave.net/..." \
-  --collection <COLLECTION_ADDRESS>
+# Frontend
+npm run dev          # Servidor de desenvolvimento
+npm run build        # Build de produção
+npm run start        # Servidor de produção
+
+# Testes
+node scripts/test-wallet.js    # Testar configuração
 ```
 
-Opções disponíveis:
-- `--title <título>`: Título do asset (obrigatório)
-- `--authors <autores>`: Lista de autores separados por vírgula (obrigatório)
-- `--hash <hash>`: Hash SHA-256 do arquivo (obrigatório)
-- `--uri <uri>`: URI do arquivo no Arweave (obrigatório)
-- `--description <descrição>`: Descrição do asset
-- `--tags <tags>`: Tags separadas por vírgula
-- `--collection <pubkey>`: Endereço da coleção
-- `--royalty <basisPoints>`: Royalty em basis points (padrão: 500)
-- `--creators <criadores>`: Criadores e shares (formato: "pubkey1:share1,pubkey2:share2")
-- `--version <versão>`: Versão do protocolo
-- `--dry-run`: Apenas simular
-
-#### Atualizar Asset
+### **Blockchain**
 
 ```bash
-npx tsx scripts/assets/update-asset.ts \
-  --asset <ASSET_ADDRESS> \
-  --title "Novo Título" \
-  --description "Nova descrição"
+# Mint de NFT
+npm run mint:metaplex
+
+# Upload para Arweave
+npm run upload:irys
+
+# Criar coleção
+npm run create:collection
 ```
 
-### Badges de Revisor (SBT)
+## 📊 **APIs**
 
-#### Criar Mint de Badge
+### **Upload de Arquivos**
+```typescript
+POST /api/upload
+Content-Type: multipart/form-data
 
-```bash
-npx tsx scripts/badges/create-badge-mint.ts
+// Retorna: { pdfUri, pdfHash, coverImageUri, nftImageUri }
 ```
 
-Opções disponíveis:
-- `--name <nome>`: Nome do badge (padrão: "Research Reviewer Badge")
-- `--symbol <símbolo>`: Símbolo do badge (padrão: "RRB")
-- `--description <descrição>`: Descrição do badge
-- `--image-uri <uri>`: URI da imagem do badge
-- `--freeze-authority <pubkey>`: Autoridade de freeze
-- `--dry-run`: Apenas simular
+### **Mint de NFT**
+```typescript
+POST /api/mint
+Content-Type: application/json
 
-#### Emitir Badge para Revisor
-
-```bash
-npx tsx scripts/badges/issue-badge.ts \
-  --reviewer <REVIEWER_PUBKEY> \
-  --mint <BADGE_MINT_ADDRESS> \
-  --level 3 \
-  --score 85
+{
+  "title": "Paper Title",
+  "authors": "Author Name",
+  "pdfUri": "ar://...",
+  "pdfHash": "sha256...",
+  "coverImageUri": "ar://...",
+  "nftImageUri": "ar://..."
+}
 ```
 
-Opções disponíveis:
-- `--reviewer <pubkey>`: Public key do revisor (obrigatório)
-- `--mint <pubkey>`: Endereço do mint do badge (obrigatório)
-- `--level <nível>`: Nível do revisor 1-5 (padrão: 1)
-- `--score <score>`: Score de reputação (padrão: 0)
-- `--specialties <especialidades>`: Especialidades separadas por vírgula
-- `--description <descrição>`: Descrição personalizada
-- `--dry-run`: Apenas simular
+## 🔍 **Debug e Troubleshooting**
 
-### Cofre de Recompensas
+### **Página de Debug**
+- **URL:** `http://localhost:3000/debug`
+- **Funcionalidades:**
+  - Teste de conexão da wallet
+  - Verificação de APIs
+  - Logs detalhados
+  - Detecção de wallets
 
-#### Inicializar Cofre
+### **Problemas Comuns**
 
-```bash
-npx tsx scripts/treasury/init-vault.ts --initial-sol 1.0
-```
+1. **Wallet não conecta**
+   - Verificar se extensão está instalada
+   - Verificar se está em Devnet
+   - Recarregar página
 
-Opções disponíveis:
-- `--authority <pubkey>`: Autoridade do cofre (padrão: wallet atual)
-- `--seed <seed>`: Seed customizado para o PDA
-- `--initial-sol <amount>`: Quantidade inicial de SOL para depositar
-- `--dry-run`: Apenas simular
+2. **Upload falha**
+   - Verificar tamanho do arquivo
+   - Verificar conexão com internet
+   - Verificar logs do console
 
-#### Depositar LST
+3. **Mint falha**
+   - Verificar se wallet está conectada
+   - Verificar se tem SOL suficiente
+   - Verificar se collection address está correto
 
-```bash
-npx tsx scripts/treasury/deposit-lst.ts \
-  --amount 100 \
-  --mint <LST_MINT_ADDRESS>
-```
+## 📚 **Documentação**
 
-Opções disponíveis:
-- `--amount <quantidade>`: Quantidade de LST para depositar (obrigatório)
-- `--mint <mint>`: Endereço do mint do LST (obrigatório)
-- `--authority <pubkey>`: Autoridade do cofre
-- `--dry-run`: Apenas simular
+- **README.md** - Este arquivo
+- **env.example** - Exemplo de configuração
+- **keypair.json** - Chave para desenvolvimento
 
-#### Pagar Revisor
+## 🤝 **Contribuição**
 
-```bash
-npx tsx scripts/treasury/pay-reviewer.ts \
-  --reviewer <REVIEWER_PUBKEY> \
-  --amount 10 \
-  --mint <LST_MINT_ADDRESS> \
-  --note "Pagamento por revisão do paper XYZ"
-```
+1. Fork o projeto
+2. Criar branch para feature
+3. Commit das mudanças
+4. Push para branch
+5. Abrir Pull Request
 
-Opções disponíveis:
-- `--reviewer <pubkey>`: Public key do revisor (obrigatório)
-- `--amount <quantidade>`: Quantidade de LST para pagar (obrigatório)
-- `--mint <mint>`: Endereço do mint do LST (obrigatório)
-- `--authority <pubkey>`: Autoridade do cofre
-- `--note <nota>`: Nota/descrição do pagamento
-- `--dry-run`: Apenas simular
+## 📄 **Licença**
 
-## 🔧 Comandos Úteis
+MIT License - veja arquivo LICENSE para detalhes
 
-### Verificar Compilação
+## 🆘 **Suporte**
 
-```bash
-npm run type-check
-```
+Para problemas ou dúvidas:
 
-### Build do Projeto
-
-```bash
-npm run build
-```
-
-### Executar Script com Debug
-
-```bash
-DEBUG=* npx tsx scripts/assets/create-collection.ts
-```
-
-## 📊 Exemplos de Uso
-
-### Fluxo Completo
-
-1. **Criar coleção de ativos**:
-   ```bash
-   npx tsx scripts/assets/create-collection.ts
-   ```
-
-2. **Mintar asset de pesquisa**:
-   ```bash
-   npx tsx scripts/assets/mint-research-asset.ts \
-     --title "Machine Learning Protocol" \
-     --authors "Alice, Bob" \
-     --hash "sha256:abc123..." \
-     --uri "https://arweave.net/xyz789" \
-     --collection <COLLECTION_ADDRESS>
-   ```
-
-3. **Criar mint de badge SBT**:
-   ```bash
-   npx tsx scripts/badges/create-badge-mint.ts
-   ```
-
-4. **Emitir badge para revisor**:
-   ```bash
-   npx tsx scripts/badges/issue-badge.ts \
-     --reviewer <REVIEWER_PUBKEY> \
-     --mint <BADGE_MINT_ADDRESS> \
-     --level 2
-   ```
-
-5. **Inicializar cofre**:
-   ```bash
-   npx tsx scripts/treasury/init-vault.ts --initial-sol 5.0
-   ```
-
-6. **Depositar LST no cofre**:
-   ```bash
-   npx tsx scripts/treasury/deposit-lst.ts \
-     --amount 1000 \
-     --mint <MSOL_MINT_ADDRESS>
-   ```
-
-7. **Pagar revisor**:
-   ```bash
-   npx tsx scripts/treasury/pay-reviewer.ts \
-     --reviewer <REVIEWER_PUBKEY> \
-     --amount 50 \
-     --mint <MSOL_MINT_ADDRESS>
-   ```
-
-## 🔍 Verificações e Testes
-
-### Verificar TypeScript
-
-```bash
-npx tsc --noEmit
-```
-
-### Testar Conexão
-
-```bash
-npx tsx -e "
-import { createConnection } from './lib/connection.js';
-const conn = createConnection();
-console.log('✅ Conexão estabelecida:', conn.rpcEndpoint);
-"
-```
-
-### Verificar Keypair
-
-```bash
-npx tsx -e "
-import { loadKeypair } from './lib/keypair.js';
-const kp = loadKeypair();
-console.log('✅ Keypair carregado:', kp.publicKey.toString());
-"
-```
-
-## ⚠️ Riscos e Considerações
-
-### Segurança
-
-- **Keypair local**: Não usar em produção; migrar para Squads multisig
-- **RPC rate limits**: Considerar RPC pago (Helius, QuickNode) para volume
-- **Validação de inputs**: Sempre validar endereços e quantidades
-
-### Limitações Atuais
-
-- **Arweave upload**: Implementado como placeholder; integrar Irys SDK
-- **LST liquidity**: Devnet pode não ter liquidez real para swaps
-- **Core vs Token Metadata**: Core é novo; verificar compatibilidade
-
-### Custos
-
-- **Rent exempt**: ~0.002 SOL por conta criada
-- **Transações**: ~0.000005 SOL por transação
-- **Arweave**: ~$0.01 por MB de dados
-
-## 🚀 Próximos Passos
-
-### Fase 1: Upload Real para Arweave
-- [ ] Integrar @irys/sdk para upload real
-- [ ] Implementar cálculo de hash SHA-256
-- [ ] Adicionar retry logic para uploads
-
-### Fase 2: Integração Jupiter
-- [ ] Implementar swaps LST→SOL/USDC
-- [ ] Adicionar roteamento automático
-- [ ] Configurar slippage tolerance
-
-### Fase 3: Frontend Next.js
-- [ ] Interface administrativa
-- [ ] Dashboard de métricas
-- [ ] Gestão de coleções e assets
-
-### Fase 4: Produção
-- [ ] Migração para mainnet-beta
-- [ ] Squads multisig para governance
-- [ ] Auditoria de segurança
-
-### Fase 5: Funcionalidades Avançadas
-- [ ] Analytics e indexing (The Graph/Helius)
-- [ ] Sistema de reputação dinâmico
-- [ ] Integração com IPFS
-- [ ] API REST para integrações
-
-## 🔗 Integrações
-
-### Solflare Wallet
-- ✅ Integração com Solflare, Phantom e Backpack
-- ✅ Adapter para assinar transações
-- ✅ Detecção automática de wallets disponíveis
-
-### Liquid Staking
-- ✅ Suporte para mSOL (Marinade), jitoSOL (Jito) e bSOL (BlazeStake)
-- ✅ Cálculo de yields e APY
-- ✅ Comparação de LSTs
-- ✅ Estimativas de conversão SOL ↔ LST
-
-### Ar.io (Arweave)
-- ✅ Upload de metadata e arquivos
-- ✅ Cálculo de hash SHA-256
-- ✅ Estimativa de custos
-- ✅ Múltiplos gateways (Arweave.net, Ar.io, ArDrive)
-
-**Consulte**: [INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md) para detalhes completos
-
-## 📚 Documentação Adicional
-
-- [Integration Guide](INTEGRATION_GUIDE.md) - Guia de integrações
-- [Metaplex Core Documentation](https://developers.metaplex.com/core/)
-- [SPL Token-2022 Program](https://spl.solana.com/token-2022)
-- [Solana Web3.js](https://solana-labs.github.io/solana-web3.js/)
-- [Arweave Documentation](https://docs.arweave.org/)
-- [Irys Documentation](https://docs.irys.xyz/)
-- [Marinade Finance](https://docs.marinade.finance/)
-- [Jito Network](https://docs.jito.network/)
-
-## 🤝 Contribuição
-
-1. Fork o repositório
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`)
-3. Commit suas mudanças (`git commit -am 'Adiciona nova funcionalidade'`)
-4. Push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
+1. Verificar página de debug: `/debug`
+2. Verificar logs do console
+3. Verificar configuração das variáveis
+4. Abrir issue no GitHub
 
 ---
 
-**Desenvolvido com ❤️ para a comunidade científica na Solana**
+**Desenvolvido com ❤️ para a comunidade científica**

@@ -33,10 +33,10 @@ export default function HowItWorks() {
     <section id="how-it-works" className="py-24 bg-gradient-to-b from-white to-bg-periwinkle dark:from-brand-indigo/20 dark:to-brand-violet/10">
       <div className="container mx-auto px-4">
         <div className="text-center space-y-4 mb-16">
-          <h2 className="text-4xl font-black text-brand-indigo dark:text-white md:text-5xl">
+          <h2 className="text-4xl font-black text-slate-900 dark:text-white md:text-5xl">
             How It Works
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-slate-700 dark:text-slate-200 max-w-2xl mx-auto">
             From submission to recognition, every step is transparent and verifiable on-chain
           </p>
         </div>
@@ -66,10 +66,10 @@ export default function HowItWorks() {
                   </div>
                   
                   {/* Content */}
-                  <h3 className="text-xl font-bold mb-3 text-brand-indigo dark:text-white">
+                  <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">
                     {step.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
                     {step.description}
                   </p>
                 </CardContent>

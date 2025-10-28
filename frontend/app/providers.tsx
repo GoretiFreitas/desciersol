@@ -17,18 +17,53 @@ import { RPC_ENDPOINT } from '@/lib/constants';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const wallets = useMemo(
-    () => [
-      new SolflareWalletAdapter(),
-      new PhantomWalletAdapter(),
-    ],
+    () => {
+      const walletAdapters = [];
+      
+      try {
+        // Phantom Wallet
+        if (typeof window !== 'undefined' && window.solana?.isPhantom) {
+          walletAdapters.push(new PhantomWalletAdapter());
+        }
+        
+        // Solflare Wallet
+        if (typeof window !== 'undefined' && window.solflare?.isSolflare) {
+          walletAdapters.push(new SolflareWalletAdapter());
+        }
+        
+        // Fallback: adicionar adapters mesmo se não detectados
+        if (walletAdapters.length === 0) {
+          walletAdapters.push(
+            new PhantomWalletAdapter(),
+            new SolflareWalletAdapter()
+          );
+        }
+        
+        return walletAdapters;
+      } catch (error) {
+        console.error('Error initializing wallet adapters:', error);
+        return [
+          new PhantomWalletAdapter(),
+          new SolflareWalletAdapter()
+        ];
+      }
+    },
     []
   );
 
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <ConnectionProvider endpoint={RPC_ENDPOINT}>
-        <WalletProvider wallets={wallets} autoConnect>
-          <WalletModalProvider>{children}</WalletModalProvider>
+        <WalletProvider 
+          wallets={wallets} 
+          autoConnect={false}
+          onError={(error) => {
+            console.error('Wallet error:', error);
+          }}
+        >
+          <WalletModalProvider>
+            {children}
+          </WalletModalProvider>
         </WalletProvider>
       </ConnectionProvider>
     </ThemeProvider>

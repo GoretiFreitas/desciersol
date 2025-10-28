@@ -13,11 +13,11 @@ export default function Footer() {
               <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-brand-violet to-brand-violet-2 flex items-center justify-center">
                 <span className="text-white font-bold text-lg">dS</span>
               </div>
-              <span className="text-xl font-bold text-brand-indigo dark:text-white">
+              <span className="text-xl font-bold text-slate-900 dark:text-white">
                 {BRAND.name}
               </span>
             </div>
-            <p className="text-sm text-muted-foreground max-w-xs">
+            <p className="text-sm text-slate-700 dark:text-slate-200 max-w-xs">
               {BRAND.tagline}
             </p>
             <div className="flex gap-4">
@@ -25,7 +25,7 @@ export default function Footer() {
                 href="https://github.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-brand-violet transition-colors"
+                className="text-slate-600 dark:text-slate-300 hover:text-purple-700 dark:hover:text-purple-300 transition-colors"
               >
                 <Github className="h-5 w-5" />
               </a>
@@ -33,7 +33,7 @@ export default function Footer() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-brand-violet transition-colors"
+                className="text-slate-600 dark:text-slate-300 hover:text-purple-700 dark:hover:text-purple-300 transition-colors"
               >
                 <Twitter className="h-5 w-5" />
               </a>
@@ -42,20 +42,20 @@ export default function Footer() {
 
           {/* Product */}
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-foreground">Product</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h4 className="text-sm font-semibold text-slate-900 dark:text-white">Product</h4>
+            <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-200">
               <li>
-                <Link href="/research/browse" className="hover:text-brand-violet transition-colors">
+                <Link href="/research/browse" className="hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
                   Browse Papers
                 </Link>
               </li>
               <li>
-                <Link href="/research/submit" className="hover:text-brand-violet transition-colors">
+                <Link href="/research/submit" className="hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
                   Submit Paper
                 </Link>
               </li>
               <li>
-                <Link href="/#features" className="hover:text-brand-violet transition-colors">
+                <Link href="/#features" className="hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
                   Features
                 </Link>
               </li>
@@ -64,20 +64,20 @@ export default function Footer() {
 
           {/* Resources */}
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-foreground">Resources</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h4 className="text-sm font-semibold text-slate-900 dark:text-white">Resources</h4>
+            <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-200">
               <li>
-                <a href="https://docs.solana.com" target="_blank" rel="noopener noreferrer" className="hover:text-brand-violet transition-colors">
+                <a href="https://docs.solana.com" target="_blank" rel="noopener noreferrer" className="hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
                   Documentation
                 </a>
               </li>
               <li>
-                <a href="https://docs.metaplex.com" target="_blank" rel="noopener noreferrer" className="hover:text-brand-violet transition-colors">
+                <a href="https://docs.metaplex.com" target="_blank" rel="noopener noreferrer" className="hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
                   Metaplex Docs
                 </a>
               </li>
               <li>
-                <a href="https://arweave.org" target="_blank" rel="noopener noreferrer" className="hover:text-brand-violet transition-colors">
+                <a href="https://arweave.org" target="_blank" rel="noopener noreferrer" className="hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
                   Arweave
                 </a>
               </li>
@@ -86,15 +86,15 @@ export default function Footer() {
 
           {/* Legal */}
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-foreground">Legal</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h4 className="text-sm font-semibold text-slate-900 dark:text-white">Legal</h4>
+            <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-200">
               <li>
-                <Link href="/privacy" className="hover:text-brand-violet transition-colors">
+                <Link href="/privacy" className="hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-brand-violet transition-colors">
+                <Link href="/terms" className="hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
                   Terms of Service
                 </Link>
               </li>
@@ -102,9 +102,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-border/40 text-center text-sm text-muted-foreground">
+        <div className="mt-8 pt-8 border-t border-border/40 text-center text-sm text-slate-700 dark:text-slate-200">
           <p>© {new Date().getFullYear()} {BRAND.name}. All rights reserved.</p>
-          <p className="mt-1 text-xs">Built on Solana • Powered by Metaplex & Arweave</p>
+          <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">Built on Solana • Powered by Metaplex & Arweave</p>
         </div>
       </div>
     </footer>
