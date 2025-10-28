@@ -1,80 +1,82 @@
-# DeSci Reviews: O Mercado de Capitais para o Conhecimento
+# DeSci Reviews: The Capital Markets for Knowledge
 
-**DeSci Reviews é uma plataforma de publicação científica orientada para o mercado que transforma a maneira como a pesquisa é financiada, avaliada e monetizada.** Saímos do modelo tradicional de publicações para criar um ecossistema dinâmico onde o conhecimento se torna um ativo de capital, com liquidez e credibilidade on-chain.
+**DeSci Reviews is a market-oriented scientific publishing platform that transforms how research is funded, evaluated, and monetized.** We move away from the traditional publication model to create a dynamic ecosystem where knowledge becomes a capital asset, with on-chain liquidity and credibility.
 
-## 🚨 **O Problema: Publicação Científica Tradicional**
+![DeSci Logo](./frontend/public/desci-logo.svg)
 
-O sistema atual de publicação científica está quebrado. Autores pagam taxas exorbitantes para publicar, revisores (a espinha dorsal da validação científica) não são remunerados, e o conhecimento fica preso atrás de paywalls institucionais. O resultado é um sistema que expropria o direito autoral dos criadores e limita o acesso e a liquidez das ideias.
+## 🚨 **The Problem: Traditional Scientific Publishing**
 
-- **Autores Pagam:** Custos de $2k a $15k por artigo
-- **Revisores Não São Pagos:** O trabalho voluntário não é reconhecido ou recompensado
-- **Conhecimento Preso:** Arquivos estáticos em PDF, sem visibilidade ou liquidez
-- **Direitos Expropriados:** Editoras detêm o copyright, não os autores
+The current scientific publishing system is broken. Authors pay exorbitant fees to publish, reviewers (the backbone of scientific validation) are not compensated, and knowledge remains trapped behind institutional paywalls. The result is a system that expropriates creators' copyright and limits access and liquidity of ideas.
 
-## ✨ **A Solução: Uma Economia de Ideias na Solana**
+- **Authors Pay:** Costs of $2k to $15k per article
+- **Reviewers Unpaid:** Volunteer work is not recognized or rewarded
+- **Trapped Knowledge:** Static PDF files, no visibility or liquidity
+- **Expropriated Rights:** Publishers hold copyright, not authors
 
-DeSci Reviews reimagina a publicação como um evento de listagem em um mercado de ideias. Construído na blockchain da Solana, nosso protocolo oferece uma infraestrutura para transformar ativos intelectuais em ativos programáveis e negociáveis.
+## ✨ **The Solution: An Ideas Economy on Solana**
 
-- **Cada Journal é um Portfólio:** Coleções curadas de ativos de conhecimento com potencial de mercado
-- **Cada Artigo é um Evento de Listagem:** Publicar um artigo, protocolo ou projeto é como um "IPO de ideias", dando-lhe visibilidade e um lugar no mercado
-- **Cada Revisão é uma Análise de Mercado:** As revisões de pares se tornam "analyst coverage", fornecendo credibilidade on-chain e ajudando o mercado a precificar o ativo intelectual
+DeSci Reviews reimagines publishing as a listing event in an ideas marketplace. Built on the Solana blockchain, our protocol provides infrastructure to transform intellectual assets into programmable and tradeable assets.
 
-## 🏗️ **Como Funciona: A Arquitetura On-Chain**
+- **Each Journal is a Portfolio:** Curated collections of knowledge assets with market potential
+- **Each Article is a Listing Event:** Publishing an article, protocol, or project is like an "IPO of ideas," giving it visibility and a place in the market
+- **Each Review is Market Analysis:** Peer reviews become "analyst coverage," providing on-chain credibility and helping the market price the intellectual asset
 
-Nossa infraestrutura utiliza primitivas da Solana para criar um sistema transparente, eficiente e componível.
+## 🏗️ **How It Works: On-Chain Architecture**
 
-### **Ativos de Pesquisa (pNFTs)**
-Cada artigo, protocolo ou conjunto de dados é mintado como um pNFT (programmable Non-Fungible Token) usando o padrão Metaplex Core. Isso garante a proveniência, permite o pagamento automático de royalties aos criadores e confere liquidez ao ativo intelectual. Os metadados são armazenados permanentemente no Arweave, garantindo a imutabilidade.
+Our infrastructure uses Solana primitives to create a transparent, efficient, and composable system.
 
-### **Badges de Revisor (SBTs)**
-Para construir um sistema de reputação robusto, emitimos Badges de Revisor como Soul-Bound Tokens (SBTs), utilizando a extensão NonTransferable do padrão SPL Token-2022. Esses badges funcionam como uma identidade on-chain, atestando a especialidade e o histórico de contribuições de cada revisor.
+### **Research Assets (pNFTs)**
+Each article, protocol, or dataset is minted as a pNFT (programmable Non-Fungible Token) using the Metaplex Core standard. This ensures provenance, enables automatic royalty payments to creators, and provides liquidity to the intellectual asset. Metadata is stored permanently on Arweave, ensuring immutability.
 
-### **Cofre de Recompensas (Treasury)**
-Um cofre descentralizado, implementado como um PDA (Program Derived Address), gerencia as recompensas para os revisores. O cofre é financiado com Liquid Staking Tokens (LSTs), como mSOL e jitoSOL, permitindo que o capital do tesouro cresça de forma sustentável enquanto recompensa as contribuições da rede.
+### **Reviewer Badges (SBTs)**
+To build a robust reputation system, we issue Reviewer Badges as Soul-Bound Tokens (SBTs), using the NonTransferable extension of the SPL Token-2022 standard. These badges function as on-chain identity, attesting to each reviewer's specialty and contribution history.
 
-## 🚀 **Funcionalidades Implementadas**
+### **Rewards Treasury**
+A decentralized treasury, implemented as a PDA (Program Derived Address), manages rewards for reviewers. The treasury is funded with Liquid Staking Tokens (LSTs) like mSOL and jitoSOL, allowing treasury capital to grow sustainably while rewarding network contributions.
+
+## 🚀 **Implemented Features**
 
 ### **✅ Core Features**
-- **Upload de PDFs** - Upload de papers de pesquisa para Arweave via Irys
-- **Mint de pNFTs** - Transformar papers em NFTs programáveis na Solana
-- **Armazenamento Permanente** - Dados armazenados no Arweave com imutabilidade
-- **Interface Moderna** - Frontend React/Next.js com Tailwind CSS
-- **Wallet Integration** - Suporte a Phantom e Solflare
-- **Acessibilidade** - Conformidade WCAG AA
+- **PDF Upload** - Upload research papers to Arweave via Irys
+- **pNFT Minting** - Transform papers into programmable NFTs on Solana
+- **Permanent Storage** - Data stored on Arweave with immutability
+- **Modern Interface** - React/Next.js frontend with Tailwind CSS
+- **Wallet Integration** - Phantom and Solflare support
+- **Accessibility** - WCAG AA compliance
 
 ### **✅ Blockchain Infrastructure**
-- **Metaplex Core** - Padrão NFT para ativos de pesquisa
-- **Arweave Storage** - Armazenamento permanente via Irys
-- **Solana Program Library** - Integração com primitivas da Solana
-- **Program Derived Addresses** - PDAs para cofres e governança
+- **Metaplex Core** - NFT standard for research assets
+- **Arweave Storage** - Permanent storage via Irys
+- **Solana Program Library** - Integration with Solana primitives
+- **Program Derived Addresses** - PDAs for treasuries and governance
 
 ### **✅ Developer Tools**
-- **Debug Panel** - Ferramentas de diagnóstico e teste
-- **Scripts de Desenvolvimento** - Automação de operações blockchain
-- **Validação de Arquivos** - Verificação de integridade e tipos
-- **Error Handling** - Tratamento robusto de erros
+- **Debug Panel** - Diagnostic and testing tools
+- **Development Scripts** - Blockchain operations automation
+- **File Validation** - Integrity and type verification
+- **Error Handling** - Robust error management
 
-## 🛠️ **Tecnologias**
+## 🛠️ **Technologies**
 
 ### **Frontend**
-- **Next.js 15** - Framework React com SSR
-- **TypeScript** - Tipagem estática
-- **Tailwind CSS** - Estilização moderna
-- **Shadcn/ui** - Componentes UI acessíveis
-- **Solana Wallet Adapter** - Integração de wallets
+- **Next.js 15** - React framework with SSR
+- **TypeScript** - Static typing
+- **Tailwind CSS** - Modern styling
+- **Shadcn/ui** - Accessible UI components
+- **Solana Wallet Adapter** - Wallet integration
 
 ### **Blockchain**
-- **Solana** - Blockchain principal
-- **Metaplex Core** - Padrão NFT programável
-- **Arweave** - Armazenamento permanente
-- **Irys** - Upload para Arweave
-- **SPL Token-2022** - Tokens com extensões
+- **Solana** - Main blockchain
+- **Metaplex Core** - Programmable NFT standard
+- **Arweave** - Permanent storage
+- **Irys** - Arweave upload
+- **SPL Token-2022** - Tokens with extensions
 
-## 🚀 **Comece a Usar (Guia para Desenvolvedores)**
+## 🚀 **Get Started (Developer Guide)**
 
-Pronto para construir o futuro da ciência? Configure seu ambiente local e comece a interagir com o protocolo DeSci Reviews.
+Ready to build the future of science? Set up your local environment and start interacting with the DeSci Reviews protocol.
 
-### **1. Instale as Dependências**
+### **1. Install Dependencies**
 
 ```bash
 # Frontend
@@ -86,110 +88,110 @@ cd ..
 npm install
 ```
 
-### **2. Configure o Ambiente**
+### **2. Configure Environment**
 
-Copie o arquivo de exemplo e edite `.env.local` com suas configurações de RPC, keypair e outros parâmetros da rede Solana.
+Copy the example file and edit `.env.local` with your RPC, keypair, and other Solana network parameters.
 
 ```bash
 cp env.example .env.local
 ```
 
-Se você ainda não tem uma keypair, gere uma com o comando:
+If you don't have a keypair yet, generate one with:
 
 ```bash
 npx tsx scripts/utils/generate-keypair.ts
 ```
 
-### **3. Principais Comandos**
+### **3. Main Commands**
 
-Nossos scripts permitem interagir com todas as facetas do protocolo. Use `--dry-run` para simular qualquer transação sem custo.
+Our scripts allow interaction with all facets of the protocol. Use `--dry-run` to simulate any transaction without cost.
 
-#### **Coleções e Ativos de Pesquisa**
+#### **Collections and Research Assets**
 
 ```bash
-# Criar uma nova coleção para agrupar ativos
-npx tsx scripts/assets/create-collection-metaplex.ts --name "Minha Coleção de Pesquisa"
+# Create a new collection to group assets
+npx tsx scripts/assets/create-collection-metaplex.ts --name "My Research Collection"
 
-# Mintar um novo ativo de pesquisa como um pNFT
+# Mint a new research asset as a pNFT
 npx tsx scripts/assets/mint-research-asset-metaplex.ts \
-  --title "Protocolo de IA Generativa" \
-  --authors "Autor Um,Autor Dois" \
-  --hash "<sha256_do_arquivo>" \
-  --uri "<uri_do_arweave>" \
-  --collection <ENDERECO_DA_COLECAO>
+  --title "Generative AI Protocol" \
+  --authors "Author One,Author Two" \
+  --hash "<sha256_of_file>" \
+  --uri "<arweave_uri>" \
+  --collection <COLLECTION_ADDRESS>
 
-# Upload automático para Arweave e mint
+# Auto upload to Arweave and mint
 npx tsx scripts/assets/mint-auto-upload.ts \
   --file "paper.pdf" \
-  --title "Título do Paper" \
-  --authors "Autor1,Autor2"
+  --title "Paper Title" \
+  --authors "Author1,Author2"
 ```
 
-#### **Badges e Reputação de Revisores**
+#### **Reviewer Badges and Reputation**
 
 ```bash
-# Criar o token que servirá como base para os badges de revisor
-npx tsx scripts/badges/create-badge-mint.ts --name "Badge de Revisor de IA"
+# Create the token that will serve as the base for reviewer badges
+npx tsx scripts/badges/create-badge-mint.ts --name "AI Reviewer Badge"
 
-# Emitir um badge para um revisor específico
+# Issue a badge to a specific reviewer
 npx tsx scripts/badges/issue-badge.ts \
-  --reviewer <PUBKEY_DO_REVISOR> \
-  --mint <ENDERECO_DO_MINT_DO_BADGE> \
+  --reviewer <REVIEWER_PUBKEY> \
+  --mint <BADGE_MINT_ADDRESS> \
   --level 3
 ```
 
-#### **Cofre de Recompensas**
+#### **Rewards Treasury**
 
 ```bash
-# Inicializar o cofre de recompensas da sua comunidade
+# Initialize the rewards treasury for your community
 npx tsx scripts/treasury/init-vault.ts --initial-sol 1.0
 
-# Depositar LSTs para financiar o pagamento de recompensas
-npx tsx scripts/treasury/deposit-lst.ts --amount 100 --mint <MINT_DO_LST>
+# Deposit LSTs to fund reward payments
+npx tsx scripts/treasury/deposit-lst.ts --amount 100 --mint <LST_MINT>
 
-# Pagar um revisor por seu trabalho
+# Pay a reviewer for their work
 npx tsx scripts/treasury/pay-reviewer.ts \
-  --reviewer <PUBKEY_DO_REVISOR> \
+  --reviewer <REVIEWER_PUBKEY> \
   --amount 10 \
-  --mint <MINT_DO_LST>
+  --mint <LST_MINT>
 ```
 
-## 📱 **Interface Web**
+## 📱 **Web Interface**
 
-### **1. Conectar Wallet**
+### **1. Connect Wallet**
 
-1. Instalar extensão da wallet (Phantom ou Solflare)
-2. Configurar para Devnet
-3. Obter SOL do faucet: https://faucet.solana.com/
-4. Conectar na aplicação
+1. Install wallet extension (Phantom or Solflare)
+2. Configure for Devnet
+3. Get SOL from faucet: https://faucet.solana.com/
+4. Connect in the application
 
-### **2. Mintar Paper como NFT**
+### **2. Mint Paper as NFT**
 
-1. Acessar `/research/submit`
-2. Upload do PDF (máx. 50MB)
-3. Upload de imagem de capa (opcional)
-4. Upload de imagem do NFT (opcional)
-5. Preencher metadados
-6. Clicar "Mintar como NFT"
+1. Access `/research/submit`
+2. Upload PDF (max 50MB)
+3. Upload cover image (optional)
+4. Upload NFT image (optional)
+5. Fill metadata
+6. Click "Mint as NFT"
 
-### **3. Debug e Troubleshooting**
+### **3. Debug and Troubleshooting**
 
-1. Acessar `/debug`
-2. Usar "Teste Simples da Wallet"
-3. Verificar status da conexão
-4. Testar APIs
+1. Access `/debug`
+2. Use "Simple Wallet Test"
+3. Check connection status
+4. Test APIs
 
 ## 📊 **APIs**
 
-### **Upload de Arquivos**
+### **File Upload**
 ```typescript
 POST /api/upload
 Content-Type: multipart/form-data
 
-// Retorna: { pdfUri, pdfHash, coverImageUri, nftImageUri }
+// Returns: { pdfUri, pdfHash, coverImageUri, nftImageUri }
 ```
 
-### **Mint de NFT**
+### **NFT Mint**
 ```typescript
 POST /api/mint
 Content-Type: application/json
@@ -204,9 +206,9 @@ Content-Type: application/json
 }
 ```
 
-## 🔧 **Configuração**
+## 🔧 **Configuration**
 
-### **Variáveis de Ambiente**
+### **Environment Variables**
 
 ```bash
 # .env.local
@@ -215,105 +217,106 @@ NEXT_PUBLIC_RPC_URL=https://api.devnet.solana.com
 NEXT_PUBLIC_COLLECTION_ADDRESS=HJVNDU6GDgg1aCPkndZhrjiuYTqLHYzj4vXjJUgFQdd6
 ```
 
-### **Wallets Suportadas**
+### **Supported Wallets**
 
 - **Phantom** - https://phantom.app/
 - **Solflare** - https://solflare.com/
 
-## 🏗️ **Scripts Disponíveis**
+## 🏗️ **Available Scripts**
 
-### **Desenvolvimento**
+### **Development**
 
 ```bash
 # Frontend
-npm run dev          # Servidor de desenvolvimento
-npm run build        # Build de produção
-npm run start        # Servidor de produção
+npm run dev          # Development server
+npm run build        # Production build
+npm run start        # Production server
 
-# Testes
-node scripts/test-wallet.js    # Testar configuração
+# Tests
+node scripts/test-wallet.js    # Test configuration
 ```
 
 ### **Blockchain**
 
 ```bash
-# Mint de NFT
+# NFT Mint
 npm run mint:metaplex
 
-# Upload para Arweave
+# Arweave Upload
 npm run upload:irys
 
-# Criar coleção
+# Create Collection
 npm run create:collection
 ```
 
-## 🔍 **Debug e Troubleshooting**
+## 🔍 **Debug and Troubleshooting**
 
-### **Página de Debug**
+### **Debug Page**
 - **URL:** `http://localhost:3000/debug`
-- **Funcionalidades:**
-  - Teste de conexão da wallet
-  - Verificação de APIs
-  - Logs detalhados
-  - Detecção de wallets
+- **Features:**
+  - Wallet connection test
+  - API verification
+  - Detailed logs
+  - Wallet detection
 
-### **Problemas Comuns**
+### **Common Issues**
 
-1. **Wallet não conecta**
-   - Verificar se extensão está instalada
-   - Verificar se está em Devnet
-   - Recarregar página
+1. **Wallet won't connect**
+   - Check if extension is installed
+   - Check if on Devnet
+   - Reload page
 
-2. **Upload falha**
-   - Verificar tamanho do arquivo
-   - Verificar conexão com internet
-   - Verificar logs do console
+2. **Upload fails**
+   - Check file size
+   - Check internet connection
+   - Check console logs
 
-3. **Mint falha**
-   - Verificar se wallet está conectada
-   - Verificar se tem SOL suficiente
-   - Verificar se collection address está correto
+3. **Mint fails**
+   - Check if wallet is connected
+   - Check if has enough SOL
+   - Check if collection address is correct
 
-## 📁 **Estrutura do Projeto**
+## 📁 **Project Structure**
 
 ```
-Descier/
-├── README.md                    # Documentação principal
-├── env.example                  # Exemplo de configuração
-├── keypair.json                 # Chave para desenvolvimento
-├── frontend/                    # Aplicação Next.js
-│   ├── app/                    # Páginas e APIs
-│   ├── components/             # Componentes React
-│   ├── lib/                   # Utilitários e validação
-│   └── scripts/               # Scripts de teste
-├── lib/                       # Bibliotecas Solana
-├── scripts/                   # Scripts de desenvolvimento
-└── CLEANUP_SUMMARY.md         # Resumo da limpeza
+DeSci Reviews/
+├── README.md                    # Main documentation
+├── LICENSE                      # MIT License
+├── env.example                  # Configuration example
+├── keypair.json                 # Development key
+├── frontend/                    # Next.js application
+│   ├── app/                    # Pages and APIs
+│   ├── components/             # React components
+│   ├── lib/                   # Utilities and validation
+│   └── scripts/               # Test scripts
+├── lib/                       # Solana libraries
+├── scripts/                   # Development scripts
+└── CLEANUP_SUMMARY.md         # Cleanup summary
 ```
 
-## 🤝 **Contribuições**
+## 🤝 **Contributions**
 
-Este é um projeto de código aberto e convidamos a comunidade a contribuir. Sinta-se à vontade para abrir um Pull Request ou nos contactar com ideias.
+This is an open-source project and we invite the community to contribute. Feel free to open a Pull Request or contact us with ideas.
 
-1. Faça um Fork do repositório
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`)
-3. Faça o commit de suas mudanças (`git commit -am 'Adiciona nova funcionalidade'`)
-4. Faça o Push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Abra um Pull Request
+1. Fork the repository
+2. Create a branch for your feature (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Open a Pull Request
 
-## 📄 **Licença**
+## 📄 **License**
 
-Distribuído sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+Distributed under the MIT License. See the LICENSE file for more details.
 
-## 🆘 **Suporte**
+## 🆘 **Support**
 
-Para problemas ou dúvidas:
+For issues or questions:
 
-1. Verificar página de debug: `/debug`
-2. Verificar logs do console
-3. Verificar configuração das variáveis
-4. Abrir issue no GitHub
+1. Check debug page: `/debug`
+2. Check console logs
+3. Check variable configuration
+4. Open an issue on GitHub
 
 ---
 
-**Desenvolvido com ❤️ para a comunidade científica na Solana**
+**Developed with ❤️ for the scientific community on Solana**
