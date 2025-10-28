@@ -34,7 +34,7 @@ Um cofre descentralizado, implementado como um PDA (Program Derived Address), ge
 
 ## 🚀 **Funcionalidades Implementadas**
 
-### **✅ Core Features**
+### **Core Features**
 - **Upload de PDFs** - Upload de papers de pesquisa para Arweave via Irys
 - **Mint de pNFTs** - Transformar papers em NFTs programáveis na Solana
 - **Armazenamento Permanente** - Dados armazenados no Arweave com imutabilidade
@@ -42,7 +42,7 @@ Um cofre descentralizado, implementado como um PDA (Program Derived Address), ge
 - **Wallet Integration** - Suporte a Phantom e Solflare
 - **Acessibilidade** - Conformidade WCAG AA
 
-### **✅ Blockchain Infrastructure**
+### **Blockchain Infrastructure**
 - **Metaplex Core** - Padrão NFT para ativos de pesquisa
 - **Arweave Storage** - Armazenamento permanente via Irys
 - **Solana Program Library** - Integração com primitivas da Solana
@@ -176,33 +176,6 @@ npx tsx scripts/treasury/pay-reviewer.ts \
 3. Verificar status da conexão e saúde do RPC
 4. Testar detecção de wallets
 5. Ver logs detalhados
-
-## ✅ **Testado & Verificado**
-
-### **Configuração Funcionando (Devnet)**
-
-- **Wallet:** Solflare (Phantom também suportado)
-- **Network:** Solana Devnet
-- **Storage:** Arweave via Irys Devnet
-- **Mint:** Assinatura client-side com Metaplex
-- **Custo:** Grátis no devnet (usa SOL de teste)
-
-### **Resultados dos Testes com Sucesso**
-
-- ✅ **Upload de PDF:** Arquivos enviados com sucesso para Arweave via Irys devnet
-- ✅ **Upload de Metadata:** JSON metadata armazenado permanentemente no Arweave
-- ✅ **Mint de NFT:** NFTs criados com assinatura da wallet do usuário
-- ✅ **URIs Arweave:** Todos os arquivos acessíveis via `https://gateway.irys.xyz/[ID]`
-- ✅ **Solana Explorer:** NFTs visíveis e verificáveis on-chain
-- ✅ **Rate Limiting:** Proteção contra abuso funcionando
-- ✅ **Segurança:** Headers e validações ativos
-
-### **Status do Irys Devnet**
-
-- **Endpoint:** `https://devnet.irys.xyz`
-- **Financiado:** ✅ 0.1 SOL (suficiente para ~100 uploads)
-- **Funcionando:** ✅ Todos os uploads com sucesso
-- **Custo por upload:** ~0.001 SOL (tokens de teste)
 
 ## 📊 **APIs**
 
