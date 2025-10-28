@@ -48,12 +48,6 @@ A decentralized treasury, implemented as a PDA (Program Derived Address), manage
 - **Solana Program Library** - Integration with Solana primitives
 - **Program Derived Addresses** - PDAs for treasuries and governance
 
-### **✅ Developer Tools**
-- **Debug Panel** - Diagnostic and testing tools
-- **Development Scripts** - Blockchain operations automation
-- **File Validation** - Integrity and type verification
-- **Error Handling** - Robust error management
-
 ## 🛠️ **Technologies**
 
 ### **Frontend**
