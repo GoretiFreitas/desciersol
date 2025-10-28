@@ -48,12 +48,6 @@ Um cofre descentralizado, implementado como um PDA (Program Derived Address), ge
 - **Solana Program Library** - Integração com primitivas da Solana
 - **Program Derived Addresses** - PDAs para cofres e governança
 
-### **✅ Developer Tools**
-- **Debug Panel** - Ferramentas de diagnóstico e teste
-- **Scripts de Desenvolvimento** - Automação de operações blockchain
-- **Validação de Arquivos** - Verificação de integridade e tipos
-- **Error Handling** - Tratamento robusto de erros
-
 ## 🛠️ **Tecnologias**
 
 ### **Frontend**
