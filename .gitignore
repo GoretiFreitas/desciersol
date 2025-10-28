@@ -7,9 +7,14 @@ node_modules
 .env
 .env.local
 .env.*.local
+.env.production
+.env.development
 keypair.json
+keypair-mainnet.json
+keypair-devnet.json
 *.key
 *.pem
+*-private-key.txt
 
 # Build e cache
 dist

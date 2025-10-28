@@ -278,6 +278,86 @@ This is an open-source project and we invite the community to contribute. Feel f
 4. Push to the branch (`git push origin feature/new-feature`)
 5. Open a Pull Request
 
+## 🚀 **Production Deployment**
+
+### Quick Start for Mainnet
+
+DeSci Reviews can be deployed to production on Solana mainnet-beta using Vercel.
+
+**Prerequisites:**
+- Mainnet keypair with ~1.5 SOL
+- Helius RPC account (free tier)
+- Irys account funded for uploads
+- Vercel account (free tier)
+
+**Cost Estimate:**
+- Setup: ~1.5 SOL (~$150 one-time)
+- Hosting: $0/month (free tier)
+- Per paper: ~$0.15 (uploads + fees)
+
+### Deployment Steps
+
+1. **Setup Infrastructure** (30 min)
+   - Create Helius account → Get API key
+   - Generate/fund mainnet keypair
+   - Convert keypair to base58
+   - Fund Irys account
+
+2. **Create Collection** (5 min)
+   ```bash
+   NETWORK=mainnet-beta npx tsx scripts/assets/create-collection-metaplex.ts \
+     --name "DeSci Reviews Research Collection"
+   ```
+
+3. **Configure Environment** (10 min)
+   - Set environment variables locally
+   - Configure Vercel environment variables
+   - Verify .gitignore protects secrets
+
+4. **Deploy to Vercel** (5 min)
+   - Connect GitHub repository
+   - Configure build settings
+   - Deploy to production
+
+5. **Test in Production** (15 min)
+   - Connect wallet on mainnet
+   - Test file upload
+   - Verify Arweave storage
+   - Monitor costs
+
+### Detailed Guides
+
+- **📘 [DEPLOYMENT.md](./DEPLOYMENT.md)** - Complete deployment guide with commands
+- **🔒 [SECURITY.md](./SECURITY.md)** - Security best practices and key management
+- **📝 [env.example](./env.example)** - Environment variable templates
+
+### Production Considerations
+
+**Security:**
+- Never commit private keys
+- Use Vercel Secrets for sensitive variables
+- Monitor keypair balance regularly
+- Implement rate limiting (included)
+
+**Costs:**
+- Helius RPC: Free (100k req/day)
+- Vercel Hosting: Free (Hobby plan)
+- Irys uploads: ~$0.001-0.01 per MB
+- Solana transactions: ~$0.0005 each
+
+**Monitoring:**
+- Keypair balance (alert if < 0.1 SOL)
+- Irys balance (alert if < 0.1 SOL)
+- Helius usage (90% of limit)
+- Vercel function logs
+
+### Production URLs
+
+- **Mainnet Explorer:** https://explorer.solana.com/?cluster=mainnet-beta
+- **Helius Dashboard:** https://dashboard.helius.dev
+- **Vercel Dashboard:** https://vercel.com/dashboard
+- **Irys Gateway:** https://gateway.irys.xyz
+
 ## 📄 **License**
 
 Distributed under the MIT License. See the LICENSE file for more details.
@@ -286,10 +366,10 @@ Distributed under the MIT License. See the LICENSE file for more details.
 
 For issues or questions:
 
-1. Check debug page: `/debug`
-2. Check console logs
-3. Check variable configuration
-4. Open an issue on GitHub
+1. **Development:** Check debug page at `/debug`
+2. **Deployment:** See [DEPLOYMENT.md](./DEPLOYMENT.md)
+3. **Security:** See [SECURITY.md](./SECURITY.md)
+4. **Bugs:** Open an issue on GitHub
 
 ---
 

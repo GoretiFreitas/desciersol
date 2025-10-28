@@ -18,6 +18,43 @@ interface UploadResult {
 }
 
 /**
+ * Rate limiting simples baseado em IP
+ * Em produção, considere usar soluções como Upstash Rate Limit ou Vercel KV
+ */
+const uploadAttempts = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(ip: string): { allowed: boolean; remainingTime?: number } {
+  const now = Date.now();
+  const limit = 5; // 5 uploads por hora
+  const windowMs = 60 * 60 * 1000; // 1 hora
+
+  const record = uploadAttempts.get(ip);
+
+  if (!record || now > record.resetTime) {
+    // Nova janela de tempo
+    uploadAttempts.set(ip, { count: 1, resetTime: now + windowMs });
+    return { allowed: true };
+  }
+
+  if (record.count >= limit) {
+    const remainingTime = Math.ceil((record.resetTime - now) / 1000 / 60); // minutos
+    return { allowed: false, remainingTime };
+  }
+
+  // Incrementar contador
+  record.count++;
+  return { allowed: true };
+}
+
+function getClientIP(request: NextRequest): string {
+  return (
+    request.headers.get('x-forwarded-for')?.split(',')[0] ||
+    request.headers.get('x-real-ip') ||
+    'unknown'
+  );
+}
+
+/**
  * Criar Irys uploader
  */
 async function createIrysUploader() {
@@ -81,6 +118,21 @@ async function uploadToArweave(
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const clientIP = getClientIP(request);
+    const rateLimitCheck = checkRateLimit(clientIP);
+
+    if (!rateLimitCheck.allowed) {
+      return NextResponse.json(
+        {
+          error: 'Rate limit exceeded',
+          message: `Limite de uploads atingido. Tente novamente em ${rateLimitCheck.remainingTime} minutos.`,
+          remainingTime: rateLimitCheck.remainingTime,
+        },
+        { status: 429 }
+      );
+    }
+
     const formData = await request.formData();
     
     const pdfFile = formData.get('pdf') as File | null;
