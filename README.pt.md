@@ -2,8 +2,6 @@
 
 **DeSci Reviews é uma plataforma de publicação científica orientada para o mercado que transforma a maneira como a pesquisa é financiada, avaliada e monetizada.** Saímos do modelo tradicional de publicações para criar um ecossistema dinâmico onde o conhecimento se torna um ativo de capital, com liquidez e credibilidade on-chain.
 
-![Logo DeSci](./frontend/public/desci-logo.svg)
-
 ## 🚨 **O Problema: Publicação Científica Tradicional**
 
 O sistema atual de publicação científica está quebrado. Autores pagam taxas exorbitantes para publicar, revisores (a espinha dorsal da validação científica) não são remunerados, e o conhecimento fica preso atrás de paywalls institucionais. O resultado é um sistema que expropria o direito autoral dos criadores e limita o acesso e a liquidez das ideias.
