@@ -274,24 +274,6 @@ npm run create:collection
    - Check if has enough SOL
    - Check if collection address is correct
 
-## 📁 **Project Structure**
-
-```
-DeSci Reviews/
-├── README.md                    # Main documentation
-├── LICENSE                      # MIT License
-├── env.example                  # Configuration example
-├── keypair.json                 # Development key
-├── frontend/                    # Next.js application
-│   ├── app/                    # Pages and APIs
-│   ├── components/             # React components
-│   ├── lib/                   # Utilities and validation
-│   └── scripts/               # Test scripts
-├── lib/                       # Solana libraries
-├── scripts/                   # Development scripts
-└── CLEANUP_SUMMARY.md         # Cleanup summary
-```
-
 ## 🤝 **Contributions**
 
 This is an open-source project and we invite the community to contribute. Feel free to open a Pull Request or contact us with ideas.
