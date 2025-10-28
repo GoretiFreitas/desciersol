@@ -8,7 +8,15 @@
     "build": "tsc",
     "dev": "tsx watch",
     "start": "node dist/index.js",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "mint:metaplex": "tsx scripts/assets/mint-research-asset-metaplex.ts",
+    "upload:irys": "tsx scripts/assets/mint-auto-upload.ts",
+    "create:collection": "tsx scripts/assets/create-collection-metaplex.ts",
+    "badge:create": "tsx scripts/badges/create-badge-mint.ts",
+    "badge:issue": "tsx scripts/badges/issue-badge.ts",
+    "treasury:init": "tsx scripts/treasury/init-vault.ts",
+    "treasury:deposit": "tsx scripts/treasury/deposit-lst.ts",
+    "treasury:pay": "tsx scripts/treasury/pay-reviewer.ts"
   },
   "keywords": [
     "solana",

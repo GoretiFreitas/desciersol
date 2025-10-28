@@ -261,3 +261,147 @@ export async function unverifyCollectionItem(
   
   console.log('✅ Verificação removida!');
 }
+
+/**
+ * Criar token mint para badges
+ */
+export async function createTokenMint(
+  metaplex: Metaplex,
+  metadata: MetaplexNFTMetadata
+) {
+  console.log('🪙 Criando token mint...');
+  
+  const { nft } = await metaplex.nfts().create({
+    name: metadata.name,
+    symbol: metadata.symbol,
+    description: metadata.description,
+    image: toMetaplexFile(metadata.image, metadata.name),
+    attributes: metadata.attributes || [],
+  });
+  
+  console.log(`✅ Token mint criado: ${nft.address.toString()}`);
+  return nft;
+}
+
+/**
+ * Mintar tokens para um endereço
+ */
+export async function mintToken(
+  metaplex: Metaplex,
+  mintAddress: PublicKey,
+  destination: PublicKey,
+  amount: number
+) {
+  console.log(`🪙 Mintando ${amount} tokens...`);
+  
+  const { signature } = await metaplex.tokens().mint({
+    mintAddress,
+    destination,
+    amount: amount,
+  });
+  
+  console.log(`✅ Tokens mintados: ${signature}`);
+  return { signature };
+}
+
+/**
+ * Criar token account para um usuário
+ */
+export async function createTokenAccount(
+  metaplex: Metaplex,
+  owner: PublicKey,
+  mint: PublicKey
+) {
+  console.log('🏦 Criando token account...');
+  
+  const { tokenAddress } = await metaplex.tokens().createTokenAccount({
+    mint,
+    owner,
+  });
+  
+  console.log(`✅ Token account criado: ${tokenAddress.toString()}`);
+  return tokenAddress;
+}
+
+/**
+ * Criar PDA (Program Derived Address)
+ */
+export async function createPDA(
+  metaplex: Metaplex,
+  seeds: Buffer[]
+): Promise<PublicKey> {
+  const [pda] = PublicKey.findProgramAddressSync(
+    seeds,
+    metaplex.programs().getTokenMetadata().address
+  );
+  
+  return pda;
+}
+
+/**
+ * Criar cofre (vault)
+ */
+export async function createVault(
+  metaplex: Metaplex,
+  vaultPDA: PublicKey,
+  metadata: MetaplexNFTMetadata
+) {
+  console.log('💰 Criando cofre...');
+  
+  const { nft } = await metaplex.nfts().create({
+    name: metadata.name,
+    symbol: 'VAULT',
+    description: metadata.description,
+    image: toMetaplexFile(metadata.image, metadata.name),
+    attributes: metadata.attributes || [],
+  });
+  
+  console.log(`✅ Cofre criado: ${nft.address.toString()}`);
+  return nft;
+}
+
+/**
+ * Depositar LST no cofre
+ */
+export async function depositLST(
+  metaplex: Metaplex,
+  vaultPDA: PublicKey,
+  mintAddress: PublicKey,
+  amount: number
+) {
+  console.log(`💰 Depositando ${amount} LSTs...`);
+  
+  // Simular depósito - em implementação real, usar SPL Token program
+  const { signature } = await metaplex.tokens().mint({
+    mintAddress,
+    destination: vaultPDA,
+    amount: amount,
+  });
+  
+  console.log(`✅ LST depositado: ${signature}`);
+  return { signature };
+}
+
+/**
+ * Pagar revisor
+ */
+export async function payReviewer(
+  metaplex: Metaplex,
+  vaultPDA: PublicKey,
+  reviewer: PublicKey,
+  mintAddress: PublicKey,
+  amount: number,
+  reason: string
+) {
+  console.log(`💰 Pagando revisor ${amount} tokens...`);
+  
+  // Simular pagamento - em implementação real, usar SPL Token program
+  const { signature } = await metaplex.tokens().mint({
+    mintAddress,
+    destination: reviewer,
+    amount: amount,
+  });
+  
+  console.log(`✅ Revisor pago: ${signature}`);
+  return { signature };
+}
