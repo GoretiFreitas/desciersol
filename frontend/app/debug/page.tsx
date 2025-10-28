@@ -1,5 +1,7 @@
 import { WalletDebug } from '@/components/debug/WalletDebug';
 import { SimpleWalletTest } from '@/components/debug/SimpleWalletTest';
+import { WalletConnectionTest } from '@/components/debug/WalletConnectionTest';
+import { DirectWalletConnect } from '@/components/debug/DirectWalletConnect';
 
 export default function DebugPage() {
   return (
@@ -15,6 +17,8 @@ export default function DebugPage() {
         </div>
         
         <div className="space-y-6">
+          <DirectWalletConnect />
+          <WalletConnectionTest />
           <SimpleWalletTest />
           <WalletDebug />
         </div>

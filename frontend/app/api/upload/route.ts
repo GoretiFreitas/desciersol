@@ -74,7 +74,8 @@ async function createIrysUploader() {
       .devnet();
   } else {
     uploader = await Uploader(Solana)
-      .withWallet(privateKeyBase58);
+      .withWallet(privateKeyBase58)
+      .withRpc('https://api.mainnet-beta.solana.com');
   }
 
   return uploader;

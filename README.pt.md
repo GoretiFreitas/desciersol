@@ -161,17 +161,48 @@ npx tsx scripts/treasury/pay-reviewer.ts \
 
 1. Acessar `/research/submit`
 2. Upload do PDF (máx. 50MB)
-3. Upload de imagem de capa (opcional)
+3. Upload de imagem de capa (opcional, recomendado)
 4. Upload de imagem do NFT (opcional)
-5. Preencher metadados
-6. Clicar "Mintar como NFT"
+5. Preencher metadados (título, autores, descrição)
+6. Clicar "Submit" ou "Mintar como NFT"
+7. **Aprovar transação na sua wallet**
+8. Aguardar confirmação (~5-10 segundos)
+9. Copiar endereço do NFT e ver no Explorer!
 
 ### **3. Debug e Troubleshooting**
 
 1. Acessar `/debug`
-2. Usar "Teste Simples da Wallet"
-3. Verificar status da conexão
-4. Testar APIs
+2. Usar "Conexão Direta da Wallet" para problemas de conexão
+3. Verificar status da conexão e saúde do RPC
+4. Testar detecção de wallets
+5. Ver logs detalhados
+
+## ✅ **Testado & Verificado**
+
+### **Configuração Funcionando (Devnet)**
+
+- **Wallet:** Solflare (Phantom também suportado)
+- **Network:** Solana Devnet
+- **Storage:** Arweave via Irys Devnet
+- **Mint:** Assinatura client-side com Metaplex
+- **Custo:** Grátis no devnet (usa SOL de teste)
+
+### **Resultados dos Testes com Sucesso**
+
+- ✅ **Upload de PDF:** Arquivos enviados com sucesso para Arweave via Irys devnet
+- ✅ **Upload de Metadata:** JSON metadata armazenado permanentemente no Arweave
+- ✅ **Mint de NFT:** NFTs criados com assinatura da wallet do usuário
+- ✅ **URIs Arweave:** Todos os arquivos acessíveis via `https://gateway.irys.xyz/[ID]`
+- ✅ **Solana Explorer:** NFTs visíveis e verificáveis on-chain
+- ✅ **Rate Limiting:** Proteção contra abuso funcionando
+- ✅ **Segurança:** Headers e validações ativos
+
+### **Status do Irys Devnet**
+
+- **Endpoint:** `https://devnet.irys.xyz`
+- **Financiado:** ✅ 0.1 SOL (suficiente para ~100 uploads)
+- **Funcionando:** ✅ Todos os uploads com sucesso
+- **Custo por upload:** ~0.001 SOL (tokens de teste)
 
 ## 📊 **APIs**
 

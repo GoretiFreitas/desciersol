@@ -11,11 +11,13 @@ import { Badge } from '@/components/ui/badge';
 import { FileUpload } from '@/components/ui/file-upload';
 import { Upload, FileText, CheckCircle, Loader2, AlertCircle } from 'lucide-react';
 import { COLLECTION_ADDRESS } from '@/lib/constants';
+import { useMintNFT } from '@/hooks/useMintNFT';
 
 type SubmitStatus = 'idle' | 'uploading' | 'hashing' | 'minting' | 'success' | 'error';
 
 export default function SubmitPaperForm() {
   const { publicKey } = useWallet();
+  const { mintNFT, loading: mintLoading } = useMintNFT();
   const [status, setStatus] = useState<SubmitStatus>('idle');
   const [error, setError] = useState<string>('');
   const [nftAddress, setNftAddress] = useState<string>('');
@@ -70,36 +72,43 @@ export default function SubmitPaperForm() {
 
       const { pdfUri, pdfHash, coverImageUri, nftImageUri } = await uploadResponse.json();
       
-      // 2. Mint NFT
+      // 2. Mint NFT (client-side com assinatura da wallet)
       setStatus('minting');
       
-      const mintResponse = await fetch('/api/mint', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: formData.title,
-          authors: formData.authors,
-          description: formData.description,
-          tags: formData.tags,
-          doi: formData.doi,
-          license: formData.license,
-          version: formData.version,
-          pdfUri,
-          pdfHash,
-          coverImageUri,
-          nftImageUri,
-          collection: COLLECTION_ADDRESS.toString(),
-          wallet: publicKey.toString(),
-        }),
+      console.log('🎨 Mintando NFT com wallet do usuário...');
+      
+      const mintResult = await mintNFT({
+        name: formData.title,
+        description: formData.description || `Research paper by ${formData.authors}`,
+        image: nftImageUri || coverImageUri || 'https://arweave.net/placeholder',
+        externalUrl: pdfUri,
+        attributes: [
+          { trait_type: 'Authors', value: formData.authors },
+          { trait_type: 'Version', value: formData.version },
+          { trait_type: 'License', value: formData.license },
+          ...(formData.doi ? [{ trait_type: 'DOI', value: formData.doi }] : []),
+          ...(formData.tags ? [{ trait_type: 'Tags', value: formData.tags }] : []),
+        ],
+        files: [
+          {
+            uri: pdfUri,
+            type: 'application/pdf',
+            hash: pdfHash,
+          },
+          ...(coverImageUri ? [{
+            uri: coverImageUri,
+            type: 'image',
+          }] : []),
+        ],
+        collectionAddress: COLLECTION_ADDRESS.toString(),
       });
 
-      if (!mintResponse.ok) {
-        const errorData = await mintResponse.json();
-        throw new Error(errorData.error || 'Falha ao mintar NFT');
+      if (!mintResult.success) {
+        throw new Error(mintResult.error || 'Falha ao mintar NFT');
       }
 
-      const { mint } = await mintResponse.json();
-      setNftAddress(mint);
+      console.log('✅ NFT Mintado!', mintResult.mintAddress);
+      setNftAddress(mintResult.mintAddress || '');
       setStatus('success');
     } catch (err) {
       console.error('Erro no submit:', err);

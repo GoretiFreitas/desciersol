@@ -34,19 +34,31 @@ A decentralized treasury, implemented as a PDA (Program Derived Address), manage
 
 ## 🚀 **Implemented Features**
 
-### **✅ Core Features**
-- **PDF Upload** - Upload research papers to Arweave via Irys
-- **pNFT Minting** - Transform papers into programmable NFTs on Solana
-- **Permanent Storage** - Data stored on Arweave with immutability
-- **Modern Interface** - React/Next.js frontend with Tailwind CSS
-- **Wallet Integration** - Phantom and Solflare support
-- **Accessibility** - WCAG AA compliance
+### **✅ Core Features (Tested & Working)**
+- **PDF Upload** - ✅ Upload research papers to Arweave via Irys (devnet tested)
+- **pNFT Minting** - ✅ Transform papers into programmable NFTs on Solana (client-side signing)
+- **Permanent Storage** - ✅ PDFs and metadata stored on Arweave with immutability
+- **Modern Interface** - ✅ React/Next.js frontend with Tailwind CSS
+- **Wallet Integration** - ✅ Phantom and Solflare support (tested on devnet)
+- **Accessibility** - ✅ WCAG AA compliance
+- **Rate Limiting** - ✅ 5 uploads per hour per IP
+- **Security Headers** - ✅ XSS, CORS, frame protection
 
 ### **✅ Blockchain Infrastructure**
-- **Metaplex Core** - NFT standard for research assets
-- **Arweave Storage** - Permanent storage via Irys
+- **Metaplex** - NFT standard for research assets (using @metaplex-foundation/js)
+- **Arweave Storage** - Permanent storage via Irys (devnet: https://devnet.irys.xyz)
 - **Solana Program Library** - Integration with Solana primitives
 - **Program Derived Addresses** - PDAs for treasuries and governance
+- **Client-Side Signing** - Users sign all transactions with their wallet
+
+### **✅ Working Flow**
+1. User connects wallet (Phantom/Solflare) on devnet
+2. User uploads PDF + images via form
+3. Backend uploads files to Arweave via Irys (server-side)
+4. Backend uploads metadata to Arweave via Irys (server-side)
+5. Frontend mints NFT with Metaplex (client-side, user signs)
+6. NFT is created with permanent Arweave references
+7. User owns the NFT, can verify on Solana Explorer
 
 ## 🛠️ **Technologies**
 
@@ -78,23 +90,97 @@ npm install
 # Root
 cd ..
 npm install
+
+# Install Irys CLI (for funding uploads)
+npm install -g @irys/sdk
 ```
 
 ### **2. Configure Environment**
 
-Copy the example file and edit `.env.local` with your RPC, keypair, and other Solana network parameters.
+#### **Generate Keypair**
 
 ```bash
-cp env.example .env.local
-```
-
-If you don't have a keypair yet, generate one with:
-
-```bash
+# Generate a new keypair
 npx tsx scripts/utils/generate-keypair.ts
+
+# This creates keypair.json
+# For devnet testing, use this keypair
 ```
 
-### **3. Main Commands**
+#### **Convert to Base58 (for Irys)**
+
+```bash
+# Convert keypair to base58 format
+npx tsx scripts/utils/keypair-to-base58.ts
+
+# Copy the output - you'll need it for IRYS_PRIVATE_KEY
+```
+
+#### **Create Environment File**
+
+Create `frontend/.env.local`:
+
+```bash
+# Devnet Configuration (Testing)
+NEXT_PUBLIC_NETWORK=devnet
+NEXT_PUBLIC_RPC_URL=https://api.devnet.solana.com
+NEXT_PUBLIC_COLLECTION_ADDRESS=HJVNDU6GDgg1aCPkndZhrjiuYTqLHYzj4vXjJUgFQdd6
+
+# Irys Configuration (paste base58 from step above)
+IRYS_PRIVATE_KEY=your_base58_private_key_here
+NETWORK=devnet
+```
+
+### **3. Fund Irys Account**
+
+```bash
+# Get devnet SOL from faucet
+# Visit: https://faucet.solana.com/
+# Request 1-2 SOL for your wallet address
+
+# Fund Irys devnet with 0.1 SOL (enough for ~100 uploads)
+irys fund 100000000 -w keypair.json -n devnet -t solana --provider-url https://api.devnet.solana.com
+
+# Verify Irys balance
+irys balance YOUR_WALLET_ADDRESS -n devnet -t solana --provider-url https://api.devnet.solana.com
+```
+
+### **4. Start Development Server**
+
+```bash
+cd frontend
+npm run dev
+```
+
+Access: http://localhost:3000
+
+### **5. Mint Your First NFT**
+
+1. **Connect Wallet:**
+   - Install Phantom or Solflare browser extension
+   - Configure wallet for **Devnet**
+   - Get SOL from faucet: https://faucet.solana.com/
+   - Connect at http://localhost:3000
+
+2. **Submit Research Paper:**
+   - Go to http://localhost:3000/research/submit
+   - Upload PDF (max 50MB)
+   - Upload cover/NFT images (optional)
+   - Fill metadata (title, authors, description)
+   - Click "Submit" or "Mint as NFT"
+
+3. **Approve Transaction:**
+   - Wallet popup will open
+   - Review transaction details
+   - Click "Approve"
+   - Wait for confirmation (~5-10 seconds)
+
+4. **Verify NFT:**
+   - Copy the mint address from success message
+   - View on Solana Explorer
+   - Your NFT is now on-chain with metadata on Arweave!
+
+### **6. Main Commands**
 
 Our scripts allow interaction with all facets of the protocol. Use `--dry-run` to simulate any transaction without cost.
 
@@ -153,7 +239,7 @@ npx tsx scripts/treasury/pay-reviewer.ts \
 ### **1. Connect Wallet**
 
 1. Install wallet extension (Phantom or Solflare)
-2. Configure for Devnet
+2. Configure for **Devnet** (Settings > Network > Devnet)
 3. Get SOL from faucet: https://faucet.solana.com/
 4. Connect in the application
 
@@ -161,58 +247,148 @@ npx tsx scripts/treasury/pay-reviewer.ts \
 
 1. Access `/research/submit`
 2. Upload PDF (max 50MB)
-3. Upload cover image (optional)
+3. Upload cover image (optional, recommended)
 4. Upload NFT image (optional)
-5. Fill metadata
-6. Click "Mint as NFT"
+5. Fill metadata (title, authors, description)
+6. Click "Submit" or "Mint as NFT"
+7. **Approve transaction in your wallet**
+8. Wait for confirmation (~5-10 seconds)
+9. Copy mint address and view on Explorer!
 
 ### **3. Debug and Troubleshooting**
 
 1. Access `/debug`
-2. Use "Simple Wallet Test"
-3. Check connection status
-4. Test APIs
+2. Use "Direct Wallet Connect" for connection issues
+3. Check connection status and RPC health
+4. Test wallet detection
+5. View detailed logs
+
+## ✅ **Tested & Verified**
+
+### **Working Configuration (Devnet)**
+
+- **Wallet:** Solflare (Phantom also supported)
+- **Network:** Solana Devnet
+- **Storage:** Arweave via Irys Devnet
+- **Mint:** Client-side signing with Metaplex
+- **Cost:** Free on devnet (uses test SOL)
+
+### **Successful Test Results**
+
+- ✅ **PDF Upload:** Files successfully uploaded to Arweave via Irys devnet
+- ✅ **Metadata Upload:** JSON metadata stored on Arweave permanently
+- ✅ **NFT Mint:** NFTs created with user wallet signature
+- ✅ **Arweave URIs:** All files accessible via `https://gateway.irys.xyz/[ID]`
+- ✅ **Solana Explorer:** NFTs visible and verifiable on-chain
+- ✅ **Rate Limiting:** Protection against abuse working
+- ✅ **Security:** Headers and validations active
+
+### **Irys Devnet Status**
+
+- **Endpoint:** `https://devnet.irys.xyz`
+- **Funded:** ✅ 0.1 SOL (sufficient for ~100 uploads)
+- **Working:** ✅ All uploads successful
+- **Cost per upload:** ~0.001 SOL (test tokens)
 
 ## 📊 **APIs**
 
-### **File Upload**
+### **File Upload (Server-Side)**
 ```typescript
 POST /api/upload
 Content-Type: multipart/form-data
 
-// Returns: { pdfUri, pdfHash, coverImageUri, nftImageUri }
+FormData: {
+  pdf: File,
+  coverImage?: File,
+  nftImage?: File
+}
+
+// Returns:
+{
+  "pdfUri": "https://gateway.irys.xyz/[ID]",
+  "pdfHash": "sha256:[hash]",
+  "coverImageUri": "https://gateway.irys.xyz/[ID]",
+  "nftImageUri": "https://gateway.irys.xyz/[ID]",
+  "uploaded": true,
+  "message": "Files uploaded successfully to Arweave"
+}
 ```
 
-### **NFT Mint**
+### **Metadata Upload (Server-Side)**
 ```typescript
-POST /api/mint
+POST /api/upload-metadata
 Content-Type: application/json
 
 {
-  "title": "Paper Title",
-  "authors": "Author Name",
-  "pdfUri": "ar://...",
-  "pdfHash": "sha256...",
-  "coverImageUri": "ar://...",
-  "nftImageUri": "ar://..."
+  "metadata": {
+    "name": "Paper Title",
+    "description": "Paper description",
+    "image": "https://gateway.irys.xyz/[ID]",
+    "attributes": [...],
+    "properties": {...}
+  }
 }
+
+// Returns:
+{
+  "success": true,
+  "uri": "https://gateway.irys.xyz/[ID]",
+  "id": "[transaction_id]"
+}
+```
+
+### **NFT Mint (Client-Side)**
+Mint is performed client-side using the `useMintNFT` hook:
+
+```typescript
+import { useMintNFT } from '@/hooks/useMintNFT';
+
+const { mintNFT, loading, error } = useMintNFT();
+
+const result = await mintNFT({
+  name: "Paper Title",
+  description: "Paper description",
+  image: "https://gateway.irys.xyz/[ID]",
+  externalUrl: "https://gateway.irys.xyz/[PDF_ID]",
+  attributes: [...],
+  files: [...],
+  collectionAddress: "[collection_address]"
+});
+
+// User signs transaction in wallet
+// Returns: { success: true, mintAddress: "[NFT_address]", signature: "[tx_sig]" }
 ```
 
 ## 🔧 **Configuration**
 
 ### **Environment Variables**
 
-```bash
-# .env.local
+#### **Frontend (frontend/.env.local)**
+   ```bash
+# Network Configuration
 NEXT_PUBLIC_NETWORK=devnet
 NEXT_PUBLIC_RPC_URL=https://api.devnet.solana.com
 NEXT_PUBLIC_COLLECTION_ADDRESS=HJVNDU6GDgg1aCPkndZhrjiuYTqLHYzj4vXjJUgFQdd6
+
+# Backend Configuration (for API routes)
+IRYS_PRIVATE_KEY=your_base58_private_key
+NETWORK=devnet
+```
+
+**How to get IRYS_PRIVATE_KEY:**
+   ```bash
+# Convert your keypair to base58
+npx tsx scripts/utils/keypair-to-base58.ts
+
+# Copy the output and paste in .env.local
 ```
 
 ### **Supported Wallets**
 
-- **Phantom** - https://phantom.app/
-- **Solflare** - https://solflare.com/
+- **Solflare** - https://solflare.com/ (tested ✅)
+- **Phantom** - https://phantom.app/ (supported)
+
+**Important:** Configure wallet for **Devnet** before connecting!
 
 ## 🏗️ **Available Scripts**
 
@@ -304,7 +480,7 @@ DeSci Reviews can be deployed to production on Solana mainnet-beta using Vercel.
    - Fund Irys account
 
 2. **Create Collection** (5 min)
-   ```bash
+```bash
    NETWORK=mainnet-beta npx tsx scripts/assets/create-collection-metaplex.ts \
      --name "DeSci Reviews Research Collection"
    ```
