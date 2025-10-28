@@ -274,24 +274,6 @@ npm run create:collection
    - Verificar se tem SOL suficiente
    - Verificar se collection address está correto
 
-## 📁 **Estrutura do Projeto**
-
-```
-DeSci Reviews/
-├── README.md                    # Documentação principal (inglês)
-├── README.pt.md                 # Documentação em português
-├── LICENSE                      # Licença MIT
-├── env.example                  # Exemplo de configuração
-├── keypair.json                 # Chave para desenvolvimento
-├── frontend/                    # Aplicação Next.js
-│   ├── app/                    # Páginas e APIs
-│   ├── components/             # Componentes React
-│   ├── lib/                   # Utilitários e validação
-│   └── scripts/               # Scripts de teste
-├── lib/                       # Bibliotecas Solana
-├── scripts/                   # Scripts de desenvolvimento
-└── CLEANUP_SUMMARY.md         # Resumo da limpeza
-```
 
 ## 🤝 **Contribuições**
 
