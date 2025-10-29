@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { Metaplex } from '@metaplex-foundation/js';
 import { RPC_ENDPOINT, COLLECTION_ADDRESS } from '@/lib/constants';
+import { promises as fs } from 'fs';
+import path from 'path';
 
 export async function GET(request: NextRequest) {
   try {
@@ -51,9 +53,27 @@ export async function GET(request: NextRequest) {
     );
 
     // Filter out failed loads
-    const validNfts = nftData.filter((nft) => nft !== null);
+    let validNfts = nftData.filter((nft) => nft !== null);
 
-    console.log('✅ Total NFTs válidos:', validNfts.length);
+    console.log('✅ Total NFTs on-chain:', validNfts.length);
+
+    // Se não houver NFTs on-chain, carregar papers mock para testes
+    if (validNfts.length === 0) {
+      try {
+        const reviewsFile = path.join(process.cwd(), 'data', 'reviews.json');
+        const reviewsData = await fs.readFile(reviewsFile, 'utf-8');
+        const data = JSON.parse(reviewsData);
+        
+        if (data.mockPapers && data.mockPapers.length > 0) {
+          validNfts = data.mockPapers;
+          console.log('📝 Usando', validNfts.length, 'papers mock para testes');
+        }
+      } catch (mockError) {
+        console.log('ℹ️ Nenhum paper mock disponível');
+      }
+    }
+
+    console.log('✅ Total NFTs (on-chain + mock):', validNfts.length);
 
     return NextResponse.json({
       collection: COLLECTION_ADDRESS.toString(),
