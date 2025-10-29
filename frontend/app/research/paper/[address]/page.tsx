@@ -45,15 +45,21 @@ export default function PaperDetailPage() {
   const fetchNFT = async () => {
     try {
       setLoading(true);
-      // Buscar NFT da collection
-      const response = await fetch('/api/collection');
       
-      if (!response.ok) {
-        throw new Error('Failed to fetch NFT');
-      }
+      // Buscar NFT da collection E da wallet
+      const responses = await Promise.all([
+        fetch('/api/collection').catch(() => ({ ok: false, json: async () => ({ nfts: [] }) })),
+        fetch('/api/nfts-by-owner?owner=5f4FHMha4CXEv3JQ4oi4aG19xdx2Wt2m2BpKwRbwWogd').catch(() => ({ ok: false, json: async () => ({ nfts: [] }) })),
+      ]);
 
-      const data = await response.json();
-      const nftData = data.nfts.find((n: any) => n.address === address);
+      const [collectionRes, ownerRes] = responses;
+      
+      const collectionData = collectionRes.ok ? await collectionRes.json() : { nfts: [] };
+      const ownerData = ownerRes.ok ? await ownerRes.json() : { nfts: [] };
+
+      // Combinar NFTs de ambas as fontes
+      const allNfts = [...(collectionData.nfts || []), ...(ownerData.nfts || [])];
+      const nftData = allNfts.find((n: any) => n.address === address);
 
       if (!nftData) {
         throw new Error('Paper não encontrado');

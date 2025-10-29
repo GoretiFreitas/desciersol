@@ -40,6 +40,17 @@ export function useReviews(paperId: string) {
       const response = await fetch(`/api/review/${paperId}`);
       
       if (!response.ok) {
+        // Se 404, paper não tem reviews ainda (normal)
+        if (response.status === 404) {
+          setReviews([]);
+          setStats({
+            reviews: [],
+            count: 0,
+            avgRating: 0,
+            recommendations: { accept: 0, minorRevision: 0, majorRevision: 0, reject: 0 }
+          });
+          return;
+        }
         throw new Error('Failed to fetch reviews');
       }
 
