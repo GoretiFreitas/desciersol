@@ -32,13 +32,27 @@ export default function PaperCard({
   useEffect(() => {
     // Fetch review stats for this paper
     fetch(`/api/review/${address}`)
-      .then(res => res.json())
-      .then(data => {
-        setReviewCount(data.count || 0);
-        setAvgRating(data.avgRating || 0);
+      .then(res => {
+        if (!res.ok) {
+          // Se 404, paper não tem reviews ainda (normal)
+          if (res.status === 404) {
+            setReviewCount(0);
+            setAvgRating(0);
+            return null;
+          }
+          throw new Error('Failed to fetch reviews');
+        }
+        return res.json();
       })
-      .catch(() => {
+      .then(data => {
+        if (data) {
+          setReviewCount(data.count || 0);
+          setAvgRating(data.avgRating || 0);
+        }
+      })
+      .catch((err) => {
         // Silently fail, não é crítico
+        console.debug('Review fetch failed for', address, ':', err.message);
       });
   }, [address]);
 
