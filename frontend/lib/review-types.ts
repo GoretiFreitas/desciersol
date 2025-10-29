@@ -51,3 +51,37 @@ export interface ReviewsData {
   reviewerStats: Record<string, ReviewerStats>;
 }
 
+// On-chain Review Types
+export interface OnChainReview {
+  id: string;
+  reviewerWallet: string;
+  rating: number;
+  comment: string;
+  recommendation: ReviewRecommendation;
+  timestamp: number;
+  signature?: string;
+}
+
+export interface OnChainReviewAttribute {
+  trait_type: 'Review';
+  value: OnChainReview;
+}
+
+export interface BadgeMetadata {
+  name: string;
+  symbol: string;
+  description: string;
+  image: string;
+  attributes: Array<{
+    trait_type: string;
+    value: string | number;
+  }>;
+  properties: {
+    category: 'badge';
+    badgeLevel: number;
+    reviewerWallet: string;
+    reviewCount: number;
+    issuedAt: number;
+  };
+}
+

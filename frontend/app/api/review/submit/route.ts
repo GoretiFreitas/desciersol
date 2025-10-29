@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { validateReview, calculateBadgeLevel } from '@/lib/review-validation';
-import { Review, ReviewsData, ReviewerStats } from '@/lib/review-types';
+import { Review, ReviewsData, ReviewerStats, OnChainReview } from '@/lib/review-types';
+import { Connection, PublicKey } from '@solana/web3.js';
+import { Metaplex } from '@metaplex-foundation/js';
+import { RPC_ENDPOINT } from '@/lib/constants';
 
 const REVIEWS_FILE = path.join(process.cwd(), 'data', 'reviews.json');
 
@@ -18,6 +21,58 @@ async function readReviewsData(): Promise<ReviewsData> {
 
 async function writeReviewsData(data: ReviewsData): Promise<void> {
   await fs.writeFile(REVIEWS_FILE, JSON.stringify(data, null, 2), 'utf-8');
+}
+
+async function fetchNFTMetadata(paperId: string): Promise<any> {
+  try {
+    const connection = new Connection(RPC_ENDPOINT);
+    const metaplex = Metaplex.make(connection);
+    const mintAddress = new PublicKey(paperId);
+    
+    const nft = await metaplex.nfts().findByMint({ mintAddress });
+    
+    if (!nft.uri) {
+      throw new Error('NFT has no metadata URI');
+    }
+
+    // Fetch metadata from URI
+    const response = await fetch(nft.uri);
+    if (!response.ok) {
+      throw new Error('Failed to fetch metadata from URI');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching NFT metadata:', error);
+    return null;
+  }
+}
+
+async function uploadUpdatedMetadata(paperId: string, currentMetadata: any, newReview: OnChainReview): Promise<string | null> {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/metadata/update`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        paperId,
+        currentMetadata,
+        newReview,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to upload metadata');
+    }
+
+    const result = await response.json();
+    return result.newMetadataUri;
+  } catch (error) {
+    console.error('Error uploading metadata:', error);
+    return null;
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -79,7 +134,43 @@ export async function POST(request: NextRequest) {
       timestamp: Date.now(),
     };
 
-    // Adicionar review
+    // Criar review on-chain
+    const onChainReview: OnChainReview = {
+      id: newReview.id,
+      reviewerWallet,
+      rating,
+      comment,
+      recommendation,
+      timestamp: Date.now(),
+    };
+
+    // Tentar buscar metadata atual do NFT e fazer upload on-chain
+    let newMetadataUri: string | null = null;
+    let onChainSuccess = false;
+
+    try {
+      console.log('🔍 Buscando metadata atual do NFT...');
+      const currentMetadata = await fetchNFTMetadata(paperId);
+      
+      if (currentMetadata) {
+        console.log('📤 Fazendo upload de metadata atualizada...');
+        newMetadataUri = await uploadUpdatedMetadata(paperId, currentMetadata, onChainReview);
+        
+        if (newMetadataUri) {
+          onChainSuccess = true;
+          console.log('✅ Metadata atualizada com sucesso:', newMetadataUri);
+        } else {
+          console.log('⚠️ Falha no upload de metadata, continuando com fallback local');
+        }
+      } else {
+        console.log('⚠️ NFT não encontrado ou sem metadata, continuando com fallback local');
+      }
+    } catch (error) {
+      console.error('❌ Erro no processo on-chain:', error);
+      console.log('⚠️ Continuando com fallback local');
+    }
+
+    // Adicionar review localmente (sempre, como backup)
     data.reviews.push(newReview);
 
     // Atualizar stats do reviewer
@@ -102,17 +193,22 @@ export async function POST(request: NextRequest) {
     const levelChanged = newBadgeLevel > stats.badgeLevel;
     stats.badgeLevel = newBadgeLevel;
 
-    // Salvar dados
+    // Salvar dados localmente
     await writeReviewsData(data);
 
     console.log('✅ Review submitted:', newReview.id);
     console.log('📊 Reviewer stats:', stats);
+    console.log('🔗 On-chain success:', onChainSuccess);
 
     return NextResponse.json({
       success: true,
       review: newReview,
       reviewerStats: stats,
       badgeLevelUp: levelChanged,
+      newBadgeLevel,
+      shouldMintBadge: levelChanged,
+      onChainSuccess,
+      newMetadataUri,
       message: levelChanged 
         ? `Review submetida! Você alcançou o nível ${newBadgeLevel}!`
         : 'Review submetida com sucesso!',

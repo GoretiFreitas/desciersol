@@ -20,3 +20,8 @@ export const BRAND = {
   description: 'Open peer review platform powered by Solana blockchain',
 };
 
+// Review System Constants
+export const REVIEW_TRAIT_TYPE = 'Review';
+export const BADGE_COLLECTION_ADDRESS = process.env.NEXT_PUBLIC_BADGE_COLLECTION_ADDRESS || 'TBD'; // Criar collection para badges
+export const MAX_REVIEWS_PER_PAPER = 50; // Limite de atributos
+

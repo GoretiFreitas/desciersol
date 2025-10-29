@@ -1,38 +1,24 @@
 {
-  "reviews": [],
-  "reviewerStats": {},
-  "mockPapers": [
+  "reviews": [
     {
-      "address": "TestPaper1DevnetMock123456789",
-      "name": "Decentralized Science: A New Paradigm",
-      "json": {
-        "description": "This paper explores the potential of blockchain technology to revolutionize scientific publishing and peer review.",
-        "image": "https://via.placeholder.com/400x300/8B5CF6/FFFFFF?text=DeSci+Paper",
-        "external_url": "https://arweave.net/test-pdf-1",
-        "attributes": [
-          { "trait_type": "Authors", "value": "Dr. Alice Smith, Prof. Bob Johnson" },
-          { "trait_type": "Version", "value": "1.0.0" },
-          { "trait_type": "License", "value": "CC-BY-4.0" },
-          { "trait_type": "Tags", "value": "blockchain, science, peer-review" }
-        ]
-      },
-      "uri": "https://arweave.net/test-metadata-1"
-    },
-    {
-      "address": "TestPaper2DevnetMock987654321",
-      "name": "AI-Driven Research Validation",
-      "json": {
-        "description": "Exploring how artificial intelligence can assist in validating research methodology and results.",
-        "image": "https://via.placeholder.com/400x300/A855F7/FFFFFF?text=AI+Research",
-        "external_url": "https://arweave.net/test-pdf-2",
-        "attributes": [
-          { "trait_type": "Authors", "value": "Dr. Carol White" },
-          { "trait_type": "Version", "value": "1.0.0" },
-          { "trait_type": "License", "value": "MIT" },
-          { "trait_type": "Tags", "value": "AI, research, validation" }
-        ]
-      },
-      "uri": "https://arweave.net/test-metadata-2"
+      "id": "review_1761743411909_5iw3jrcun",
+      "paperId": "test123",
+      "paperTitle": "Test Paper",
+      "reviewerWallet": "5f4FHMha4CXEv3JQ4oi4aG19xdx2Wt2m2BpKwRbwWogd",
+      "rating": 4,
+      "comment": "This is an excellent paper that demonstrates innovative research methodology and provides valuable insights into the field. The authors have done thorough work and the results are well-presented.",
+      "recommendation": "accept",
+      "timestamp": 1761743411909
     }
-  ]
+  ],
+  "reviewerStats": {
+    "5f4FHMha4CXEv3JQ4oi4aG19xdx2Wt2m2BpKwRbwWogd": {
+      "wallet": "5f4FHMha4CXEv3JQ4oi4aG19xdx2Wt2m2BpKwRbwWogd",
+      "totalReviews": 1,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761743411909,
+      "lastReviewAt": 1761743411909
+    }
+  }
 }

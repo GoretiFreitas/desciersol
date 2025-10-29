@@ -7,8 +7,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Star, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { Star, Loader2, CheckCircle, AlertCircle, ExternalLink } from 'lucide-react';
 import { ReviewRecommendation } from '@/lib/review-types';
+import { useUpdateNFTMetadata } from '@/hooks/useUpdateNFTMetadata';
+import { useMintBadge } from '@/hooks/useMintBadge';
+import { EXPLORER_URL } from '@/lib/constants';
 
 interface ReviewFormProps {
   paperId: string;
@@ -27,6 +30,13 @@ export function ReviewForm({ paperId, paperTitle, onSuccess }: ReviewFormProps) 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [step, setStep] = useState<'submit' | 'upload' | 'update' | 'badge' | 'complete'>('submit');
+  const [badgeMinted, setBadgeMinted] = useState(false);
+  const [nftUpdated, setNftUpdated] = useState(false);
+
+  // Hooks para on-chain operations
+  const { updateNFTMetadata, loading: updatingNFT, error: nftError } = useUpdateNFTMetadata();
+  const { mintBadge, loading: mintingBadge, error: badgeError } = useMintBadge();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,8 +58,11 @@ export function ReviewForm({ paperId, paperTitle, onSuccess }: ReviewFormProps) 
 
     setError(null);
     setSubmitting(true);
+    setStep('submit');
 
     try {
+      // Step 1: Submit review to API
+      console.log('📝 Submitting review...');
       const response = await fetch('/api/review/submit', {
         method: 'POST',
         headers: {
@@ -60,7 +73,7 @@ export function ReviewForm({ paperId, paperTitle, onSuccess }: ReviewFormProps) 
           paperTitle,
           reviewerWallet: publicKey.toString(),
           rating,
-          comment,
+          comment: comment.trim(),
           strengths: strengths.trim() || undefined,
           weaknesses: weaknesses.trim() || undefined,
           recommendation,
@@ -75,6 +88,44 @@ export function ReviewForm({ paperId, paperTitle, onSuccess }: ReviewFormProps) 
       const result = await response.json();
       console.log('✅ Review submetida:', result);
 
+      // Step 2: Update NFT metadata if on-chain success
+      if (result.onChainSuccess && result.newMetadataUri) {
+        setStep('update');
+        console.log('🔄 Updating NFT metadata...');
+        
+        const updateResult = await updateNFTMetadata({
+          mintAddress: paperId,
+          newMetadataUri: result.newMetadataUri,
+        });
+
+        if (updateResult.success) {
+          setNftUpdated(true);
+          console.log('✅ NFT metadata updated:', updateResult.signature);
+        } else {
+          console.warn('⚠️ Failed to update NFT metadata:', updateResult.error);
+        }
+      }
+
+      // Step 3: Mint badge if level up
+      if (result.shouldMintBadge && result.newBadgeLevel) {
+        setStep('badge');
+        console.log('🏆 Minting badge for level:', result.newBadgeLevel);
+        
+        const badgeResult = await mintBadge({
+          reviewerWallet: publicKey.toString(),
+          badgeLevel: result.newBadgeLevel,
+          reviewCount: result.reviewerStats.totalReviews,
+        });
+
+        if (badgeResult.success) {
+          setBadgeMinted(true);
+          console.log('✅ Badge minted:', badgeResult.mintAddress);
+        } else {
+          console.warn('⚠️ Failed to mint badge:', badgeResult.error);
+        }
+      }
+
+      setStep('complete');
       setSuccess(true);
       
       // Resetar form
@@ -84,12 +135,6 @@ export function ReviewForm({ paperId, paperTitle, onSuccess }: ReviewFormProps) 
       setWeaknesses('');
       setRecommendation('accept');
 
-      if (result.badgeLevelUp) {
-        setTimeout(() => {
-          alert(`🎉 Parabéns! Você alcançou o nível ${result.reviewerStats.badgeLevel}! Vá para o Dashboard do Revisor para reivindicar seu badge.`);
-        }, 500);
-      }
-
       if (onSuccess) {
         onSuccess();
       }
@@ -97,6 +142,7 @@ export function ReviewForm({ paperId, paperTitle, onSuccess }: ReviewFormProps) 
     } catch (err) {
       console.error('❌ Erro ao submeter review:', err);
       setError(err instanceof Error ? err.message : 'Erro ao submeter review');
+      setStep('submit');
     } finally {
       setSubmitting(false);
     }
@@ -251,12 +297,90 @@ export function ReviewForm({ paperId, paperTitle, onSuccess }: ReviewFormProps) 
             />
           </div>
 
+          {/* Progress Steps */}
+          {submitting && (
+            <div className="space-y-3">
+              <div className="text-sm font-medium text-center">Processando Review...</div>
+              <div className="space-y-2">
+                <div className={`flex items-center gap-2 text-sm ${step === 'submit' ? 'text-blue-600' : step === 'complete' ? 'text-green-600' : 'text-gray-500'}`}>
+                  {step === 'submit' ? <Loader2 className="h-4 w-4 animate-spin" /> : step === 'complete' ? <CheckCircle className="h-4 w-4" /> : <div className="h-4 w-4 rounded-full bg-gray-300" />}
+                  Submetendo review...
+                </div>
+                {step === 'update' && (
+                  <div className={`flex items-center gap-2 text-sm ${updatingNFT ? 'text-blue-600' : nftUpdated ? 'text-green-600' : 'text-gray-500'}`}>
+                    {updatingNFT ? <Loader2 className="h-4 w-4 animate-spin" /> : nftUpdated ? <CheckCircle className="h-4 w-4" /> : <div className="h-4 w-4 rounded-full bg-gray-300" />}
+                    Atualizando NFT on-chain...
+                  </div>
+                )}
+                {step === 'badge' && (
+                  <div className={`flex items-center gap-2 text-sm ${mintingBadge ? 'text-blue-600' : badgeMinted ? 'text-green-600' : 'text-gray-500'}`}>
+                    {mintingBadge ? <Loader2 className="h-4 w-4 animate-spin" /> : badgeMinted ? <CheckCircle className="h-4 w-4" /> : <div className="h-4 w-4 rounded-full bg-gray-300" />}
+                    Mintando badge SBT...
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Success Message */}
+          {success && (
+            <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+              <div className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                    ✅ Review submetida com sucesso!
+                  </p>
+                  {nftUpdated && (
+                    <p className="text-xs text-green-700 dark:text-green-300">
+                      📄 NFT atualizado on-chain
+                    </p>
+                  )}
+                  {badgeMinted && (
+                    <p className="text-xs text-green-700 dark:text-green-300">
+                      🏆 Badge SBT mintado
+                    </p>
+                  )}
+                  <div className="flex gap-2">
+                    <a
+                      href={`${EXPLORER_URL}/address/${paperId}?cluster=devnet`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1"
+                    >
+                      Ver NFT no Explorer <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Error */}
           {error && (
             <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-              <p className="text-sm text-red-800 dark:text-red-200">
-                ❌ {error}
-              </p>
+              <div className="flex items-start gap-3">
+                <AlertCircle className="h-5 w-5 text-red-600 mt-0.5" />
+                <div>
+                  <p className="text-sm text-red-800 dark:text-red-200">
+                    ❌ {error}
+                  </p>
+                  {(nftError || badgeError) && (
+                    <div className="mt-2 space-y-1">
+                      {nftError && (
+                        <p className="text-xs text-red-700 dark:text-red-300">
+                          NFT Update: {nftError}
+                        </p>
+                      )}
+                      {badgeError && (
+                        <p className="text-xs text-red-700 dark:text-red-300">
+                          Badge Mint: {badgeError}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 
@@ -270,7 +394,10 @@ export function ReviewForm({ paperId, paperTitle, onSuccess }: ReviewFormProps) 
             {submitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Submetendo Review...
+                {step === 'submit' && 'Submetendo Review...'}
+                {step === 'update' && 'Atualizando NFT...'}
+                {step === 'badge' && 'Mintando Badge...'}
+                {step === 'complete' && 'Finalizando...'}
               </>
             ) : (
               <>
