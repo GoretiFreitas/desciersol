@@ -38,6 +38,9 @@ A decentralized treasury, implemented as a PDA (Program Derived Address), manage
 - **PDF Upload** - ✅ Upload research papers to Arweave via Irys (devnet tested)
 - **pNFT Minting** - ✅ Transform papers into programmable NFTs on Solana (client-side signing)
 - **Permanent Storage** - ✅ PDFs and metadata stored on Arweave with immutability
+- **Peer Review System** - ✅ Submit reviews, rate papers, provide feedback
+- **Reviewer Badges (SBTs)** - ✅ Earn Soul-Bound Tokens for contributions (5 levels)
+- **Reviewer Dashboard** - ✅ Track reviews, claim badges, view progression
 - **Modern Interface** - ✅ React/Next.js frontend with Tailwind CSS
 - **Wallet Integration** - ✅ Phantom and Solflare support (tested on devnet)
 - **Accessibility** - ✅ WCAG AA compliance
@@ -180,7 +183,33 @@ Access: http://localhost:3000
    - View on Solana Explorer
    - Your NFT is now on-chain with metadata on Arweave!
 
-### **6. Main Commands**
+### **6. Review Papers & Earn Badges**
+
+1. **Browse Papers:**
+   - Go to http://localhost:3000/research/browse
+   - Find papers to review
+   - Click "View Details" on any paper
+
+2. **Submit a Review:**
+   - On paper detail page, click "Write a Review"
+   - Rate the paper (1-5 stars)
+   - Select recommendation (Accept/Revision/Reject)
+   - Write detailed comment (min 50 chars)
+   - Optionally add strengths and weaknesses
+   - Click "Submit Review"
+
+3. **Earn Badges:**
+   - Reviews are tracked automatically
+   - Badge levels: Novice (1), Contributor (6), Expert (16), Master (31), Legend (51)
+   - Go to "Reviewer Dashboard" to see your progress
+
+4. **Claim Your Badge:**
+   - When eligible, dashboard shows "New Badge Available!"
+   - Click "Claim Badge" button
+   - Badge SBT is minted to your wallet (simulated in devnet)
+   - View badge on Solana Explorer
+
+### **7. Main Commands**
 
 Our scripts allow interaction with all facets of the protocol. Use `--dry-run` to simulate any transaction without cost.
 

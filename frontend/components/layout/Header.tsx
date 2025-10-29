@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useTheme } from 'next-themes';
-import { Moon, Sun, FileText, Upload, BookOpen } from 'lucide-react';
+import { Moon, Sun, FileText, Upload, BookOpen, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BRAND } from '@/lib/constants';
 
@@ -36,13 +36,22 @@ export default function Header() {
               Browse Papers
             </Link>
             {connected && (
-              <Link
-                href="/research/submit"
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-purple-700 dark:hover:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/30 transition-all duration-200"
-              >
-                <Upload className="h-4 w-4" />
-                Submit Paper
-              </Link>
+              <>
+                <Link
+                  href="/research/submit"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-purple-700 dark:hover:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/30 transition-all duration-200"
+                >
+                  <Upload className="h-4 w-4" />
+                  Submit Paper
+                </Link>
+                <Link
+                  href="/reviewer/dashboard"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-purple-700 dark:hover:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/30 transition-all duration-200"
+                >
+                  <Award className="h-4 w-4" />
+                  Dashboard
+                </Link>
+              </>
             )}
             <Link
               href="/#how-it-works"
