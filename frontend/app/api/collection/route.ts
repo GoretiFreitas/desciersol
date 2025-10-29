@@ -9,8 +9,8 @@ export async function GET(request: NextRequest) {
     const metaplex = Metaplex.make(connection);
 
     // Find NFTs by collection
-    const nfts = await metaplex.nfts().findAllByCreator({
-      creator: COLLECTION_ADDRESS,
+    const nfts = await metaplex.nfts().findAllByCollection({
+      collection: COLLECTION_ADDRESS,
     });
 
     // Fetch metadata for each NFT
