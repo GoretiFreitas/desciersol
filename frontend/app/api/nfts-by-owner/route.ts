@@ -1,34 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { Metaplex } from '@metaplex-foundation/js';
-import { RPC_ENDPOINT, COLLECTION_ADDRESS } from '@/lib/constants';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { RPC_ENDPOINT } from '@/lib/constants';
 
 export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const owner = searchParams.get('owner');
+
+    if (!owner) {
+      return NextResponse.json(
+        { error: 'Owner address is required' },
+        { status: 400 }
+      );
+    }
+
     const connection = new Connection(RPC_ENDPOINT);
     const metaplex = Metaplex.make(connection);
+    const ownerPubkey = new PublicKey(owner);
 
-    console.log('🔍 Buscando NFTs da collection:', COLLECTION_ADDRESS.toString());
+    console.log('🔍 Buscando NFTs do owner:', owner);
 
-    // Find NFTs by collection - usar método correto do Metaplex
-    let nfts;
-    
-    try {
-      // Tentar buscar por collection
-      nfts = await metaplex.nfts().findAllByCollection({
-        collection: COLLECTION_ADDRESS,
-      });
-      console.log('✅ Encontrados', nfts.length, 'NFTs via findAllByCollection');
-    } catch (collectionError) {
-      console.warn('⚠️ findAllByCollection falhou, tentando findAllByCreator...');
-      // Fallback: buscar por creator
-      nfts = await metaplex.nfts().findAllByCreator({
-        creator: COLLECTION_ADDRESS,
-      });
-      console.log('✅ Encontrados', nfts.length, 'NFTs via findAllByCreator');
-    }
+    // Find NFTs by owner
+    const nfts = await metaplex.nfts().findAllByOwner({
+      owner: ownerPubkey,
+    });
+
+    console.log('✅ Encontrados', nfts.length, 'NFTs');
 
     // Fetch metadata for each NFT
     const nftData = await Promise.all(
@@ -44,6 +42,7 @@ export async function GET(request: NextRequest) {
             name: nft.name,
             uri: nft.uri,
             json: (fullNft as any).json || null,
+            owner: owner,
           };
         } catch (err) {
           console.error(`❌ Failed to load NFT ${nft.address}:`, err);
@@ -53,20 +52,20 @@ export async function GET(request: NextRequest) {
     );
 
     // Filter out failed loads
-    let validNfts = nftData.filter((nft) => nft !== null);
+    const validNfts = nftData.filter((nft) => nft !== null);
 
-    console.log('✅ Total NFTs on-chain:', validNfts.length);
+    console.log('✅ Total NFTs válidos:', validNfts.length);
 
     return NextResponse.json({
-      collection: COLLECTION_ADDRESS.toString(),
+      owner,
       count: validNfts.length,
       nfts: validNfts,
     });
   } catch (error) {
-    console.error('❌ Collection fetch error:', error);
+    console.error('❌ NFTs by owner fetch error:', error);
     return NextResponse.json(
       {
-        error: 'Failed to fetch collection',
+        error: 'Failed to fetch NFTs',
         details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
