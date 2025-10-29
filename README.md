@@ -34,27 +34,22 @@ A decentralized treasury, implemented as a PDA (Program Derived Address), manage
 
 ## 🚀 **Implemented Features**
 
-### **✅ Core Features (Tested & Working)**
-- **PDF Upload** - ✅ Upload research papers to Arweave via Irys (devnet tested)
-- **pNFT Minting** - ✅ Transform papers into programmable NFTs on Solana (client-side signing)
-- **Permanent Storage** - ✅ PDFs and metadata stored on Arweave with immutability
-- **Peer Review System** - ✅ Submit reviews, rate papers, provide feedback
-- **Reviewer Badges (SBTs)** - ✅ Earn Soul-Bound Tokens for contributions (5 levels)
-- **Reviewer Dashboard** - ✅ Track reviews, claim badges, view progression
-- **Modern Interface** - ✅ React/Next.js frontend with Tailwind CSS
-- **Wallet Integration** - ✅ Phantom and Solflare support (tested on devnet)
-- **Accessibility** - ✅ WCAG AA compliance
-- **Rate Limiting** - ✅ 5 uploads per hour per IP
-- **Security Headers** - ✅ XSS, CORS, frame protection
+### **Core Features**
+- **PDF Upload** - Upload research papers to Arweave via Irys (devnet tested)
+- **pNFT Minting** - Transform papers into programmable NFTs on Solana (client-side signing)
+- **Permanent Storage** - PDFs and metadata stored on Arweave with immutability
+- **Modern Interface** - React/Next.js frontend with Tailwind CSS
+- **Wallet Integration** - Phantom and Solflare support (tested on devnet)
+- **Accessibility** - WCAG AA compliance
 
-### **✅ Blockchain Infrastructure**
+### **Blockchain Infrastructure**
 - **Metaplex** - NFT standard for research assets (using @metaplex-foundation/js)
 - **Arweave Storage** - Permanent storage via Irys (devnet: https://devnet.irys.xyz)
 - **Solana Program Library** - Integration with Solana primitives
 - **Program Derived Addresses** - PDAs for treasuries and governance
 - **Client-Side Signing** - Users sign all transactions with their wallet
 
-### **✅ Working Flow**
+### **Working Flow**
 1. User connects wallet (Phantom/Solflare) on devnet
 2. User uploads PDF + images via form
 3. Backend uploads files to Arweave via Irys (server-side)
@@ -183,33 +178,7 @@ Access: http://localhost:3000
    - View on Solana Explorer
    - Your NFT is now on-chain with metadata on Arweave!
 
-### **6. Review Papers & Earn Badges**
-
-1. **Browse Papers:**
-   - Go to http://localhost:3000/research/browse
-   - Find papers to review
-   - Click "View Details" on any paper
-
-2. **Submit a Review:**
-   - On paper detail page, click "Write a Review"
-   - Rate the paper (1-5 stars)
-   - Select recommendation (Accept/Revision/Reject)
-   - Write detailed comment (min 50 chars)
-   - Optionally add strengths and weaknesses
-   - Click "Submit Review"
-
-3. **Earn Badges:**
-   - Reviews are tracked automatically
-   - Badge levels: Novice (1), Contributor (6), Expert (16), Master (31), Legend (51)
-   - Go to "Reviewer Dashboard" to see your progress
-
-4. **Claim Your Badge:**
-   - When eligible, dashboard shows "New Badge Available!"
-   - Click "Claim Badge" button
-   - Badge SBT is minted to your wallet (simulated in devnet)
-   - View badge on Solana Explorer
-
-### **7. Main Commands**
+### **6. Main Commands**
 
 Our scripts allow interaction with all facets of the protocol. Use `--dry-run` to simulate any transaction without cost.
 
@@ -291,33 +260,6 @@ npx tsx scripts/treasury/pay-reviewer.ts \
 3. Check connection status and RPC health
 4. Test wallet detection
 5. View detailed logs
-
-## ✅ **Tested & Verified**
-
-### **Working Configuration (Devnet)**
-
-- **Wallet:** Solflare (Phantom also supported)
-- **Network:** Solana Devnet
-- **Storage:** Arweave via Irys Devnet
-- **Mint:** Client-side signing with Metaplex
-- **Cost:** Free on devnet (uses test SOL)
-
-### **Successful Test Results**
-
-- ✅ **PDF Upload:** Files successfully uploaded to Arweave via Irys devnet
-- ✅ **Metadata Upload:** JSON metadata stored on Arweave permanently
-- ✅ **NFT Mint:** NFTs created with user wallet signature
-- ✅ **Arweave URIs:** All files accessible via `https://gateway.irys.xyz/[ID]`
-- ✅ **Solana Explorer:** NFTs visible and verifiable on-chain
-- ✅ **Rate Limiting:** Protection against abuse working
-- ✅ **Security:** Headers and validations active
-
-### **Irys Devnet Status**
-
-- **Endpoint:** `https://devnet.irys.xyz`
-- **Funded:** ✅ 0.1 SOL (sufficient for ~100 uploads)
-- **Working:** ✅ All uploads successful
-- **Cost per upload:** ~0.001 SOL (test tokens)
 
 ## 📊 **APIs**
 
@@ -414,8 +356,8 @@ npx tsx scripts/utils/keypair-to-base58.ts
 
 ### **Supported Wallets**
 
-- **Solflare** - https://solflare.com/ (tested ✅)
-- **Phantom** - https://phantom.app/ (supported)
+- **Solflare** - https://solflare.com/
+- **Phantom** - https://phantom.app/
 
 **Important:** Configure wallet for **Devnet** before connecting!
 
