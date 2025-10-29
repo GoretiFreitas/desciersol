@@ -1,0 +1,52 @@
+{
+  "papers": [
+    {
+      "address": "DemoPaper1_Blockchain_DeSci",
+      "name": "Blockchain Applications in Decentralized Science",
+      "json": {
+        "description": "This paper explores how blockchain technology can revolutionize scientific publishing, peer review, and research funding through decentralized protocols.",
+        "image": "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=400&h=300&fit=crop",
+        "external_url": "https://arweave.net/demo-paper-1",
+        "attributes": [
+          { "trait_type": "Authors", "value": "Dr. Alice Smith, Prof. Bob Johnson" },
+          { "trait_type": "Version", "value": "1.0.0" },
+          { "trait_type": "License", "value": "CC-BY-4.0" },
+          { "trait_type": "Tags", "value": "blockchain, science, peer-review, web3" }
+        ]
+      },
+      "uri": "https://arweave.net/demo-metadata-1"
+    },
+    {
+      "address": "DemoPaper2_AI_Research_Validation",
+      "name": "AI-Driven Research Validation and Quality Assessment",
+      "json": {
+        "description": "Exploring how artificial intelligence and machine learning can assist in validating research methodology, detecting errors, and assessing the quality of scientific papers.",
+        "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop",
+        "external_url": "https://arweave.net/demo-paper-2",
+        "attributes": [
+          { "trait_type": "Authors", "value": "Dr. Carol White, Dr. David Brown" },
+          { "trait_type": "Version", "value": "1.0.0" },
+          { "trait_type": "License", "value": "MIT" },
+          { "trait_type": "Tags", "value": "AI, research, validation, machine-learning" }
+        ]
+      },
+      "uri": "https://arweave.net/demo-metadata-2"
+    },
+    {
+      "address": "DemoPaper3_OpenScience_Future",
+      "name": "The Future of Open Science: Incentive Mechanisms",
+      "json": {
+        "description": "An analysis of tokenomics and incentive structures that can accelerate open science adoption and reward contributors in the scientific ecosystem.",
+        "image": "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=300&fit=crop",
+        "external_url": "https://arweave.net/demo-paper-3",
+        "attributes": [
+          { "trait_type": "Authors", "value": "Prof. Emma Davis" },
+          { "trait_type": "Version", "value": "2.0.1" },
+          { "trait_type": "License", "value": "CC-BY-SA-4.0" },
+          { "trait_type": "Tags", "value": "open-science, incentives, tokenomics" }
+        ]
+      },
+      "uri": "https://arweave.net/demo-metadata-3"
+    }
+  ]
+}
