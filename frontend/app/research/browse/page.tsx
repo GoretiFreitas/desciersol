@@ -35,7 +35,7 @@ export default function BrowsePage() {
       // Buscar da collection E da wallet conhecida
       const responses = await Promise.all([
         fetch('/api/collection').catch(() => ({ ok: false, json: async () => ({ nfts: [] }) })),
-        fetch('/api/nfts-by-owner?owner=H5iKPWZyq2dhHnNuE1g2N5nBDzsYVrPDo6V4B32XQf1S').catch(() => ({ ok: false, json: async () => ({ nfts: [] }) })),
+        fetch('/api/nfts-by-owner?owner=5f4FHMha4CXEv3JQ4oi4aG19xdx2Wt2m2BpKwRbwWogd').catch(() => ({ ok: false, json: async () => ({ nfts: [] }) })),
       ]);
 
       const [collectionRes, ownerRes] = responses;
