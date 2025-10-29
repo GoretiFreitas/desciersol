@@ -46,9 +46,10 @@ export function useMintNFT() {
       console.log('📋 Parâmetros:', params);
 
       // Criar instância do Metaplex com a wallet do usuário
-      const metaplex = Metaplex.make(connection).use(
-        walletAdapterIdentity(wallet)
-      );
+      // Configurar com timeout maior para devnet
+      const metaplex = Metaplex.make(connection, {
+        cluster: 'devnet',
+      }).use(walletAdapterIdentity(wallet));
 
       console.log('🔧 Metaplex configurado com wallet:', wallet.publicKey.toString());
 
@@ -111,12 +112,17 @@ export function useMintNFT() {
       
       console.log('📦 Collection Address:', collectionPubkey?.toString());
       
-      const { nft, response } = await metaplex.nfts().create({
-        uri: metadataUri,
-        name: params.name,
-        sellerFeeBasisPoints: 500, // 5% royalty
-        collection: collectionPubkey,
-      });
+      const { nft, response } = await metaplex.nfts().create(
+        {
+          uri: metadataUri,
+          name: params.name,
+          sellerFeeBasisPoints: 500, // 5% royalty
+          collection: collectionPubkey,
+        },
+        {
+          commitment: 'confirmed', // Usar confirmed ao invés de finalized
+        }
+      );
 
       console.log('✅ NFT Criado!');
       console.log('🪙 Mint Address:', nft.address.toString());
