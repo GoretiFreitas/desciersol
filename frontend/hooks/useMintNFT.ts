@@ -104,18 +104,39 @@ export function useMintNFT() {
 
       // Criar NFT
       console.log('🎨 Criando NFT...');
+      
+      const collectionPubkey = params.collectionAddress 
+        ? new PublicKey(params.collectionAddress)
+        : undefined;
+      
+      console.log('📦 Collection Address:', collectionPubkey?.toString());
+      
       const { nft, response } = await metaplex.nfts().create({
         uri: metadataUri,
         name: params.name,
         sellerFeeBasisPoints: 500, // 5% royalty
-        collection: params.collectionAddress
-          ? new PublicKey(params.collectionAddress)
-          : undefined,
+        collection: collectionPubkey,
       });
 
       console.log('✅ NFT Criado!');
       console.log('🪙 Mint Address:', nft.address.toString());
       console.log('📝 Signature:', response.signature);
+      console.log('📦 Collection vinculada:', collectionPubkey?.toString());
+      
+      // Verificar collection se foi fornecida
+      if (collectionPubkey) {
+        try {
+          console.log('🔗 Verificando NFT na collection...');
+          await metaplex.nfts().verifyCollection({
+            mintAddress: nft.address,
+            collectionMintAddress: collectionPubkey,
+          });
+          console.log('✅ NFT verificado na collection!');
+        } catch (verifyError) {
+          console.warn('⚠️ Não foi possível verificar na collection:', verifyError);
+          console.log('ℹ️ NFT foi criado mas pode não aparecer em buscas por collection');
+        }
+      }
 
       setLoading(false);
       return {
