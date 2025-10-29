@@ -159,6 +159,28 @@ export function useMintNFT() {
       };
     } catch (err: any) {
       console.error('❌ Erro ao mintar NFT:', err);
+      
+      // Verificar se é erro de timeout (mas transação pode ter sido processada)
+      const isTimeoutError = 
+        err.message?.includes('expired') || 
+        err.message?.includes('Blockhash not found') ||
+        err.message?.includes('block height exceeded');
+      
+      if (isTimeoutError) {
+        console.warn('⚠️ Timeout de confirmação - NFT pode ter sido criado mesmo assim');
+        console.log('ℹ️ Verifique sua wallet ou Solana Explorer para confirmar');
+        
+        const timeoutMessage = 'Timeout de confirmação. O NFT pode ter sido criado - verifique sua wallet ou tente buscar na página Browse após alguns minutos.';
+        setError(timeoutMessage);
+        setLoading(false);
+        
+        // Retornar sucesso parcial com aviso
+        return {
+          success: false,
+          error: timeoutMessage,
+        };
+      }
+      
       const errorMessage = err.message || 'Erro desconhecido ao mintar NFT';
       setError(errorMessage);
       setLoading(false);
