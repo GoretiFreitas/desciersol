@@ -2,7 +2,7 @@
 
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useState } from 'react';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { Connection, PublicKey, Transaction } from '@solana/web3.js';
 import { Metaplex, keypairIdentity, walletAdapterIdentity } from '@metaplex-foundation/js';
 
 interface MintNFTParams {
@@ -23,7 +23,7 @@ interface MintResult {
 }
 
 export function useMintNFT() {
-  const { connection } = useConnection();
+  const { connection: defaultConnection } = useConnection();
   const wallet = useWallet();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -45,13 +45,20 @@ export function useMintNFT() {
       console.log('🎨 Iniciando mint de NFT...');
       console.log('📋 Parâmetros:', params);
 
+      // Usar connection com configurações otimizadas para devnet
+      const connection = new Connection(
+        process.env.NEXT_PUBLIC_RPC_URL || 'https://api.devnet.solana.com',
+        {
+          commitment: 'confirmed',
+          confirmTransactionInitialTimeout: 120000, // 2 minutos
+        }
+      );
+
       // Criar instância do Metaplex com a wallet do usuário
-      // Configurar com timeout maior para devnet
-      const metaplex = Metaplex.make(connection, {
-        cluster: 'devnet',
-      }).use(walletAdapterIdentity(wallet));
+      const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(wallet));
 
       console.log('🔧 Metaplex configurado com wallet:', wallet.publicKey.toString());
+      console.log('🌐 RPC:', process.env.NEXT_PUBLIC_RPC_URL || 'https://api.devnet.solana.com');
 
       // Preparar metadata
       const metadata = {
