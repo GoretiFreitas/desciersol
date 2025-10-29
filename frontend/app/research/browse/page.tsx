@@ -31,14 +31,31 @@ export default function BrowsePage() {
   const fetchNFTs = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/collection');
       
-      if (!response.ok) {
-        throw new Error('Failed to fetch collection');
-      }
+      // Buscar da collection E da wallet conhecida
+      const responses = await Promise.all([
+        fetch('/api/collection').catch(() => ({ ok: false, json: async () => ({ nfts: [] }) })),
+        fetch('/api/nfts-by-owner?owner=H5iKPWZyq2dhHnNuE1g2N5nBDzsYVrPDo6V4B32XQf1S').catch(() => ({ ok: false, json: async () => ({ nfts: [] }) })),
+      ]);
 
-      const data = await response.json();
-      setNfts(data.nfts || []);
+      const [collectionRes, ownerRes] = responses;
+      
+      const collectionData = collectionRes.ok ? await collectionRes.json() : { nfts: [] };
+      const ownerData = ownerRes.ok ? await ownerRes.json() : { nfts: [] };
+
+      // Combinar NFTs de ambas as fontes (sem duplicatas)
+      const allNfts = [...(collectionData.nfts || []), ...(ownerData.nfts || [])];
+      const uniqueNfts = allNfts.filter((nft, index, self) => 
+        index === self.findIndex(n => n.address === nft.address)
+      );
+
+      console.log('📊 NFTs carregados:', {
+        collection: collectionData.nfts?.length || 0,
+        owner: ownerData.nfts?.length || 0,
+        total: uniqueNfts.length
+      });
+
+      setNfts(uniqueNfts);
     } catch (err) {
       console.error('Fetch error:', err);
       setError(err instanceof Error ? err.message : 'Failed to load papers');

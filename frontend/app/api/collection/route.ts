@@ -78,25 +78,7 @@ export async function GET(request: NextRequest) {
     );
 
     // Filter out null
-    let validNfts = nftData.filter((nft) => nft !== null);
-
-    console.log('✅ Total NFTs on-chain:', validNfts.length);
-
-    // Se collection estiver vazia, usar papers demo
-    if (validNfts.length === 0) {
-      try {
-        const papersFile = path.join(process.cwd(), 'data', 'papers.json');
-        const papersData = await fs.readFile(papersFile, 'utf-8');
-        const data = JSON.parse(papersData);
-        
-        if (data.papers && data.papers.length > 0) {
-          validNfts = data.papers;
-          console.log('📝 Usando', validNfts.length, 'papers demo para testes');
-        }
-      } catch (demoError) {
-        console.log('ℹ️ Nenhum paper demo disponível');
-      }
-    }
+    const validNfts = nftData.filter((nft) => nft !== null);
 
     console.log('✅ Total NFTs retornados:', validNfts.length);
 
@@ -108,29 +90,13 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('❌ Collection fetch error:', error);
     
-    // Em caso de erro, tentar carregar papers demo
-    try {
-      const papersFile = path.join(process.cwd(), 'data', 'papers.json');
-      const papersData = await fs.readFile(papersFile, 'utf-8');
-      const data = JSON.parse(papersData);
-      
-      console.log('📝 Usando papers demo devido a erro');
-      
-      return NextResponse.json({
-        collection: COLLECTION_ADDRESS.toString(),
-        count: data.papers?.length || 0,
-        nfts: data.papers || [],
-        error: error instanceof Error ? error.message : 'Failed to fetch collection (usando demo)',
-      });
-    } catch (demoError) {
-      // Último fallback: retornar vazio
-      return NextResponse.json({
-        collection: COLLECTION_ADDRESS.toString(),
-        count: 0,
-        nfts: [],
-        error: error instanceof Error ? error.message : 'Failed to fetch collection',
-      });
-    }
+    // Retornar vazio em caso de erro
+    return NextResponse.json({
+      collection: COLLECTION_ADDRESS.toString(),
+      count: 0,
+      nfts: [],
+      error: error instanceof Error ? error.message : 'Failed to fetch collection',
+    });
   }
 }
 
