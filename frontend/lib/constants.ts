@@ -1,7 +1,7 @@
 import { PublicKey } from '@solana/web3.js';
 
-export const NETWORK = process.env.NEXT_PUBLIC_NETWORK || 'devnet';
-export const RPC_ENDPOINT = process.env.NEXT_PUBLIC_RPC_URL || 'https://api.devnet.solana.com';
+export const NETWORK = process.env.NEXT_PUBLIC_NETWORK || 'mainnet-beta';
+export const RPC_ENDPOINT = process.env.NEXT_PUBLIC_RPC_URL || 'https://api.mainnet-beta.solana.com';
 
 // Collection NFT address
 export const COLLECTION_ADDRESS = new PublicKey(

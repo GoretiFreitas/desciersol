@@ -14,6 +14,7 @@ interface PaperCardProps {
   doi?: string;
   date?: string;
   uri?: string;
+  collection?: string | null;
 }
 
 export default function PaperCard({
@@ -25,6 +26,7 @@ export default function PaperCard({
   doi,
   date,
   uri,
+  collection,
 }: PaperCardProps) {
   const [reviewCount, setReviewCount] = useState<number>(0);
   const [avgRating, setAvgRating] = useState<number>(0);
@@ -67,24 +69,32 @@ export default function PaperCard({
               </CardTitle>
             </Link>
             {authors && (
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
                 <Users className="h-4 w-4" />
                 <span className="line-clamp-1">{authors}</span>
               </div>
             )}
-            {/* Review Stats */}
-            {reviewCount > 0 && (
-              <div className="flex items-center gap-3 text-sm">
-                <div className="flex items-center gap-1 text-muted-foreground">
-                  <MessageSquare className="h-4 w-4" />
-                  <span>{reviewCount} review{reviewCount !== 1 ? 's' : ''}</span>
+            {/* Verification and Review Stats */}
+            <div className="flex items-center gap-3 text-sm">
+              {collection && (
+                <div className="flex items-center gap-1 text-green-600">
+                  <div className="h-2 w-2 rounded-full bg-green-500" />
+                  <span className="text-xs font-medium">Verificado pela Descier</span>
                 </div>
-                <div className="flex items-center gap-1">
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span className="font-medium">{avgRating.toFixed(1)}</span>
-                </div>
-              </div>
-            )}
+              )}
+              {reviewCount > 0 && (
+                <>
+                  <div className="flex items-center gap-1 text-slate-600 dark:text-slate-300">
+                    <MessageSquare className="h-4 w-4" />
+                    <span>{reviewCount} review{reviewCount !== 1 ? 's' : ''}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-slate-900 dark:text-white">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <span className="font-medium">{avgRating.toFixed(1)}</span>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
           <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-brand-violet to-brand-violet-2 flex items-center justify-center flex-shrink-0">
             <FileText className="h-6 w-6 text-white" />
@@ -94,7 +104,7 @@ export default function PaperCard({
       
       <CardContent className="space-y-4">
         {description && (
-          <CardDescription className="line-clamp-3">
+          <CardDescription className="line-clamp-3 text-slate-700 dark:text-slate-200">
             {description}
           </CardDescription>
         )}
@@ -103,7 +113,7 @@ export default function PaperCard({
         {tags.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {tags.map((tag, index) => (
-              <Badge key={index} variant="secondary" className="text-xs">
+              <Badge key={index} variant="secondary" className="text-xs bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100">
                 {tag}
               </Badge>
             ))}
@@ -111,7 +121,7 @@ export default function PaperCard({
         )}
 
         {/* Metadata */}
-        <div className="flex flex-wrap gap-4 text-xs text-muted-foreground pt-2 border-t border-border/40">
+        <div className="flex flex-wrap gap-4 text-xs text-slate-600 dark:text-slate-300 pt-2 border-t border-border/40">
           {date && (
             <div className="flex items-center gap-1">
               <Calendar className="h-3 w-3" />

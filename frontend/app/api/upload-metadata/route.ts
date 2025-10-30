@@ -14,7 +14,7 @@ async function createIrysUploader() {
     throw new Error('IRYS_PRIVATE_KEY not configured');
   }
 
-  const useDevnet = process.env.NETWORK === 'devnet';
+  const useDevnet = process.env.NETWORK === 'devnet' || !process.env.NETWORK; // Default to devnet if not set
   
   if (useDevnet) {
     // Usar Irys DEVNET
@@ -25,10 +25,11 @@ async function createIrysUploader() {
     
     return uploader;
   } else {
-    // Usar Irys MAINNET  
+    // Usar Irys MAINNET com Helius RPC
+    const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL || 'https://api.mainnet-beta.solana.com';
     const uploader = await Uploader(Solana)
       .withWallet(privateKeyBase58)
-      .withRpc('https://api.mainnet-beta.solana.com');
+      .withRpc(rpcUrl);
     
     return uploader;
   }
@@ -63,7 +64,8 @@ export async function POST(request: NextRequest) {
     ];
 
     // Upload para Arweave
-    console.log('☁️ Fazendo upload via Irys mainnet...');
+    const network = process.env.NETWORK === 'devnet' ? 'devnet' : 'mainnet';
+    console.log(`☁️ Fazendo upload via Irys ${network}...`);
     const receipt = await uploader.upload(metadataBuffer, { tags });
     
     const uri = `https://gateway.irys.xyz/${receipt.id}`;

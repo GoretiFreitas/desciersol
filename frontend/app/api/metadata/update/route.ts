@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createIrysUploader } from '@/lib/irys-uploader-v2';
+import { Uploader } from '@irys/upload';
+import { Solana } from '@irys/upload-solana';
 import { OnChainReview, OnChainReviewAttribute } from '@/lib/review-types';
 import { REVIEW_TRAIT_TYPE, MAX_REVIEWS_PER_PAPER } from '@/lib/constants';
 
@@ -7,6 +8,33 @@ interface UpdateMetadataRequest {
   paperId: string;
   currentMetadata: any;
   newReview: OnChainReview;
+}
+
+async function createIrysUploader() {
+  const privateKeyBase58 = process.env.IRYS_PRIVATE_KEY;
+  
+  if (!privateKeyBase58) {
+    throw new Error('IRYS_PRIVATE_KEY not configured');
+  }
+
+  const useDevnet = process.env.NETWORK === 'devnet' || !process.env.NETWORK; // Default to devnet if not set
+  
+  if (useDevnet) {
+    // Usar Irys DEVNET
+    const uploader = await Uploader(Solana)
+      .withWallet(privateKeyBase58)
+      .withRpc('https://api.devnet.solana.com')
+      .devnet();
+    
+    return uploader;
+  } else {
+    // Usar Irys MAINNET  
+    const uploader = await Uploader(Solana)
+      .withWallet(privateKeyBase58)
+      .withRpc('https://api.mainnet-beta.solana.com');
+    
+    return uploader;
+  }
 }
 
 export async function POST(request: NextRequest) {

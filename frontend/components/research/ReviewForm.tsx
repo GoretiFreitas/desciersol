@@ -111,18 +111,26 @@ export function ReviewForm({ paperId, paperTitle, onSuccess }: ReviewFormProps) 
         setStep('badge');
         console.log('🏆 Minting badge for level:', result.newBadgeLevel);
         
-        const badgeResult = await mintBadge({
-          reviewerWallet: publicKey.toString(),
-          badgeLevel: result.newBadgeLevel,
-          reviewCount: result.reviewerStats.totalReviews,
-        });
+        try {
+          const badgeResult = await mintBadge({
+            reviewerWallet: publicKey.toString(),
+            badgeLevel: result.newBadgeLevel,
+            reviewCount: result.reviewerStats.totalReviews,
+          });
 
-        if (badgeResult.success) {
-          setBadgeMinted(true);
-          console.log('✅ Badge minted:', badgeResult.mintAddress);
-        } else {
-          console.warn('⚠️ Failed to mint badge:', badgeResult.error);
+          if (badgeResult.success) {
+            setBadgeMinted(true);
+            console.log('✅ Badge minted:', badgeResult.mintAddress);
+          } else {
+            console.warn('⚠️ Failed to mint badge:', badgeResult.error);
+          }
+        } catch (badgeError) {
+          console.error('❌ Error minting badge:', badgeError);
+          console.log('ℹ️ Review was submitted successfully, but badge minting failed');
         }
+      } else {
+        console.log('ℹ️ No badge level up yet. Current level:', result.reviewerStats?.badgeLevel || 0);
+        console.log('ℹ️ Total reviews:', result.reviewerStats?.totalReviews || 0);
       }
 
       setStep('complete');

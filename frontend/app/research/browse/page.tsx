@@ -96,10 +96,10 @@ export default function BrowsePage() {
       <div className="space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-black text-brand-indigo dark:text-white md:text-5xl">
+          <h1 className="text-4xl font-black text-slate-900 dark:text-white md:text-5xl">
             Browse Research Papers
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
             Explore decentralized research assets minted on Solana
           </p>
         </div>
@@ -110,7 +110,7 @@ export default function BrowsePage() {
             <div className="space-y-4">
               {/* Search */}
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 dark:text-slate-400" />
                 <Input
                   type="text"
                   placeholder="Search papers by title or description..."
@@ -123,7 +123,7 @@ export default function BrowsePage() {
               {/* Tags Filter */}
               {allTags.length > 0 && (
                 <div className="space-y-2">
-                  <div className="text-sm font-semibold text-foreground">
+                  <div className="text-sm font-semibold text-slate-900 dark:text-white">
                     Filter by tag:
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -155,7 +155,7 @@ export default function BrowsePage() {
         {loading && (
           <div className="flex flex-col items-center justify-center py-16 space-y-4">
             <Loader2 className="h-12 w-12 animate-spin text-brand-violet" />
-            <p className="text-muted-foreground">Loading research papers...</p>
+            <p className="text-slate-600 dark:text-slate-300">Loading research papers...</p>
           </div>
         )}
 
@@ -181,10 +181,10 @@ export default function BrowsePage() {
               <FileText className="h-12 w-12 text-brand-violet" />
             </div>
             <div className="text-center space-y-2">
-              <h3 className="text-xl font-bold text-foreground">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                 {searchQuery || selectedTag ? 'No papers found' : 'No papers yet'}
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-slate-600 dark:text-slate-300">
                 {searchQuery || selectedTag
                   ? 'Try adjusting your search or filters'
                   : 'Be the first to submit a research paper!'}
@@ -223,6 +223,7 @@ export default function BrowsePage() {
                     date={date}
                     tags={tags}
                     uri={nft.uri}
+                    collection={nft.collection}
                   />
                 );
               })}

@@ -12,6 +12,7 @@ node_modules
 keypair.json
 keypair-mainnet.json
 keypair-devnet.json
+keypair-backend-fresh.json
 *.key
 *.pem
 *-private-key.txt

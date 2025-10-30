@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import {
@@ -17,37 +17,10 @@ import { RPC_ENDPOINT } from '@/lib/constants';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const wallets = useMemo(
-    () => {
-      const walletAdapters = [];
-      
-      try {
-        // Phantom Wallet
-        if (typeof window !== 'undefined' && window.solana?.isPhantom) {
-          walletAdapters.push(new PhantomWalletAdapter());
-        }
-        
-        // Solflare Wallet
-        if (typeof window !== 'undefined' && window.solflare?.isSolflare) {
-          walletAdapters.push(new SolflareWalletAdapter());
-        }
-        
-        // Fallback: adicionar adapters mesmo se não detectados
-        if (walletAdapters.length === 0) {
-          walletAdapters.push(
-            new PhantomWalletAdapter(),
-            new SolflareWalletAdapter()
-          );
-        }
-        
-        return walletAdapters;
-      } catch (error) {
-        console.error('Error initializing wallet adapters:', error);
-        return [
-          new PhantomWalletAdapter(),
-          new SolflareWalletAdapter()
-        ];
-      }
-    },
+    () => [
+      new PhantomWalletAdapter(),
+      new SolflareWalletAdapter(),
+    ],
     []
   );
 
@@ -57,9 +30,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <WalletProvider 
           wallets={wallets} 
           autoConnect={false}
-          onError={(error) => {
-            console.error('Wallet error:', error);
-          }}
         >
           <WalletModalProvider>
             {children}

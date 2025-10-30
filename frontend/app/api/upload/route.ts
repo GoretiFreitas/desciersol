@@ -73,9 +73,12 @@ async function createIrysUploader() {
       .withRpc('https://api.devnet.solana.com')
       .devnet();
   } else {
+    // Use the configured RPC URL (Helius) from environment
+    const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL || 'https://api.mainnet-beta.solana.com';
+    console.log('Using RPC for Irys:', rpcUrl);
     uploader = await Uploader(Solana)
       .withWallet(privateKeyBase58)
-      .withRpc('https://api.mainnet-beta.solana.com');
+      .withRpc(rpcUrl);
   }
 
   return uploader;

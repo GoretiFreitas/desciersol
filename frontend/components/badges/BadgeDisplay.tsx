@@ -26,16 +26,17 @@ export function BadgeDisplay({ level, reviewCount, size = 'md', showDetails = tr
     purple: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300',
     orange: 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300',
     red: 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300',
+    descier: 'bg-descier-2 text-white dark:bg-descier-3',
   };
 
   if (level === 0) {
-    return null; // Não mostrar badge se não tiver
+    return null; // Don't show badge if not earned
   }
 
   return (
     <div className="inline-flex items-center gap-2">
       <Badge
-        className={`${sizeClasses[size]} ${colorClasses[badgeInfo.color]} font-semibold border-0`}
+        className={`${sizeClasses[size]} ${colorClasses[badgeInfo.color] || colorClasses.descier} font-semibold border-0`}
       >
         <span className="mr-1">{badgeInfo.icon}</span>
         {badgeInfo.name}
@@ -48,4 +49,3 @@ export function BadgeDisplay({ level, reviewCount, size = 'md', showDetails = tr
     </div>
   );
 }
-

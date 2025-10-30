@@ -2,10 +2,9 @@
 
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useState } from 'react';
-import { Connection, PublicKey, Keypair, SystemProgram } from '@solana/web3.js';
-import { Metaplex, walletAdapterIdentity, toMetaplexFile } from '@metaplex-foundation/js';
+import { Connection, PublicKey } from '@solana/web3.js';
+import { Metaplex, walletAdapterIdentity } from '@metaplex-foundation/js';
 import { BadgeMetadata } from '@/lib/review-types';
-import { BADGE_COLLECTION_ADDRESS } from '@/lib/constants';
 
 interface MintBadgeParams {
   reviewerWallet: string;
@@ -40,32 +39,41 @@ export function useMintBadge() {
         throw new Error('Wallet não suporta assinatura de transações');
       }
 
-      console.log('🏆 Mintando badge SBT...');
+      console.log('🏆 Mintando badge SBT diretamente na wallet do revisor...');
       console.log('📋 Parâmetros:', params);
 
-      // Usar connection com configurações otimizadas
+      // Usar connection com configurações otimizadas e timeout maior
       const connection = new Connection(
         process.env.NEXT_PUBLIC_RPC_URL || 'https://api.devnet.solana.com',
         {
-          commitment: 'confirmed',
-          confirmTransactionInitialTimeout: 120000,
+          commitment: 'processed', // Use processed for faster confirmation
+          confirmTransactionInitialTimeout: 180 * 1000, // 180 seconds
         }
       );
 
-      // Criar instância do Metaplex
-      const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(wallet));
+      const metaplex = Metaplex.make(connection);
+      const reviewerPubkey = wallet.publicKey;
 
-      // Criar metadata do badge
-      const badgeMetadata: BadgeMetadata = {
+      // Badge configuration
+      const badgeConfig = {
         name: `Reviewer Badge Level ${params.badgeLevel}`,
-        symbol: 'RB',
+        symbol: 'SBTBADGE',
         description: `Soul-bound token badge for reviewer level ${params.badgeLevel}`,
         image: `https://arweave.net/badge-level-${params.badgeLevel}`,
+      };
+
+      // Create badge metadata
+      const badgeMetadata: BadgeMetadata = {
+        name: badgeConfig.name,
+        symbol: badgeConfig.symbol,
+        description: `Este é um Soul-Bound Token (SBT) que representa o nível de reputação de um revisor na plataforma deScier. Nível: ${params.badgeLevel}.`,
+        image: badgeConfig.image,
         attributes: [
-          { trait_type: 'Level', value: params.badgeLevel },
           { trait_type: 'Type', value: 'Reviewer Badge' },
+          { trait_type: 'Level', value: params.badgeLevel },
           { trait_type: 'Review Count', value: params.reviewCount },
-          { trait_type: 'Issued At', value: Date.now() },
+          { trait_type: 'Issued At', value: new Date().toISOString() },
+          { trait_type: 'Reviewer', value: params.reviewerWallet },
         ],
         properties: {
           category: 'badge',
@@ -73,40 +81,66 @@ export function useMintBadge() {
           reviewerWallet: params.reviewerWallet,
           reviewCount: params.reviewCount,
           issuedAt: Date.now(),
-        }
+        },
       };
 
-      console.log('📤 Uploading badge metadata...');
-      
-      // Upload metadata para Arweave
-      const metadataUri = await metaplex.storage().uploadJson(badgeMetadata);
-      console.log('✅ Metadata URI:', metadataUri);
-
-      // Criar NFT do badge
-      const badgeNft = await metaplex.nfts().create({
-        name: badgeMetadata.name,
-        symbol: badgeMetadata.symbol,
-        uri: metadataUri,
-        sellerFeeBasisPoints: 0, // SBT não tem royalties
-        isMutable: false, // SBT não deve ser mutável
-        isCollection: false,
-        collection: BADGE_COLLECTION_ADDRESS !== 'TBD' ? new PublicKey(BADGE_COLLECTION_ADDRESS) : undefined,
-        creators: [{
-          address: wallet.publicKey,
-          share: 100,
-          verified: true,
-        }],
-        useExistingMint: undefined,
+      // Upload metadata to Arweave
+      console.log('📤 Uploading badge metadata to Arweave...');
+      const uploadResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/upload-metadata`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          metadata: badgeMetadata,
+          tags: {
+            'App-Name': 'DeSci-Reviews',
+            'Badge-Level': params.badgeLevel.toString(),
+            'Reviewer-Wallet': params.reviewerWallet,
+          }
+        }),
       });
 
-      console.log('✅ Badge SBT mintado com sucesso!');
-      console.log('🎯 Mint Address:', badgeNft.address.toString());
-      console.log('🔍 Explorer:', `https://explorer.solana.com/address/${badgeNft.address.toString()}?cluster=devnet`);
+      if (!uploadResponse.ok) {
+        throw new Error('Failed to upload badge metadata');
+      }
+
+      const uploadResult = await uploadResponse.json();
+      const metadataUri = uploadResult.uri;
+      console.log('✅ Metadata URI:', metadataUri);
+
+      // Use backend API for minting (solves mainnet wallet issues)
+      console.log('🪙 Criando SBT badge via backend API...');
+      
+      const mintResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/badge/mint`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          reviewerWallet: params.reviewerWallet,
+          badgeLevel: params.badgeLevel,
+          reviewCount: params.reviewCount,
+          metadataUri,
+          name: badgeMetadata.name,
+          symbol: badgeMetadata.symbol,
+        }),
+      });
+
+      if (!mintResponse.ok) {
+        throw new Error('Failed to mint badge');
+      }
+
+      const mintResult = await mintResponse.json();
+      
+      console.log('✅ Badge mintado via backend!');
+      console.log('🎯 Mint Address:', mintResult.mintAddress);
+      console.log('🔍 Explorer:', mintResult.explorerUrl);
 
       return {
         success: true,
-        mintAddress: badgeNft.address.toString(),
-        signature: badgeNft.response.signature,
+        mintAddress: mintResult.mintAddress,
+        signature: mintResult.signature,
       };
 
     } catch (err) {
@@ -129,3 +163,4 @@ export function useMintBadge() {
     error,
   };
 }
+

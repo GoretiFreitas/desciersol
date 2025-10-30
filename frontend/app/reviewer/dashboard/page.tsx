@@ -5,7 +5,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { BadgeDisplay } from '@/components/badges/BadgeDisplay';
+import { BadgeCollection } from '@/components/badges/BadgeCollection';
+import { ClaimRewards } from '@/components/treasury/ClaimRewards';
+import { RoyaltyDashboard } from '@/components/treasury/RoyaltyDashboard';
 import { useReviewerBadge } from '@/hooks/useReviewerBadge';
+import { useBadges } from '@/hooks/useBadges';
 import { BADGE_LEVELS } from '@/lib/review-types';
 import { 
   Award, 
@@ -24,13 +28,15 @@ export default function ReviewerDashboard() {
   const { stats, loading, error, claiming, claimBadge } = useReviewerBadge(
     publicKey?.toString() || null
   );
+  
+  const { badges, stats: badgeStats, loading: badgesLoading } = useBadges();
 
   const handleClaimBadge = async () => {
     try {
       const result = await claimBadge();
-      alert(`🎉 ${result.message}`);
+      alert(`${result.message}`);
     } catch (err) {
-      alert(`❌ Erro ao reivindicar badge: ${err instanceof Error ? err.message : 'Erro desconhecido'}`);
+      alert(`Error claiming badge: ${err instanceof Error ? err.message : 'Unknown error'}`);
     }
   };
 
@@ -41,9 +47,9 @@ export default function ReviewerDashboard() {
           <CardContent className="pt-6">
             <div className="text-center py-16">
               <AlertCircle className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h2 className="text-2xl font-bold mb-2">Wallet não conectada</h2>
+              <h2 className="text-2xl font-bold mb-2">Wallet Not Connected</h2>
               <p className="text-muted-foreground mb-6">
-                Conecte sua wallet para ver seu dashboard de revisor
+                Connect your wallet to view your reviewer dashboard
               </p>
             </div>
           </CardContent>
@@ -56,7 +62,7 @@ export default function ReviewerDashboard() {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="flex flex-col items-center justify-center py-16">
-          <Loader2 className="h-12 w-12 animate-spin text-brand-violet mb-4" />
+          <Loader2 className="h-12 w-12 animate-spin text-descier-3 mb-4" />
           <p className="text-muted-foreground">Loading reviewer stats...</p>
         </div>
       </div>
@@ -100,20 +106,20 @@ export default function ReviewerDashboard() {
         {/* Stats Overview */}
         <div className="grid md:grid-cols-3 gap-6">
           {/* Total Reviews */}
-          <Card>
+          <Card className="border-descier-2">
             <CardHeader>
-              <CardDescription>Total Reviews</CardDescription>
-              <CardTitle className="text-3xl flex items-center gap-2">
-                <MessageSquare className="h-8 w-8 text-brand-violet" />
+              <CardDescription className="text-slate-600 dark:text-slate-300">Total Reviews</CardDescription>
+              <CardTitle className="text-3xl flex items-center gap-2 text-slate-900 dark:text-white">
+                <MessageSquare className="h-8 w-8 text-descier-4 dark:text-descier-2" />
                 {stats?.stats.totalReviews || 0}
               </CardTitle>
             </CardHeader>
           </Card>
 
           {/* Current Badge */}
-          <Card>
+          <Card className="border-descier-2">
             <CardHeader>
-              <CardDescription>Current Badge</CardDescription>
+              <CardDescription className="text-slate-600 dark:text-slate-300">Current Badge</CardDescription>
               <CardTitle className="text-2xl">
                 {stats && stats.currentLevel > 0 ? (
                   <BadgeDisplay 
@@ -122,28 +128,28 @@ export default function ReviewerDashboard() {
                     size="md"
                   />
                 ) : (
-                  <span className="text-muted-foreground">No Badge Yet</span>
+                  <span className="text-slate-600 dark:text-slate-300">No Badge Yet</span>
                 )}
               </CardTitle>
             </CardHeader>
           </Card>
 
           {/* Progress to Next */}
-          <Card>
+          <Card className="border-descier-2">
             <CardHeader>
-              <CardDescription>Next Badge</CardDescription>
+              <CardDescription className="text-slate-600 dark:text-slate-300">Next Badge</CardDescription>
               {nextBadge ? (
                 <>
-                  <CardTitle className="text-xl">
+                  <CardTitle className="text-xl text-slate-900 dark:text-white">
                     {nextBadge.icon} {nextBadge.name}
                   </CardTitle>
-                  <p className="text-sm text-muted-foreground mt-2">
+                  <p className="text-sm text-slate-600 dark:text-slate-300 mt-2">
                     {stats?.reviewsUntilNextLevel || 0} more review{stats?.reviewsUntilNextLevel !== 1 ? 's' : ''}
                   </p>
                 </>
               ) : (
-                <CardTitle className="text-xl text-muted-foreground">
-                  👑 Max Level!
+                <CardTitle className="text-xl text-slate-600 dark:text-slate-300">
+                  Max Level Achieved!
                 </CardTitle>
               )}
             </CardHeader>
@@ -152,22 +158,22 @@ export default function ReviewerDashboard() {
 
         {/* Badge Claim */}
         {stats?.canClaimBadge && (
-          <Card className="border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/10">
+          <Card className="border-descier-2 bg-descier-1/10 dark:bg-descier-4/10">
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div>
-                  <CardTitle className="text-green-700 dark:text-green-300 flex items-center gap-2">
+                  <CardTitle className="text-descier-4 dark:text-descier-2 flex items-center gap-2">
                     <Trophy className="h-5 w-5" />
                     New Badge Available!
                   </CardTitle>
-                  <CardDescription className="text-green-600 dark:text-green-400">
+                  <CardDescription className="text-slate-600 dark:text-slate-300">
                     You've earned a new reviewer badge!
                   </CardDescription>
                 </div>
                 <Button
                   onClick={handleClaimBadge}
                   disabled={claiming}
-                  className="bg-green-600 hover:bg-green-700"
+                  className="bg-descier-3 hover:bg-descier-4"
                 >
                   {claiming ? (
                     <>
@@ -187,7 +193,7 @@ export default function ReviewerDashboard() {
         )}
 
         {/* Badge Progression */}
-        <Card>
+        <Card className="border-descier-2">
           <CardHeader>
             <CardTitle>Badge Progression</CardTitle>
             <CardDescription>Complete more reviews to unlock higher badges</CardDescription>
@@ -204,9 +210,9 @@ export default function ReviewerDashboard() {
                     key={badge.level}
                     className={`p-4 rounded-lg border-2 ${
                       isUnlocked
-                        ? 'border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-900/10'
+                        ? 'border-descier-2 bg-descier-1/10 dark:bg-descier-4/5'
                         : isNext
-                        ? 'border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-900/10'
+                        ? 'border-descier-3 bg-descier-2/10 dark:bg-descier-3/5'
                         : 'border-gray-200 dark:border-gray-700 opacity-60'
                     }`}
                   >
@@ -225,18 +231,18 @@ export default function ReviewerDashboard() {
                       </div>
                       <div>
                         {isUnlocked && (
-                          <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                          <Badge className="bg-descier-2 text-white dark:bg-descier-3">
                             <CheckCircle className="h-3 w-3 mr-1" />
                             Unlocked
                           </Badge>
                         )}
                         {isCurrent && (
-                          <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                          <Badge className="bg-descier-3 text-white dark:bg-descier-4">
                             Current
                           </Badge>
                         )}
                         {isNext && (
-                          <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                          <Badge className="bg-descier-1 text-descier-4 dark:bg-descier-2">
                             Next Goal
                           </Badge>
                         )}
@@ -249,8 +255,21 @@ export default function ReviewerDashboard() {
           </CardContent>
         </Card>
 
+        {/* On-Chain Badges */}
+        <Card className="border-descier-2">
+          <CardHeader>
+            <CardTitle>Badges On-Chain</CardTitle>
+            <CardDescription>
+              Your SBT (Soul-Bound Token) badges minted on the blockchain
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <BadgeCollection walletAddress={publicKey?.toString()} />
+          </CardContent>
+        </Card>
+
         {/* Recent Reviews */}
-        <Card>
+        <Card className="border-descier-2">
           <CardHeader>
             <CardTitle>Your Recent Reviews</CardTitle>
             <CardDescription>
@@ -263,12 +282,12 @@ export default function ReviewerDashboard() {
                 {stats.reviews.slice(0, 5).map((review) => (
                   <div
                     key={review.id}
-                    className="p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                    className="p-4 border border-descier-2 rounded-lg hover:bg-descier-1/5 transition-colors"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <Link href={`/research/paper/${review.paperId}`}>
-                          <h4 className="font-semibold hover:text-brand-violet transition-colors cursor-pointer">
+                          <h4 className="font-semibold hover:text-descier-3 transition-colors cursor-pointer">
                             {review.paperTitle}
                           </h4>
                         </Link>
@@ -303,10 +322,10 @@ export default function ReviewerDashboard() {
             ) : (
               <div className="text-center py-8">
                 <p className="text-muted-foreground mb-4">
-                  Você ainda não fez nenhuma review
+                  You haven't made any reviews yet
                 </p>
                 <Link href="/research/browse">
-                  <Button>
+                  <Button className="bg-descier-3 hover:bg-descier-4">
                     Browse Papers to Review
                   </Button>
                 </Link>
@@ -314,8 +333,16 @@ export default function ReviewerDashboard() {
             )}
           </CardContent>
         </Card>
+
+        {/* Economic Section */}
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Rewards */}
+          <ClaimRewards />
+
+          {/* Royalties */}
+          <RoyaltyDashboard />
+        </div>
       </div>
     </div>
   );
 }
-

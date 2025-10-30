@@ -130,15 +130,15 @@ export default function PaperDetailPage() {
                 
                 {/* Metadata */}
                 <div className="flex flex-wrap gap-4 text-sm">
-                  <div className="flex items-center gap-2 text-muted-foreground">
+                  <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
                     <Users className="h-4 w-4" />
                     <span>{authors}</span>
                   </div>
                   {version && (
-                    <Badge variant="secondary">v{version}</Badge>
+                    <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100">v{version}</Badge>
                   )}
                   {license && (
-                    <Badge variant="outline">{license}</Badge>
+                    <Badge variant="outline" className="border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100">{license}</Badge>
                   )}
                 </div>
 
@@ -146,7 +146,7 @@ export default function PaperDetailPage() {
                 {tags.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {tags.map((tag, index) => (
-                      <Badge key={index} variant="secondary">
+                      <Badge key={index} variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100">
                         {tag.trim()}
                       </Badge>
                     ))}
@@ -155,7 +155,7 @@ export default function PaperDetailPage() {
 
                 {/* Description */}
                 {nft.description && (
-                  <CardDescription className="text-base">
+                  <CardDescription className="text-base text-slate-700 dark:text-slate-200">
                     {nft.description}
                   </CardDescription>
                 )}
@@ -215,14 +215,14 @@ export default function PaperDetailPage() {
             <div>
               <h2 className="text-2xl font-bold">Peer Reviews</h2>
               {stats && (
-                <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-4 mt-2 text-sm text-slate-600 dark:text-slate-300">
                   <span>{stats.count} review{stats.count !== 1 ? 's' : ''}</span>
                   {stats.count > 0 && (
                     <>
                       <span>•</span>
                       <div className="flex items-center gap-1">
                         <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span>{stats.avgRating.toFixed(1)} average</span>
+                        <span className="font-medium">{stats.avgRating.toFixed(1)} average</span>
                       </div>
                     </>
                   )}

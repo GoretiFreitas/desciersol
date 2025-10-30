@@ -1,9 +1,8 @@
 'use client';
 
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { useState } from 'react';
-import { Connection, PublicKey, Transaction } from '@solana/web3.js';
-import { Metaplex, keypairIdentity, walletAdapterIdentity } from '@metaplex-foundation/js';
+// Metaplex no longer used in hook - using backend API instead
 
 interface MintNFTParams {
   name: string;
@@ -23,7 +22,6 @@ interface MintResult {
 }
 
 export function useMintNFT() {
-  const { connection: defaultConnection } = useConnection();
   const wallet = useWallet();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -45,20 +43,8 @@ export function useMintNFT() {
       console.log('🎨 Iniciando mint de NFT...');
       console.log('📋 Parâmetros:', params);
 
-      // Usar connection com configurações otimizadas para devnet
-      const connection = new Connection(
-        process.env.NEXT_PUBLIC_RPC_URL || 'https://api.devnet.solana.com',
-        {
-          commitment: 'confirmed',
-          confirmTransactionInitialTimeout: 120000, // 2 minutos
-        }
-      );
-
-      // Criar instância do Metaplex com a wallet do usuário
-      const metaplex = Metaplex.make(connection).use(walletAdapterIdentity(wallet));
-
-      console.log('🔧 Metaplex configurado com wallet:', wallet.publicKey.toString());
-      console.log('🌐 RPC:', process.env.NEXT_PUBLIC_RPC_URL || 'https://api.devnet.solana.com');
+      console.log('🔧 Wallet:', wallet.publicKey.toString());
+      console.log('🌐 Network:', process.env.NEXT_PUBLIC_NETWORK || 'devnet');
 
       // Preparar metadata
       const metadata = {
@@ -109,53 +95,45 @@ export function useMintNFT() {
       
       console.log(`💾 Metadata storage: ${usedArweave ? 'Arweave (permanente)' : 'On-chain (Solana blockchain)'}`);
 
-
-      // Criar NFT
-      console.log('🎨 Criando NFT...');
+      // Use backend API to create NFT (solves mainnet issue)
+      console.log('🎨 Creating NFT via backend API...');
       
-      const collectionPubkey = params.collectionAddress 
-        ? new PublicKey(params.collectionAddress)
-        : undefined;
+      const collectionAddress = params.collectionAddress || 'HJVNDU6GDgg1aCPkndZhrjiuYTqLHYzj4vXjJUgFQdd6';
+      console.log('📦 Collection Address:', collectionAddress);
       
-      console.log('📦 Collection Address:', collectionPubkey?.toString());
-      
-      const { nft, response } = await metaplex.nfts().create(
-        {
-          uri: metadataUri,
-          name: params.name,
-          sellerFeeBasisPoints: 500, // 5% royalty
-          collection: collectionPubkey,
+      const mintResponse = await fetch('/api/nft/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          commitment: 'confirmed', // Usar confirmed ao invés de finalized
-        }
-      );
+        body: JSON.stringify({
+          metadataUri,
+          name: params.name,
+          description: params.description,
+          image: params.image,
+          attributes: params.attributes,
+          wallet: wallet.publicKey.toString(),
+          collectionAddress,
+        }),
+      });
 
-      console.log('✅ NFT Criado!');
-      console.log('🪙 Mint Address:', nft.address.toString());
-      console.log('📝 Signature:', response.signature);
-      console.log('📦 Collection vinculada:', collectionPubkey?.toString());
-      
-      // Verificar collection se foi fornecida
-      if (collectionPubkey) {
-        try {
-          console.log('🔗 Verificando NFT na collection...');
-          await metaplex.nfts().verifyCollection({
-            mintAddress: nft.address,
-            collectionMintAddress: collectionPubkey,
-          });
-          console.log('✅ NFT verificado na collection!');
-        } catch (verifyError) {
-          console.warn('⚠️ Não foi possível verificar na collection:', verifyError);
-          console.log('ℹ️ NFT foi criado mas pode não aparecer em buscas por collection');
-        }
+      if (!mintResponse.ok) {
+        const errorData = await mintResponse.json();
+        throw new Error(errorData.error || 'Failed to create NFT');
       }
+
+      const mintResult = await mintResponse.json();
+      
+      console.log('✅ NFT created via backend!');
+      console.log('🪙 Mint Address:', mintResult.mintAddress);
+      console.log('📝 Signature:', mintResult.signature);
+      console.log('🔍 Explorer:', mintResult.explorerUrl);
 
       setLoading(false);
       return {
         success: true,
-        mintAddress: nft.address.toString(),
-        signature: response.signature,
+        mintAddress: mintResult.mintAddress,
+        signature: mintResult.signature,
       };
     } catch (err: any) {
       console.error('❌ Erro ao mintar NFT:', err);

@@ -29,7 +29,7 @@ export function ReviewCard({ review, reviewerLevel = 0, reviewerReviewCount = 0 
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 space-y-2">
             <div className="flex items-center gap-2 flex-wrap">
-              <code className="text-xs bg-muted px-2 py-1 rounded">
+              <code className="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded text-slate-900 dark:text-slate-100">
                 {review.reviewerWallet.slice(0, 4)}...{review.reviewerWallet.slice(-4)}
               </code>
               <BadgeDisplay 
@@ -54,13 +54,13 @@ export function ReviewCard({ review, reviewerLevel = 0, reviewerReviewCount = 0 
                 ))}
               </div>
               {/* Recommendation */}
-              <Badge className={`${config.color} border-0`}>
+              <Badge className={`${config.color} border-0 font-semibold`}>
                 <RecommendationIcon className="h-3 w-3 mr-1" />
                 {config.label}
               </Badge>
             </div>
           </div>
-          <div className="text-xs text-muted-foreground">
+          <div className="text-xs text-slate-600 dark:text-slate-300">
             {new Date(review.timestamp).toLocaleDateString()}
           </div>
         </div>

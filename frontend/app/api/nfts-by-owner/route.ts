@@ -21,21 +21,39 @@ export async function GET(request: NextRequest) {
 
     console.log('🔍 Buscando NFTs do owner:', owner);
 
-    // Find NFTs by owner
-    const nfts = await metaplex.nfts().findAllByOwner({
+    // Criar timeout para evitar travamento (30s)
+    const timeout = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Timeout after 30s')), 30000)
+    );
+
+    // Find NFTs by owner com timeout
+    const fetchNfts = metaplex.nfts().findAllByOwner({
       owner: ownerPubkey,
     });
 
+    const nfts = await Promise.race([fetchNfts, timeout]) as any[];
+
     console.log('✅ Encontrados', nfts.length, 'NFTs');
 
-    // Fetch metadata for each NFT
+    // Fetch metadata for each NFT (limitado a 10 para melhor performance)
     const nftData = await Promise.all(
-      nfts.map(async (nft) => {
+      nfts.slice(0, 10).map(async (nft) => {
         try {
           // Load full NFT data
           const fullNft = await metaplex.nfts().load({ metadata: nft as any });
           
           console.log('📄 NFT carregado:', nft.name, nft.address.toString());
+          
+          // Check if it's a badge (exclude from research papers)
+          const isBadge = nft.name?.includes('Reviewer Badge') || 
+                         nft.symbol === 'SBTBADGE' ||
+                         (fullNft as any).json?.properties?.category === 'badge' ||
+                         (fullNft as any).json?.properties?.soulBound === true;
+          
+          if (isBadge) {
+            console.log('🚫 Excluindo badge:', nft.name);
+            return null; // Skip badges
+          }
           
           return {
             address: nft.address.toString(),
@@ -43,6 +61,7 @@ export async function GET(request: NextRequest) {
             uri: nft.uri,
             json: (fullNft as any).json || null,
             owner: owner,
+            collection: (fullNft as any).collection?.address?.toString() || null,
           };
         } catch (err) {
           console.error(`❌ Failed to load NFT ${nft.address}:`, err);

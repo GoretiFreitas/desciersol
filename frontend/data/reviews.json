@@ -9,6 +9,250 @@
       "comment": "This is an excellent paper that demonstrates innovative research methodology and provides valuable insights into the field. The authors have done thorough work and the results are well-presented.",
       "recommendation": "accept",
       "timestamp": 1761743411909
+    },
+    {
+      "id": "review_1761745883060_qjente7el",
+      "paperId": "nkJbwgGuyhmgeuwgo4rq55y7hEsi5SnjdeiWmmvs8mg",
+      "paperTitle": "Dressed_for Attention",
+      "reviewerWallet": "5oN5BtnRDzrFE4sqeQYefGoCqeNG2vuWLGyvgnngpDfg",
+      "rating": 5,
+      "comment": "Excellent paper with great insights and methodology.",
+      "strengths": "The results are well presented and the conclusions are sound",
+      "recommendation": "accept",
+      "timestamp": 1761745883060
+    },
+    {
+      "id": "review_1761746428429_itclc1zbg",
+      "paperId": "nkJbwgGuyhmgeuwgo4rq55y7hEsi5SnjdeiWmmvs8mg",
+      "paperTitle": "Dressed_for Attention",
+      "reviewerWallet": "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "rating": 3,
+      "comment": "Interesting study but the sample size is too small and the methodology could be improved significantly.",
+      "recommendation": "major-revision",
+      "timestamp": 1761746428429
+    },
+    {
+      "id": "review_1761746460389_ur3sy4h1f",
+      "paperId": "GGDXEe2WzrKPnQwPScSMb2CByTaKezBp7Y1EewMKHAFo",
+      "paperTitle": "Paper com Metadata REAL",
+      "reviewerWallet": "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "rating": 5,
+      "comment": "Excellent paper with comprehensive methodology and clear results. Highly recommended for publication.",
+      "recommendation": "accept",
+      "timestamp": 1761746460389
+    },
+    {
+      "id": "review_1761746731579_9jachfck1",
+      "paperId": "GGDXEe2WzrKPnQwPScSMb2CByTaKezBp7Y1EewMKHAFo",
+      "paperTitle": "Paper com Metadata REAL",
+      "reviewerWallet": "8WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "rating": 4,
+      "comment": "Very good paper with solid methodology and interesting findings. Minor improvements needed in the discussion section.",
+      "recommendation": "minor-revision",
+      "timestamp": 1761746731579
+    },
+    {
+      "id": "review_1761746779048_qp4jtizz3",
+      "paperId": "GGDXEe2WzrKPnQwPScSMb2CByTaKezBp7Y1EewMKHAFo",
+      "paperTitle": "Paper com Metadata REAL",
+      "reviewerWallet": "7WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "rating": 5,
+      "comment": "Exceptional research with innovative methodology and groundbreaking results. This paper sets a new standard in the field.",
+      "recommendation": "accept",
+      "timestamp": 1761746779048
+    },
+    {
+      "id": "review_1761746949341_trzccc8ua",
+      "paperId": "nkJbwgGuyhmgeuwgo4rq55y7hEsi5SnjdeiWmmvs8mg",
+      "paperTitle": "Dressed_for Attention",
+      "reviewerWallet": "6WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "rating": 4,
+      "comment": "Good research with solid methodology. The sample size could be larger and the statistical analysis more comprehensive.",
+      "recommendation": "minor-revision",
+      "timestamp": 1761746949341
+    },
+    {
+      "id": "review_1761747046427_p7ptayt2h",
+      "paperId": "nkJbwgGuyhmgeuwgo4rq55y7hEsi5SnjdeiWmmvs8mg",
+      "paperTitle": "Dressed_for Attention",
+      "reviewerWallet": "5WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "rating": 5,
+      "comment": "Excellent research with innovative methodology and groundbreaking results. This paper makes a significant contribution to the field and should be published immediately.",
+      "recommendation": "accept",
+      "timestamp": 1761747046427
+    },
+    {
+      "id": "review_1761747563171_klhaagzdz",
+      "paperId": "nkJbwgGuyhmgeuwgo4rq55y7hEsi5SnjdeiWmmvs8mg",
+      "paperTitle": "Dressed_for Attention",
+      "reviewerWallet": "GFbvhR15dRYW3EfWudSbXaGTzLixBhf1P6QCNvHL46Hr",
+      "rating": 5,
+      "comment": "This paper makes a significant contribution to the field and should be published immediately.",
+      "strengths": "This paper makes a significant contribution to the field and should be published immediately.",
+      "recommendation": "accept",
+      "timestamp": 1761747563171
+    },
+    {
+      "id": "review_1761747727933_ovnj6tmk4",
+      "paperId": "nkJbwgGuyhmgeuwgo4rq55y7hEsi5SnjdeiWmmvs8mg",
+      "paperTitle": "Dressed_for Attention",
+      "reviewerWallet": "4WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "rating": 5,
+      "comment": "Outstanding research with exceptional methodology and groundbreaking results. This paper represents a significant advancement in the field and should be published immediately.",
+      "recommendation": "accept",
+      "timestamp": 1761747727933
+    },
+    {
+      "id": "review_1761747841888_g7lwvnz2r",
+      "paperId": "nkJbwgGuyhmgeuwgo4rq55y7hEsi5SnjdeiWmmvs8mg",
+      "paperTitle": "Dressed_for Attention",
+      "reviewerWallet": "3WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "rating": 4,
+      "comment": "Very good research with solid methodology and interesting findings. The statistical analysis could be more comprehensive and the sample size could be larger.",
+      "recommendation": "minor-revision",
+      "timestamp": 1761747841888
+    },
+    {
+      "id": "review_1761748038793_0sdhqdv9z",
+      "paperId": "nkJbwgGuyhmgeuwgo4rq55y7hEsi5SnjdeiWmmvs8mg",
+      "paperTitle": "Dressed_for Attention",
+      "reviewerWallet": "2WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "rating": 5,
+      "comment": "Exceptional research with outstanding methodology and groundbreaking results. This paper represents a major advancement in the field and should be published immediately.",
+      "recommendation": "accept",
+      "timestamp": 1761748038793
+    },
+    {
+      "id": "review_1761748295280_1vgqz8kpi",
+      "paperId": "nkJbwgGuyhmgeuwgo4rq55y7hEsi5SnjdeiWmmvs8mg",
+      "paperTitle": "Dressed_for Attention",
+      "reviewerWallet": "14UjodFG8TB8DoXseJiKW4F9QJtWPxtCdm44HDgFaJPq",
+      "rating": 4,
+      "comment": "quality and credibility in the scientific community",
+      "strengths": "quality and credibility in the scientific community",
+      "recommendation": "accept",
+      "timestamp": 1761748295280
+    },
+    {
+      "id": "review_1761750074551_pr6brf8b9",
+      "paperId": "2S3oqc28Et74KNBeX2fBPeBSXG3LVPXmijtn4qkzCg6J",
+      "paperTitle": "Dressed_for Attention",
+      "reviewerWallet": "FxD3AkhqTqjuojF1VjuKF1EuQPPnZrvMXSmV5qgzvZiQ",
+      "rating": 4,
+      "comment": "maintain quality and credibility in the scientific community",
+      "strengths": "maintain quality and credibility in the scientific community",
+      "recommendation": "accept",
+      "timestamp": 1761750074551
+    },
+    {
+      "id": "review_1761752086158_z1j8cpo86",
+      "paperId": "ES2e1ojMm7EgyShdfp7jZ4GAjxW5p8h4YJU7j6pjY7fb",
+      "paperTitle": "teste",
+      "reviewerWallet": "FxD3AkhqTqjuojF1VjuKF1EuQPPnZrvMXSmV5qgzvZiQ",
+      "rating": 4,
+      "comment": "Peer review helps maintain quality and credibility in the scientific community",
+      "strengths": "Peer review helps maintain quality and credibility in the scientific community",
+      "recommendation": "accept",
+      "timestamp": 1761752086158
+    },
+    {
+      "id": "review_1761752442623_n89if3ysy",
+      "paperId": "ES2e1ojMm7EgyShdfp7jZ4GAjxW5p8h4YJU7j6pjY7fb",
+      "paperTitle": "teste",
+      "reviewerWallet": "14UjodFG8TB8DoXseJiKW4F9QJtWPxtCdm44HDgFaJPq",
+      "rating": 3,
+      "comment": "Submit Your Review\nPeer review helps maintain quality and credibility in the scientific community",
+      "strengths": "Submit Your Review\nPeer review helps maintain quality and credibility in the scientific community",
+      "recommendation": "accept",
+      "timestamp": 1761752442623
+    },
+    {
+      "id": "review_1761774820493_0462haf0e",
+      "paperId": "ES2e1ojMm7EgyShdfp7jZ4GAjxW5p8h4YJU7j6pjY7fb",
+      "paperTitle": "teste",
+      "reviewerWallet": "5oN5BtnRDzrFE4sqeQYefGoCqeNG2vuWLGyvgnngpDfg",
+      "rating": 4,
+      "comment": "Browse Research PapersBrowse Research PapersBrowse Research Papers",
+      "strengths": "Browse Research Papers",
+      "recommendation": "accept",
+      "timestamp": 1761774820493
+    },
+    {
+      "id": "review_1761778426648_tkdsn09oo",
+      "paperId": "ES2e1ojMm7EgyShdfp7jZ4GAjxW5p8h4YJU7j6pjY7fb",
+      "paperTitle": "teste",
+      "reviewerWallet": "GFbvhR15dRYW3EfWudSbXaGTzLixBhf1P6QCNvHL46Hr",
+      "rating": 5,
+      "comment": "teste\nteste\nv1.0.24\nCC-BY-4.0\nteste\ntesteteste\nteste\nv1.0.24\nCC-BY-4.0\nteste\nteste",
+      "strengths": "teste\nteste\nv1.0.24\nCC-BY-4.0\nteste\nteste",
+      "recommendation": "accept",
+      "timestamp": 1761778426648
+    },
+    {
+      "id": "review_1761778824667_8k8hg88fi",
+      "paperId": "A9uFYos9ReXpMxnSW8AKkA8nyZw7x6hBKEd2atPb4YVt",
+      "paperTitle": "Dressed for Attention",
+      "reviewerWallet": "4AZ2X2crtDR5gncEcCmvng3vFBGQ5HbVxbg86gcnShUm",
+      "rating": 5,
+      "comment": "Amazing paper. This paper should be published right now",
+      "strengths": "This paper should be published right now",
+      "recommendation": "accept",
+      "timestamp": 1761778824667
+    },
+    {
+      "id": "review_1761781990995_z2uptnmmx",
+      "paperId": "nkJbwgGuyhmgeuwgo4rq55y7hEsi5SnjdeiWmmvs8mg",
+      "paperTitle": "Dressed_for Attention",
+      "reviewerWallet": "7zpcSLA215wpqGypq42hS8LxHGgnPr4J9uehvoPnhc74",
+      "rating": 5,
+      "comment": "testetestetestetestetestetestetestetestetestetestetesteteste",
+      "strengths": "testetestetestetestetesteteste",
+      "recommendation": "accept",
+      "timestamp": 1761781990995
+    },
+    {
+      "id": "review_1761782250981_knoc77iyy",
+      "paperId": "nkJbwgGuyhmgeuwgo4rq55y7hEsi5SnjdeiWmmvs8mg",
+      "paperTitle": "Dressed_for Attention",
+      "reviewerWallet": "BXJPyUBdUeLxZp1GLAQSKCbTjKTNaQesezjSnFcwadgK",
+      "rating": 5,
+      "comment": "Excellent research with innovative methodology and groundbreaking results. This paper makes a significant contribution to the field and should be published immediately.",
+      "strengths": "Excellent research with innovative methodology and groundbreaking results. This paper makes a significant contribution to the field and should be published immediately.",
+      "recommendation": "accept",
+      "timestamp": 1761782250981
+    },
+    {
+      "id": "review_1761787774168_ltqs9tyne",
+      "paperId": "8ddZhm4sqxbMqa2mDz6kp7BQA3u8EBeNacfcxJgfgdRr",
+      "paperTitle": "Dressed_for Attention 2",
+      "reviewerWallet": "7zpcSLA215wpqGypq42hS8LxHGgnPr4J9uehvoPnhc74",
+      "rating": 4,
+      "comment": "Mint your research as an NFT on Solana. Your work will be permanently stored on Arweave with verifiable authenticity.",
+      "strengths": "Mint your research as an NFT on Solana. Your work will be permanently stored on Arweave with verifiable authenticity.",
+      "recommendation": "accept",
+      "timestamp": 1761787774168
+    },
+    {
+      "id": "review_1761789844153_ur5o32ynd",
+      "paperId": "A9uFYos9ReXpMxnSW8AKkA8nyZw7x6hBKEd2atPb4YVt",
+      "paperTitle": "Dressed for Attention",
+      "reviewerWallet": "7zpcSLA215wpqGypq42hS8LxHGgnPr4J9uehvoPnhc74",
+      "rating": 4,
+      "comment": "great paper. It should be published right now !!!!!",
+      "strengths": "great paper. It should be published right now !!!!!",
+      "recommendation": "accept",
+      "timestamp": 1761789844153
+    },
+    {
+      "id": "review_1761829738802_y6soaohkb",
+      "paperId": "HuvvmmTpPwsVycmhuyRNec6K9uHbji5AU1qE4DD32wMy",
+      "paperTitle": "Dressed_for Attention_Descier",
+      "reviewerWallet": "H5iKPWZyq2dhHnNuE1g2N5nBDzsYVrPDo6V4B32XQf1S",
+      "rating": 5,
+      "comment": "The study's methodology, while limited in scale (six participants, 25 hours of data in San Juan, Puerto Rico), was designed to directly observe and record instances of catcalling in relation to attire.",
+      "strengths": "The study concludes with the practical implication that clothing choice can influence the amount of catcalling attention a woman receives",
+      "recommendation": "accept",
+      "timestamp": 1761829738802
     }
   ],
   "reviewerStats": {
@@ -19,6 +263,134 @@
       "specialties": [],
       "joinedAt": 1761743411909,
       "lastReviewAt": 1761743411909
+    },
+    "5oN5BtnRDzrFE4sqeQYefGoCqeNG2vuWLGyvgnngpDfg": {
+      "wallet": "5oN5BtnRDzrFE4sqeQYefGoCqeNG2vuWLGyvgnngpDfg",
+      "totalReviews": 2,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761745883814,
+      "lastReviewAt": 1761774828147
+    },
+    "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM": {
+      "wallet": "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "totalReviews": 2,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761746429502,
+      "lastReviewAt": 1761746461888
+    },
+    "8WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM": {
+      "wallet": "8WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "totalReviews": 1,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761746733092,
+      "lastReviewAt": 1761746733092
+    },
+    "7WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM": {
+      "wallet": "7WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "totalReviews": 1,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761746789579,
+      "lastReviewAt": 1761746789579
+    },
+    "6WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM": {
+      "wallet": "6WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "totalReviews": 1,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761746950397,
+      "lastReviewAt": 1761746950397
+    },
+    "5WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM": {
+      "wallet": "5WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "totalReviews": 1,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761747049901,
+      "lastReviewAt": 1761747049901
+    },
+    "GFbvhR15dRYW3EfWudSbXaGTzLixBhf1P6QCNvHL46Hr": {
+      "wallet": "GFbvhR15dRYW3EfWudSbXaGTzLixBhf1P6QCNvHL46Hr",
+      "totalReviews": 2,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761747569312,
+      "lastReviewAt": 1761778433149
+    },
+    "4WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM": {
+      "wallet": "4WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "totalReviews": 1,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761747733101,
+      "lastReviewAt": 1761747733101
+    },
+    "3WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM": {
+      "wallet": "3WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "totalReviews": 1,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761747846645,
+      "lastReviewAt": 1761747846645
+    },
+    "2WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM": {
+      "wallet": "2WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM",
+      "totalReviews": 1,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761748043624,
+      "lastReviewAt": 1761748043624
+    },
+    "14UjodFG8TB8DoXseJiKW4F9QJtWPxtCdm44HDgFaJPq": {
+      "wallet": "14UjodFG8TB8DoXseJiKW4F9QJtWPxtCdm44HDgFaJPq",
+      "totalReviews": 2,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761748299908,
+      "lastReviewAt": 1761752450527
+    },
+    "FxD3AkhqTqjuojF1VjuKF1EuQPPnZrvMXSmV5qgzvZiQ": {
+      "wallet": "FxD3AkhqTqjuojF1VjuKF1EuQPPnZrvMXSmV5qgzvZiQ",
+      "totalReviews": 2,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761750078809,
+      "lastReviewAt": 1761752091845
+    },
+    "4AZ2X2crtDR5gncEcCmvng3vFBGQ5HbVxbg86gcnShUm": {
+      "wallet": "4AZ2X2crtDR5gncEcCmvng3vFBGQ5HbVxbg86gcnShUm",
+      "totalReviews": 1,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761778835204,
+      "lastReviewAt": 1761778835204
+    },
+    "7zpcSLA215wpqGypq42hS8LxHGgnPr4J9uehvoPnhc74": {
+      "wallet": "7zpcSLA215wpqGypq42hS8LxHGgnPr4J9uehvoPnhc74",
+      "totalReviews": 3,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761782000419,
+      "lastReviewAt": 1761789868887
+    },
+    "BXJPyUBdUeLxZp1GLAQSKCbTjKTNaQesezjSnFcwadgK": {
+      "wallet": "BXJPyUBdUeLxZp1GLAQSKCbTjKTNaQesezjSnFcwadgK",
+      "totalReviews": 1,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761782257253,
+      "lastReviewAt": 1761782257253
+    },
+    "H5iKPWZyq2dhHnNuE1g2N5nBDzsYVrPDo6V4B32XQf1S": {
+      "wallet": "H5iKPWZyq2dhHnNuE1g2N5nBDzsYVrPDo6V4B32XQf1S",
+      "totalReviews": 1,
+      "badgeLevel": 1,
+      "specialties": [],
+      "joinedAt": 1761829739407,
+      "lastReviewAt": 1761829739407
     }
   }
 }

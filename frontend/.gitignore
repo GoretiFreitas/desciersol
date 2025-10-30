@@ -29,6 +29,10 @@ yarn-error.log*
 .env*.local
 .env
 
+# keypairs
+keypair*.json
+*.key
+
 # vercel
 .vercel
 

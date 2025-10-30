@@ -1,16 +1,35 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useTheme } from 'next-themes';
-import { Moon, Sun, FileText, Upload, BookOpen, Award } from 'lucide-react';
+import { Moon, Sun, FileText, Upload, BookOpen, Award, DollarSign, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { BRAND } from '@/lib/constants';
 
 export default function Header() {
-  const { connected } = useWallet();
+  const { connected, publicKey } = useWallet();
   const { theme, setTheme } = useTheme();
+  const [hasStake, setHasStake] = useState(false);
+
+  useEffect(() => {
+    if (connected && publicKey) {
+      fetch(`/api/treasury/stake?wallet=${publicKey.toString()}`)
+        .then(res => res.json())
+        .then(data => {
+          setHasStake(data.hasStake);
+          if (data.hasStake) {
+            console.log('✅ Reviewer is a validator (has stake)');
+          }
+        })
+        .catch(err => console.error('Error checking stake:', err));
+    } else {
+      setHasStake(false);
+    }
+  }, [connected, publicKey]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200/60 dark:border-slate-700/60 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-900/60 shadow-sm">
@@ -51,6 +70,13 @@ export default function Header() {
                   <Award className="h-4 w-4" />
                   Dashboard
                 </Link>
+                <Link
+                  href="/treasury"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-purple-700 dark:hover:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/30 transition-all duration-200"
+                >
+                  <DollarSign className="h-4 w-4" />
+                  Treasury
+                </Link>
               </>
             )}
             <Link
@@ -65,6 +91,14 @@ export default function Header() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
+          {/* Validator Badge */}
+          {connected && hasStake && (
+            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 border-green-300 dark:border-green-700 px-3 py-1">
+              <Shield className="h-3 w-3 mr-1" />
+              Validador Ativo
+            </Badge>
+          )}
+          
           <Button
             variant="ghost"
             size="icon"
