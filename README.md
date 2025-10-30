@@ -111,7 +111,7 @@ NEXT_PUBLIC_NETWORK=mainnet-beta
 NEXT_PUBLIC_RPC_URL=https://mainnet.helius-rpc.com/?api-key=YOUR_HELIUS_API_KEY
 NETWORK=mainnet-beta
 
-# Backend Keypair (NEVER commit this!)
+# Backend Keypair
 IRYS_PRIVATE_KEY=your_base58_private_key_here
 
 # Collection Addresses - MAINNET
